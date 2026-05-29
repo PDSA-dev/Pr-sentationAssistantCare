@@ -66,7 +66,7 @@ html, body {
   position:absolute; inset:0;
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
-  padding:70px 80px 90px;
+  padding:40px 50px 60px;
   opacity:0; pointer-events:none;
   transform:translateY(14px) scale(0.994);
   filter:blur(4px);
@@ -89,15 +89,15 @@ html, body {
   text-transform:uppercase; animation:fadeIn .8s ease both;
 }
 .h1 {
-  font-size:clamp(34px,5.2vw,66px);
+  font-size:clamp(48px,6.5vw,88px);
   font-weight:800; letter-spacing:-2.5px; text-align:center;
   background: linear-gradient(135deg, #fff 20%, #F4A0CC 55%, #fff 90%);
   background-size:200% 200%;
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-  animation: fadeUp .9s ease both, gradShift 5s ease infinite;
+  animation: fadeUp 1.6s cubic-bezier(.23,1,.32,1) both, gradShift 14s ease-in-out infinite;
 }
-.h2 { font-size:clamp(17px,2.3vw,24px); font-weight:700; letter-spacing:-.5px; }
-.sub { font-size:clamp(12px,1.5vw,17px); font-weight:400; color:var(--txt2); }
+.h2 { font-size:clamp(24px,3.2vw,40px); font-weight:700; letter-spacing:-.5px; }
+.sub { font-size:clamp(15px,2.0vw,24px); font-weight:400; color:var(--txt2); }
 
 /* ═══ BADGES ═══ */
 .badge {
@@ -153,26 +153,37 @@ html, body {
    SCENE 1 - INTRO
 ════════════════════════════════════════════════════════ */
 .logo-mark {
-  width:80px; height:80px; border-radius:22px;
+  width:120px; height:120px; border-radius:30px;
   background:linear-gradient(135deg, var(--prune), var(--prune-dk));
   display:flex; align-items:center; justify-content:center;
   font-size:18px; font-weight:900; letter-spacing:0px; color:white;
   margin-bottom:32px;
-  animation:scaleIn .9s cubic-bezier(.34,1.56,.64,1) both .3s, glowPulse 4s 1.5s ease-in-out infinite;
+  animation:
+    logoReveal 2.0s cubic-bezier(.16,1,.3,1) both .10s,
+    logoDrift  7s  2.2s ease-in-out infinite,
+    glowPulse  6s  2.4s ease-in-out infinite;
+  will-change:transform,opacity,filter;
 }
 .logo-mark .logo-inner {
   display:flex; flex-direction:column; align-items:center; line-height:1;
 }
-.logo-mark .logo-tgv { font-size:20px; font-weight:900; letter-spacing:-.5px; }
-.logo-mark .logo-care { font-size:9px; font-weight:600; letter-spacing:2px; opacity:.8; }
+.logo-mark .logo-tgv { font-size:30px; font-weight:900; letter-spacing:-.5px; }
+.logo-mark .logo-care { font-size:13px; font-weight:600; letter-spacing:2px; opacity:.8; }
 
+/* ── Scene intro 3D context ── */
+#s-intro {
+  perspective: 1200px;
+  perspective-origin: 50% 35%;
+  transform-style: preserve-3d;
+  overflow:hidden;
+}
 #s-intro .tag-row {
   display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
-  margin-top:40px; animation:fadeUp .8s ease both 1.1s;
+  margin-top:40px; animation:fadeUp 1.0s cubic-bezier(.22,1,.36,1) both 5.8s;
 }
 #s-intro .sncf-bar {
   margin-top:48px; display:flex; align-items:center; gap:12px;
-  animation:fadeIn .8s ease both 1.6s;
+  animation:fadeIn 1.0s cubic-bezier(.22,1,.36,1) both 6.4s;
 }
 .sncf-logo-pill {
   padding:5px 14px; border-radius:8px;
@@ -285,7 +296,7 @@ html, body {
 }
 
 /* Scene 2 layout: title top, then row browser+warns */
-#s-ancien { padding:48px 55px 60px; flex-direction:column; align-items:center; justify-content:flex-start; gap:20px; }
+#s-ancien { padding:28px 40px 40px; flex-direction:column; align-items:center; justify-content:flex-start; gap:20px; }
 .s2-row { display:flex; flex-direction:row; align-items:flex-start; gap:28px; width:100%; justify-content:center; }
 
 /* Real TGVCare screenshot wrapper */
@@ -793,7 +804,7 @@ body::after {
     radial-gradient(ellipse 55% 45% at  6% 98%,  rgba(122,0,82,0.16)  0%, transparent 50%),
     radial-gradient(ellipse 45% 40% at 94% 88%,  rgba(161,0,107,0.10) 0%, transparent 50%),
     radial-gradient(ellipse 30% 25% at 85%  8%,  rgba(200,80,160,0.06) 0%, transparent 40%);
-  animation: ambientDrift 18s ease-in-out infinite alternate;
+  animation: ambientDrift 30s ease-in-out infinite alternate;
 }
 @keyframes ambientDrift {
   0%   { opacity:.85; transform:scale(1); }
@@ -828,7 +839,7 @@ body::after {
   -webkit-text-fill-color: transparent !important;
   color: transparent !important;
   animation: fadeUp .9s cubic-bezier(.23,1,.32,1) both,
-             gradShift 7s ease-in-out infinite !important;
+             gradShift 14s ease-in-out infinite !important;
   letter-spacing:-2.8px !important;
 }
 
@@ -1250,12 +1261,12 @@ body::after {
 
 /* More natural fadeUp */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(18px) scale(.992); filter:blur(2px); }
-  to   { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+  from { opacity:0; transform:translateY(18px) scale(.992); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
 }
 @keyframes scaleIn {
-  from { opacity:0; transform:scale(.93) translateY(6px); filter:blur(3px); }
-  to   { opacity:1; transform:scale(1) translateY(0); filter:blur(0); }
+  from { opacity:0; transform:scale(.93) translateY(6px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
 }
 
 /* Smoother slide animations */
@@ -1270,14 +1281,14 @@ body::after {
 
 /* Feature cards more organic stagger */
 @keyframes featCardIn {
-  from { opacity:0; transform:translateY(22px) scale(.97); filter:blur(2px); }
-  to   { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+  from { opacity:0; transform:translateY(22px) scale(.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
 }
 
 /* Complex panel transition */
 @keyframes cxIn {
-  from { opacity:0; transform:translateX(28px) scale(.98); filter:blur(2px); }
-  to   { opacity:1; transform:translateX(0) scale(1); filter:blur(0); }
+  from { opacity:0; transform:translateX(28px) scale(.98); }
+  to   { opacity:1; transform:translateX(0) scale(1); }
 }
 
 /* Scroll mock: ease-in-out without harsh stops */
@@ -1417,7 +1428,7 @@ body::after {
   -webkit-text-fill-color:transparent !important;
   color:transparent !important;
   animation:fadeUp .9s var(--ease-out) both,
-            gradShift 8s ease-in-out infinite !important;
+            gradShift 14s ease-in-out infinite !important;
 }
 .h2 {
   font-size:clamp(18px,2.5vw,28px);
@@ -1743,12 +1754,12 @@ body::after {
 
 /* ── Keyframes - premium motion ─────────────────────────── */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(16px) scale(.994); filter:blur(1.5px); }
-  to   { opacity:1; transform:translateY(0)    scale(1);    filter:blur(0); }
+  from { opacity:0; transform:translateY(16px) scale(.994); }
+  to   { opacity:1; transform:translateY(0)    scale(1); }
 }
 @keyframes scaleIn {
-  from { opacity:0; transform:scale(.93) translateY(8px); filter:blur(2px); }
-  to   { opacity:1; transform:scale(1) translateY(0);     filter:blur(0); }
+  from { opacity:0; transform:scale(.93) translateY(8px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
 }
 @keyframes slideL {
   from { opacity:0; transform:translateX(-20px) scale(.99); }
@@ -1759,12 +1770,12 @@ body::after {
   to   { opacity:1; transform:translateX(0) scale(1); }
 }
 @keyframes featCardIn {
-  from { opacity:0; transform:translateY(20px) scale(.97); filter:blur(2px); }
-  to   { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+  from { opacity:0; transform:translateY(20px) scale(.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
 }
 @keyframes cxIn {
-  from { opacity:0; transform:translateX(26px) scale(.98); filter:blur(2px); }
-  to   { opacity:1; transform:translateX(0) scale(1); filter:blur(0); }
+  from { opacity:0; transform:translateX(26px) scale(.98); }
+  to   { opacity:1; transform:translateX(0) scale(1); }
 }
 @keyframes glowPulse {
   0%,100% {
@@ -2055,12 +2066,12 @@ body::after {
 
 /* ── fadeUp blur enhancement ── */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(22px) scale(.984); filter:blur(6px); }
-  to   { opacity:1; transform:translateY(0)    scale(1);    filter:blur(0);   }
+  from { opacity:0; transform:translate3d(0,20px,0) scale(.988); }
+  to   { opacity:1; transform:translate3d(0,0,0)    scale(1); }
 }
 @keyframes scaleIn {
-  from { opacity:0; transform:scale(.88) translateY(10px); filter:blur(8px); }
-  to   { opacity:1; transform:scale(1)   translateY(0);    filter:blur(0);   }
+  from { opacity:0; transform:scale(.88) translate3d(0,10px,0); }
+  to   { opacity:1; transform:scale(1)   translate3d(0,0,0); }
 }
 
 /* ── Ambient bg richer ── */
@@ -2092,6 +2103,639 @@ body::after {
   .h1, .sub, .scene-label { transform: none !important; }
 }
 
+
+
+/* ════════════════════════════════════════════════════════════
+   CINEMATIC INTRO v25 — FLUIDE MAX
+   Règle absolue : ZÉRO filter animé dans les keyframes.
+   Seulement transform + opacity → compositor thread, 60fps garanti.
+   ──────────────────────────────────────────────────────────
+   PIPELINE SÉQUENTIEL (pas d'animations simultanées lourdes) :
+     0.0s  Bloom (opacity+scale, filtre statique)
+     0.8s  Logo  (translate3d+scale+opacity)      dur 2.2s
+     3.2s  Sweep (translateX+opacity)             dur 1.2s
+     3.6s  Titre (translateZ+translateY+scale+opacity) dur 3.8s
+     5.2s  Sub                                    dur 1.2s
+     5.8s  Tags
+     6.4s  SNCF bar
+     8.0s+ Idle (animations 15-22s, très lentes)
+════════════════════════════════════════════════════════════ */
+
+/* ─── GPU OPTIMIZATION ─────────────────────────────────── */
+.logo-mark,
+#s-intro .h1,
+#s-intro .sub,
+#s-intro .scene-label {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: layout style paint;
+}
+
+/* ─── STAGE 1 : Ambient bloom ──────────────────────────── */
+/* filtre statique → rasterisé une seule fois par le GPU   */
+#s-intro::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 65% 52% at 50% 26%,
+      rgba(161,0,107,0.38) 0%,
+      rgba(122,0,82,0.14)  50%,
+      transparent 72%),
+    radial-gradient(ellipse 38% 28% at 18% 78%,
+      rgba(161,0,107,0.12) 0%,
+      transparent 60%);
+  filter: blur(52px);      /* statique — GPU rasterise 1x */
+  pointer-events:none; z-index:0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: bloomFade 3.2s cubic-bezier(.22,1,.36,1) both 0.0s;
+}
+
+@keyframes bloomFade {
+  0%   { opacity:0; transform:scale3d(.58,.58,1); }
+  40%  { opacity:.75; }
+  100% { opacity:.82; transform:scale3d(1,1,1); }
+}
+
+/* ─── STAGE 2 : Light sweep ────────────────────────────── */
+#s-intro::after {
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(
+    108deg,
+    transparent 0%,
+    rgba(255,255,255,.042) 48%,
+    transparent 100%
+  );
+  pointer-events:none; z-index:20;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: sweepPass 1.2s cubic-bezier(.22,1,.36,1) both 5.8s;
+}
+
+@keyframes sweepPass {
+  0%   { opacity:0; transform:translate3d(-115%,0,0); }
+  12%  { opacity:1; }
+  88%  { opacity:1; }
+  100% { opacity:0; transform:translate3d(115%,0,0); }
+}
+
+/* ─── STAGE 3 : Logo — transform+opacity ONLY ─────────── */
+@keyframes logoIn {
+  0%   { opacity:0; transform:translate3d(0,22px,0) scale3d(.82,.82,1); }
+  55%  { opacity:.88; transform:translate3d(0,-3px,0) scale3d(1.018,1.018,1); }
+  78%  { opacity:.96; transform:translate3d(0,1px,0) scale3d(.995,.995,1); }
+  100% { opacity:1;  transform:translate3d(0,0,0)   scale3d(1,1,1); }
+}
+
+/* Logo idle — très lent, organique, 18s ── */
+@keyframes logoIdle {
+  0%,100% { transform:translate3d(0,0,0) scale3d(1,1,1); }
+  50%     { transform:translate3d(0,-6px,0) scale3d(1.010,1.010,1); }
+}
+
+/* ─── STAGE 4 : Titre cinématique — transform+opacity ─── */
+/* translateZ donne la profondeur sans rotateX coûteux      */
+@keyframes titleIn {
+  0%   {
+    opacity:0;
+    transform:translate3d(0,36px,-55px) scale3d(.924,.924,1);
+  }
+  12%  { opacity:.04; }
+  38%  {
+    opacity:.52;
+    transform:translate3d(0,14px,-18px) scale3d(.968,.968,1);
+  }
+  62%  {
+    opacity:.84;
+    transform:translate3d(0,4px,-4px) scale3d(.990,.990,1);
+  }
+  80%  {
+    opacity:.96;
+    transform:translate3d(0,.8px,0) scale3d(.998,.998,1);
+  }
+  92%  {
+    opacity:.99;
+    transform:translate3d(0,-.2px,0) scale3d(1.001,1.001,1);
+  }
+  100% {
+    opacity:1;
+    transform:translate3d(0,0,0) scale3d(1,1,1);
+  }
+}
+
+/* Titre idle — très lent, 22s ── */
+@keyframes titleIdle {
+  0%,100% { transform:translate3d(0,0,0); }
+  50%     { transform:translate3d(0,-2.5px,0); }
+}
+
+/* ─── STAGE 5 : Label ─────────────────────────────────── */
+@keyframes labelIn {
+  0%   { opacity:0; transform:translateX(-50%) translate3d(0,10px,0); }
+  100% { opacity:1; transform:translateX(-50%) translate3d(0,0,0); }
+}
+
+/* ─── STAGE 5 : Sub ───────────────────────────────────── */
+@keyframes subIn {
+  0%   { opacity:0; transform:translate3d(0,16px,0) scale3d(.97,.97,1); }
+  100% { opacity:1; transform:translate3d(0,0,0)    scale3d(1,1,1); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   RÈGLES D'APPLICATION
+───────────────────────────────────────────────────────── */
+
+.logo-mark {
+  animation:
+    logoIn   2.2s cubic-bezier(.16,1,.3,1) both     0.80s,
+    logoIdle 18s  ease-in-out              infinite  4.20s,
+    glowPulse 8s  ease-in-out              infinite  4.50s !important;
+  box-shadow:
+    0 0 0 8px  rgba(161,0,107,0.10),
+    0 0 0 20px rgba(161,0,107,0.06),
+    0 22px 44px rgba(0,0,0,0.50),
+    inset 0 5px 14px rgba(255,255,255,0.26),
+    inset 0 -5px 10px rgba(0,0,0,0.32) !important;
+}
+
+#s-intro .scene-label {
+  animation: labelIn 1.0s cubic-bezier(.22,1,.36,1) both 0.50s !important;
+}
+
+#s-intro .h1 {
+  animation:
+    titleIn   3.8s cubic-bezier(.16,1,.3,1) both     3.60s,
+    titleIdle 22s  ease-in-out              infinite  8.50s,
+    gradShift 14s  ease-in-out              infinite       !important;
+  letter-spacing: -2.5px; /* statique — pas d'animation */
+}
+
+#s-intro .sub {
+  animation: subIn 1.2s cubic-bezier(.22,1,.36,1) both 5.2s !important;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   SCALE UP v26 — Scènes 2,4,5,6,7,8,9 : textes + images
+════════════════════════════════════════════════════════════ */
+
+/* ── Typographie globale (+20%) sur les 7 scènes ─────────── */
+#s-ancien .h2,
+#s-assistant .h2,
+#s-features .h2,
+#s-complex .h2,
+#s-scenario .h2,
+#s-automation .h2,
+#s-comparison .h2 {
+  font-size: clamp(21px, 2.8vw, 32px) !important;
+}
+
+#s-ancien .sub,
+#s-assistant .sub,
+#s-features .sub,
+#s-complex .sub,
+#s-scenario .sub,
+#s-automation .sub,
+#s-comparison .sub {
+  font-size: clamp(14px, 1.7vw, 20px) !important;
+}
+
+/* ── Scene 2 — Ancien calculateur ONICS ─────────────────── */
+#s-ancien .old-calc-wrap {
+  max-width: min(1020px, 94vw) !important;
+}
+#s-ancien .old-field label { font-size: 11px !important; }
+#s-ancien .old-field select,
+#s-ancien .old-field input  { font-size: 14px !important; padding: 9px 12px !important; }
+#s-ancien .float-warn       { font-size: 13.5px !important; padding: 9px 16px !important; }
+
+/* ── Scene 4 — Assistant demo (phone mock) ───────────────── */
+.cx-phone-single {
+  width: 260px !important;
+  height: 500px !important;
+}
+.dw-header { font-size: 11px !important; }
+.dw-result-amount { font-size: clamp(36px,5vw,52px) !important; }
+
+/* ── Scene 5 — Features (feat-card phones) ──────────────── */
+.feat-phone {
+  width: 148px !important;
+  height: 270px !important;
+}
+.feat-card {
+  min-width: 200px !important;
+  max-width: 290px !important;
+  padding: 24px 22px !important;
+}
+.feat-title { font-size: 15px !important; }
+.feat-desc  { font-size: 12.5px !important; }
+.feat-tag   { font-size: 10.5px !important; }
+
+/* ── Scene 6 — Cas complexes ─────────────────────────────── */
+.cx-name { font-size: clamp(20px, 2.5vw, 32px) !important; }
+.cx-info { font-size: clamp(13px, 1.4vw, 16px) !important; }
+.cx-chip { font-size: 13px !important; padding: 5px 12px !important; }
+
+/* ── Scene 7 — Scénario (journey) ───────────────────────── */
+.journey-wrap { max-width: min(960px, 94vw) !important; }
+.stop-name    { font-size: clamp(13px,1.5vw,17px) !important; }
+.stop-time    { font-size: clamp(11px,1.2vw,14px) !important; }
+.stop-info    { font-size: clamp(11px,1.2vw,14px) !important; }
+
+/* ── Scene 8 — Automatisation (amounts) ─────────────────── */
+.amounts-grid { gap: 16px !important; }
+.amount-card  { padding: 22px 20px !important; }
+.amount-val   { font-size: clamp(28px,3.5vw,44px) !important; }
+.amount-lbl   { font-size: clamp(11px,1.2vw,14px) !important; }
+.amount-sub   { font-size: clamp(10px,1.0vw,12px) !important; }
+.note-card,
+.result-box   { font-size: clamp(12px,1.3vw,15px) !important; }
+
+/* ── Scene 9 — Comparaison (split halves) ───────────────── */
+#s-comparison .split-half { padding: 38px 32px !important; }
+#s-comparison .h2          { font-size: clamp(17px,2.2vw,26px) !important; }
+#s-comparison .info-row    { font-size: clamp(12px,1.3vw,15px) !important; padding: 11px 14px !important; }
+#s-comparison .amount-val  { font-size: clamp(32px,4vw,52px) !important; }
+.calc-tab-bar .ctab        { font-size: 13px !important; padding: 9px 18px !important; }
+
+/* ── Responsive: éviter le débordement sur petits écrans ─── */
+@media (max-width: 1200px) {
+  .cx-phone-single { width: 220px !important; height: 430px !important; }
+  .feat-phone      { width: 130px !important; height: 240px !important; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   SCALE MAX v27 — Exploiter toute la surface écran (Teams)
+   Référence : scène 3 (h1 énorme, espace libre, lisible à 5m)
+════════════════════════════════════════════════════════════ */
+
+/* ── Scene 1 — Intro ─────────────────────────────────────── */
+#s-intro .sub {
+  font-size: clamp(17px, 2.2vw, 28px) !important;
+  margin-top: 20px !important;
+}
+#s-intro .tag-row { margin-top: 52px !important; gap: 14px !important; }
+#s-intro .badge   { font-size: 16px !important; padding: 10px 24px !important; }
+#s-intro .sncf-bar { margin-top: 60px !important; }
+#s-intro .logo-mark { margin-bottom: 44px !important; font-size: 28px !important; }
+
+/* ── Scene 2 — Ancien (ONICS) ────────────────────────────── */
+#s-ancien .old-calc-wrap {
+  max-width: min(1100px, 96vw) !important;
+}
+#s-ancien .old-field {
+  padding: 14px 18px !important;
+  border-radius: 14px !important;
+}
+#s-ancien .old-field label  { font-size: 13px !important; margin-bottom: 8px !important; }
+#s-ancien .old-field select,
+#s-ancien .old-field input  { font-size: 16px !important; padding: 11px 14px !important; }
+#s-ancien .float-warn       { font-size: 15px !important; padding: 11px 20px !important; }
+#s-ancien .h2               { margin-bottom: 20px !important; }
+
+/* ── Scenes 2,4,5,6,7,8,9 — H2 + Sub overrides ─────────── */
+#s-ancien .h2,
+#s-assistant .h2,
+#s-features .h2,
+#s-complex .h2,
+#s-scenario .h2,
+#s-automation .h2,
+#s-comparison .h2 {
+  font-size: clamp(26px, 3.4vw, 46px) !important;
+  margin-bottom: 14px !important;
+}
+
+#s-ancien .sub,
+#s-assistant .sub,
+#s-features .sub,
+#s-complex .sub,
+#s-scenario .sub,
+#s-automation .sub,
+#s-comparison .sub {
+  font-size: clamp(16px, 2.1vw, 26px) !important;
+}
+
+/* ── Scene 4 — Assistant demo ────────────────────────────── */
+#s-assistant { padding: 30px 36px 50px !important; gap: 20px !important; }
+.cx-phone-single {
+  width: 300px !important;
+  height: 570px !important;
+  border-radius: 28px !important;
+}
+.dw-header   { font-size: 13px !important; padding: 12px 16px !important; }
+.dw-step-lbl { font-size: 12px !important; }
+.dw-result-amount {
+  font-size: clamp(44px, 6vw, 72px) !important;
+  font-weight: 900 !important;
+}
+.dw-result-lbl  { font-size: 20px !important; }
+.dw-result-mode { font-size: 14px !important; letter-spacing: 2px !important; }
+.dw-result-badge { font-size: 14px !important; padding: 5px 16px !important; }
+
+/* ── Scene 5 — Features ──────────────────────────────────── */
+#s-features { padding: 24px 28px 40px !important; gap: 24px !important; }
+.feat-phone {
+  width: 165px !important;
+  height: 300px !important;
+}
+.feat-card {
+  min-width: 210px !important;
+  max-width: 310px !important;
+  padding: 26px 24px !important;
+  gap: 14px !important;
+}
+.feat-title  { font-size: 17px !important; }
+.feat-desc   { font-size: 13.5px !important; }
+.feat-tag    { font-size: 12px !important; padding: 5px 10px !important; }
+.feat-icon   { font-size: 28px !important; }
+
+/* ── Scene 6 — Cas complexes ─────────────────────────────── */
+#s-complex { padding: 24px 32px 40px !important; }
+.cx-panel   { gap: 52px !important; }
+.cx-name    { font-size: clamp(24px, 3.0vw, 40px) !important; }
+.cx-info    { font-size: clamp(15px, 1.7vw, 20px) !important; line-height: 1.8 !important; }
+.cx-chip    { font-size: 15px !important; padding: 7px 16px !important; }
+.cx-chips   { gap: 10px !important; margin-top: 16px !important; }
+
+/* ── Scene 7 — Scénario ──────────────────────────────────── */
+#s-scenario { padding: 30px 40px 50px !important; }
+.journey-wrap { max-width: min(1060px, 96vw) !important; }
+.stop-name  { font-size: clamp(15px, 1.8vw, 22px) !important; font-weight: 700 !important; }
+.stop-time  { font-size: clamp(13px, 1.4vw, 18px) !important; }
+.stop-info  { font-size: clamp(13px, 1.4vw, 17px) !important; }
+.stop-dot   { width: 18px !important; height: 18px !important; }
+
+/* ── Scene 8 — Automatisation ────────────────────────────── */
+#s-automation { padding: 24px 36px 44px !important; }
+.amounts-grid  { gap: 20px !important; }
+.amount-card   { padding: 26px 24px !important; border-radius: 20px !important; }
+.amount-val    { font-size: clamp(36px, 4.5vw, 58px) !important; }
+.amount-lbl    { font-size: clamp(13px, 1.4vw, 18px) !important; }
+.amount-sub    { font-size: clamp(12px, 1.2vw, 15px) !important; }
+
+/* ── Scene 9 — Comparaison ───────────────────────────────── */
+#s-comparison .split-half { padding: 44px 38px !important; }
+#s-comparison .h2          { font-size: clamp(20px, 2.6vw, 34px) !important; }
+#s-comparison .info-row    {
+  font-size: clamp(14px, 1.5vw, 18px) !important;
+  padding: 13px 16px !important;
+  gap: 12px !important;
+}
+#s-comparison .amount-val  { font-size: clamp(40px, 5vw, 64px) !important; }
+#s-comparison .amount-lbl  { font-size: clamp(14px, 1.5vw, 18px) !important; }
+.calc-tab-bar .ctab { font-size: 15px !important; padding: 11px 22px !important; }
+
+/* ── Responsive safety ────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .cx-phone-single { width: 240px !important; height: 460px !important; }
+  .feat-phone      { width: 140px !important; height: 260px !important; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   PATCH v28 — Corrections ciblées scènes 2, 4, 9
+════════════════════════════════════════════════════════════ */
+
+/* ── SCÈNE 2 : titre 1 ligne, sous-titre 1 ligne, fenêtre grande ── */
+#s-ancien .h2 {
+  font-size: clamp(18px, 2.0vw, 26px) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-bottom: 4px !important;
+}
+#s-ancien .sub {
+  font-size: clamp(13px, 1.4vw, 17px) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-bottom: 16px !important;
+}
+/* Agrandir la fenêtre ONICS pour qu'elle exploite l'écran */
+#s-ancien .old-calc-wrap {
+  max-width: min(1180px, 97vw) !important;
+  margin-top: 0 !important;
+}
+#s-ancien .old-calc {
+  grid-template-columns: 1fr 1fr 1fr !important;
+  gap: 14px !important;
+}
+#s-ancien .old-field {
+  padding: 16px 20px !important;
+}
+#s-ancien .old-field label {
+  font-size: 12px !important;
+  margin-bottom: 8px !important;
+}
+#s-ancien .old-field select,
+#s-ancien .old-field input {
+  font-size: 15px !important;
+  padding: 10px 14px !important;
+}
+#s-ancien { padding: 24px 32px 36px !important; gap: 8px !important; }
+
+/* ── SCÈNE 4 : phone mock agrandi, colonnes mieux équilibrées ── */
+.cx-phone-single {
+  width: 340px !important;
+  height: 640px !important;
+  border-radius: 32px !important;
+}
+/* Contenu interne du phone agrandi */
+.dw-header      { font-size: 14px !important; padding: 14px 18px !important; }
+.dw-content     { padding: 0 12px 12px !important; }
+.dw-step-lbl    { font-size: 14px !important; }
+.dw-btn         { font-size: 14px !important; padding: 14px !important; }
+.dw-carrier-name { font-size: 15px !important; }
+.dw-result-amount {
+  font-size: clamp(52px, 7vw, 82px) !important;
+  line-height: 1 !important;
+}
+.dw-result-lbl   { font-size: 22px !important; }
+.dw-result-mode  { font-size: 13px !important; letter-spacing: 2.5px !important; }
+/* Panel droit scène 4 : info-rows plus grands */
+#s-assistant .info-row {
+  font-size: clamp(15px, 1.7vw, 20px) !important;
+  padding: 14px 18px !important;
+}
+#s-assistant { padding: 24px 32px 36px !important; gap: 24px !important; }
+#s-assistant .cx-panel { gap: 60px !important; }
+
+/* ── SCÈNE 9 : exploitation plein écran, tout plus grand ── */
+#s-comparison { padding: 0 !important; }
+.split-wrap {
+  height: 100vh !important;
+  gap: 0 !important;
+}
+#s-comparison .split-half {
+  padding: 50px 48px !important;
+  justify-content: center !important;
+  gap: 20px !important;
+}
+/* Titres ONICS seul / ONICS + BD30Assistant */
+#s-comparison .h2 {
+  font-size: clamp(24px, 3.0vw, 40px) !important;
+  margin-bottom: 12px !important;
+}
+/* Sous-texte (Angles morts...) */
+#s-comparison .split-half > .sub,
+#s-comparison .split-half > p {
+  font-size: clamp(15px, 1.7vw, 20px) !important;
+  line-height: 1.55 !important;
+}
+/* Info-rows : textes bien gros */
+#s-comparison .info-row {
+  font-size: clamp(15px, 1.75vw, 21px) !important;
+  padding: 15px 20px !important;
+  gap: 14px !important;
+  border-radius: 14px !important;
+  margin-bottom: 10px !important;
+}
+/* -70 % stat */
+#s-comparison [style*="font-size:clamp(38px"],
+#s-comparison [style*="5vw,60px"] {
+  font-size: clamp(64px, 8.5vw, 110px) !important;
+  line-height: 1 !important;
+}
+/* "de temps sur les calculs hors-norme" */
+#s-comparison .split-half .sub {
+  font-size: clamp(15px, 1.7vw, 21px) !important;
+}
+/* Montant comparaison */
+#s-comparison .amount-val {
+  font-size: clamp(44px, 5.5vw, 72px) !important;
+}
+#s-comparison .amount-lbl {
+  font-size: clamp(15px, 1.6vw, 20px) !important;
+}
+/* Badge VS central */
+.split-vs {
+  font-size: 16px !important;
+  width: 52px !important; height: 52px !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   PATCH v29 — Scènes 2, 4, 9 + BD30Assistant
+════════════════════════════════════════════════════════════ */
+
+/* ── SCÈNE 2 : fenêtre beaucoup plus grande ── */
+#s-ancien { padding: 18px 28px 28px !important; gap: 6px !important; }
+#s-ancien .old-calc-wrap {
+  max-width: min(1280px, 98vw) !important;
+  width: 100% !important;
+}
+#s-ancien .old-calc {
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 16px !important;
+}
+#s-ancien .old-field {
+  padding: 18px 22px !important;
+  border-radius: 16px !important;
+}
+#s-ancien .old-field label  { font-size: 13px !important; margin-bottom: 10px !important; }
+#s-ancien .old-field select,
+#s-ancien .old-field input  { font-size: 17px !important; padding: 12px 16px !important; }
+
+/* float-warn-v : plus gros, animation slide in staggered */
+.float-warn-v {
+  font-size: 17px !important;
+  padding: 14px 22px !important;
+  border-radius: 14px !important;
+  white-space: normal !important;
+  animation: slideInWarn .7s cubic-bezier(.22,1,.36,1) both,
+             floatV 5s ease-in-out infinite !important;
+}
+
+/* ── SCÈNE 4 : phone plus grand, info-rows staggered + gros ── */
+#s-assistant { padding: 20px 28px 32px !important; }
+#s-assistant .cx-panel { gap: 56px !important; align-items: center !important; }
+.cx-phone-single {
+  width: 360px !important;
+  height: 680px !important;
+  border-radius: 36px !important;
+}
+.dw-header    { font-size: 15px !important; padding: 16px 20px !important; }
+.dw-step-lbl  { font-size: 15px !important; }
+.dw-btn       { font-size: 15px !important; padding: 16px !important; border-radius: 14px !important; }
+.dw-carrier-name { font-size: 16px !important; }
+.dw-result-amount { font-size: clamp(48px, 6.5vw, 80px) !important; }
+.dw-result-lbl    { font-size: 24px !important; }
+
+/* info-rows scène 4 : gros + stagger visible */
+#s-assistant .info-row {
+  font-size: clamp(16px, 1.9vw, 22px) !important;
+  padding: 18px 22px !important;
+  border-radius: 16px !important;
+  gap: 16px !important;
+}
+#s-assistant .info-icon { font-size: 26px !important; }
+#s-assistant .info-main { font-size: clamp(16px, 1.9vw, 22px) !important; font-weight: 700 !important; }
+#s-assistant .info-note { font-size: clamp(13px, 1.4vw, 17px) !important; margin-top: 3px !important; }
+
+/* ── SCÈNE 9 : équilibre + -70% raisonnable ── */
+#s-comparison .split-half {
+  padding: 44px 42px !important;
+  justify-content: flex-start !important;  /* aligne depuis le haut */
+  gap: 16px !important;
+}
+/* Titres à la même hauteur visuelle */
+.split-title {
+  font-size: clamp(24px, 2.8vw, 38px) !important;
+  font-weight: 800 !important;
+  margin-bottom: 16px !important;
+  min-height: 56px !important;     /* force même hauteur ligne */
+  display: flex !important;
+  align-items: center !important;
+}
+/* -70% : taille raisonnable */
+#s-comparison [style*="5vw,60px"],
+#s-comparison [style*="font-size:clamp(38px"] {
+  font-size: clamp(52px, 7vw, 88px) !important;
+  line-height: 1 !important;
+  margin: 8px 0 !important;
+}
+/* Sous-stat "de temps sur les calculs..." */
+.num-label {
+  font-size: clamp(15px, 1.7vw, 20px) !important;
+  margin-top: 8px !important;
+}
+/* comp-item et info-row scène 9 */
+#s-comparison .comp-item {
+  font-size: clamp(15px, 1.7vw, 20px) !important;
+  padding: 13px 18px !important;
+  border-radius: 12px !important;
+}
+#s-comparison .info-row {
+  font-size: clamp(15px, 1.7vw, 20px) !important;
+  padding: 13px 18px !important;
+  border-radius: 12px !important;
+}
+/* Texte sous-titre scène 9 */
+#s-comparison .split-half [style*="font-size:13px"] {
+  font-size: clamp(14px, 1.6vw, 19px) !important;
+  margin: 10px 0 12px !important;
+}
+.vs-pill {
+  font-size: 17px !important;
+  width: 50px !important; height: 50px !important;
+}
+
+/* ════ v30 — Centrage vertical scènes 2 et 9 ════ */
+
+/* Scène 2 */
+#s-ancien {
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 40px 28px !important;
+  gap: 10px !important;
+}
+
+/* Scène 9 : split-half justify-content recentré */
+#s-comparison .split-half {
+  justify-content: center !important;
+  padding: 44px 42px !important;
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
 </head>
@@ -2119,7 +2763,7 @@ body::after {
   </div>
   <div class="sncf-bar">
     <span class="sncf-logo-pill">SNCF</span>
-    <span class="sub" style="font-size:12px;">Direction des Relations Clients · Outil métier interne · v1.8</span>
+    <span class="sub" style="font-size:12px;">Service Relation Client TGV Care · Outil métier interne</span>
   </div>
 </div>
 
@@ -2200,7 +2844,7 @@ body::after {
       <div class="browser-scroll-track" id="calc-screen-1" style="margin-top:8px;">
 <div style="font-family:Arial,sans-serif;font-size:12px;color:#1a1a2e;background:#f0f2f5;min-height:480px;padding:0;">
   <div style="background:#A1006B;color:#fff;padding:7px 14px;font-size:11px;font-weight:700;letter-spacing:.5px;">
-    Bd30Assistant - Calculateur BD30/G30 (vérification ONICS)
+    BD30Assistant - Calculateur BD30/G30 (vérification ONICS)
   </div>
   <div style="background:#fff;border-bottom:2px solid #A1006B;padding:10px 14px;">
     <div style="font-size:10px;color:#666;margin-bottom:2px;">Résultat calculé - BD30-2026-48291 · Retard 264 min</div>
@@ -2254,13 +2898,13 @@ body::after {
 <div class="scene" id="s-transition">
   <div class="transition-ring">✦</div>
   <div class="h1" style="font-size:clamp(26px,4vw,50px);animation-delay:.5s;">Deux outils complémentaires - pas substituables</div>
-  <div class="sub" style="margin-top:12px;text-align:center;animation:fadeUp .8s ease both 1s;">Bd30Assistant intervient en amont ou en parallèle d'ONICS - jamais à sa place</div>
+  <div class="sub" style="margin-top:12px;text-align:center;animation:fadeUp .8s ease both 1s;">BD30Assistant intervient en amont ou en parallèle d'ONICS - jamais à sa place</div>
   <div class="accent-line"></div>
 </div>
 
 <!-- ══════════════════ SCENE 4 - VRAI ASSISTANT TGVCARE ══════════════════ -->
 <div class="scene" id="s-assistant">
-  <div class="scene-label">Bd30Assistant - Le complément ONICS</div>
+  <div class="scene-label">BD30Assistant - Le complément ONICS</div>
 
   <!-- Vraie interface TGVCare Assistant - screenshot réel -->
   <div class="real-tgvcare-wrap">
@@ -2645,7 +3289,7 @@ body::after {
 
 <!-- ══════════════════ SCENE 7 - COMPARAISON ══════════════════ -->
 <div class="scene" id="s-comparison">
-  <div class="scene-label" style="z-index:20;">Comparaison - ONICS seul vs ONICS + Bd30Assistant</div>
+  <div class="scene-label" style="z-index:20;">Comparaison - ONICS seul vs ONICS + BD30Assistant</div>
   <div class="split-wrap">
     <div class="split-half old">
       <div class="split-title">⚠️ ONICS seul</div>
@@ -2663,7 +3307,7 @@ body::after {
     </div>
     <div class="vs-pill">VS</div>
     <div class="split-half nw">
-      <div class="split-title">✅ ONICS + Bd30Assistant</div>
+      <div class="split-title">✅ ONICS + BD30Assistant</div>
       <div style="text-align:center;">
         <div style="font-size:clamp(38px,5vw,60px);font-weight:900;color:var(--green);line-height:1;animation:fadeUp .6s ease both .4s;opacity:0;">−70 %</div>
         <div class="num-label" style="margin-top:6px;color:var(--green);">de temps sur les calculs hors-norme</div>
@@ -2695,16 +3339,63 @@ body::after {
     <div class="word-chip" style="animation-delay:1.55s;">✅ Précis</div>
   </div>
   <div class="conclusion-note">
-    Bd30Assistant complète ONICS sur les cas complexes,<br>
+    BD30Assistant complète ONICS sur les cas complexes,<br>
     garantissant un calcul conforme sans attendre ANGORA.
   </div>
   <div class="conclusion-footer">TGVCare Assistant &nbsp;·&nbsp; BD30 / G30 &nbsp;·&nbsp; Calcul de conformité SNCF &nbsp;·&nbsp; v1.8</div>
 </div>
 
+
+<div class="scene" id="s-demo">
+  <div class="logo-mark">
+    <div class="logo-inner">
+      <span class="logo-tgv">TGV</span>
+      <span class="logo-care">CARE</span>
+    </div>
+  </div>
+  <div class="h1" style="animation-delay:.2s;">Et maintenant…</div>
+  <div class="sub" style="animation-delay:.45s; max-width:560px; text-align:center;">
+    Passons à une démonstration en direct de l'assistant
+  </div>
+  <button
+    id="btn-launch-demo"
+    onclick="window.open('BD30Assistant.html','_blank')"
+    style="
+      margin-top: 44px;
+      padding: 22px 52px;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: inherit;
+      border: none;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--prune) 0%, var(--prune-dk) 100%);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 0 48px var(--prune-glow), 0 12px 40px rgba(161,0,107,0.30);
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      animation: fadeInUp .6s cubic-bezier(.34,1.56,.64,1) .6s both;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+    "
+    onmouseover="this.style.transform='translateY(-6px) scale(1.03)';this.style.boxShadow='0 0 64px var(--prune-glow), 0 20px 56px rgba(161,0,107,.38)'"
+    onmouseout="this.style.transform='';this.style.boxShadow='0 0 48px var(--prune-glow), 0 12px 40px rgba(161,0,107,.30)'"
+    onmousedown="this.style.transform='scale(.96)'"
+    onmouseup="this.style.transform='translateY(-6px) scale(1.03)'"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
+    Lancer la démonstration
+  </button>
+  <div class="conclusion-footer" style="animation-delay:.9s;">BD30Assistant &nbsp;·&nbsp; TGVCare &nbsp;·&nbsp; Démonstration interactive</div>
+</div>
+
 </div><!-- #pres -->
 
 <div id="progress-bar" style="width:0%"></div>
-<div id="scene-idx">1 / 10</div>
+<div id="scene-idx">1 / 11</div>
 <div id="nav">
   <button id="btn-prev" title="◀ (←)">◀</button>
   <button id="btn-play" title="Pause (Space)">⏸</button>
@@ -2750,6 +3441,7 @@ var SCENES=[
   {id:'s-automation', dur:17000},
   {id:'s-comparison', dur:14500},
   {id:'s-conclusion', dur:13000},
+  {id:'s-demo',       dur:60000},
 ];
 
 var cur=0,playing=true,timer=null,progTimer=null,progStart=null;
