@@ -3828,7 +3828,15 @@ function getRTCode_retard(segments){
 
   if(segCount===1){
     // ── G30 : 1 segment ──────────────────────────────────────────────
-    if(hasPrime)return"2397";          // Billet Prime titulaire / tiers FID/GVT
+    if(hasPrime){
+      // RT 2397 qu'il y ait ou non une compensation exceptionnelle (Réf. AV p.28)
+      return"2397";
+    }
+    if(S.exceptionalIndemnity){
+      // Compensation exceptionnelle décidée par la Direction (Réf. AV p.26 + Normes Voyage Back p.18-19)
+      // Visible dans Angora — tous tarifs hors Prime
+      return"2046";
+    }
     if(hasTGVInt)return"2367";         // TGV international (filiale SNCF)
     return"2388";                       // Standard (incl. Max Loisirs/forfait)
   }
@@ -5331,7 +5339,7 @@ function render(){
     });
   });
 
-  app.appendChild(div("footer","TGVCare Assistant • BD30/G30 • Calcul de conformité SNCF • v1.9"));
+  app.appendChild(div("footer","TGVCare Assistant • BD30/G30 • Calcul de conformité SNCF • v1.9.1"));
 
   if(window.lucide&&typeof lucide.createIcons==="function"){
     try{lucide.createIcons();}catch(e){}
