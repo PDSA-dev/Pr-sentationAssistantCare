@@ -2210,6 +2210,7 @@ var S={
   exceptionalIndemnity:null,
   selectedTGVForException:null,
   exceptionalPrimeEuros:null,
+  exceptionalMaxAmt:null,
   resiliationData:{},
   retractionData:{},
 };
@@ -2347,7 +2348,7 @@ function editHistAt(idx){
 }
 
 function reset(){
-  set({step:"menu",flow:null,history:[],delay:0,nbPass:0,segments:[],buildingSeg:{},currentPassenger:0,buildingSegPassengers:[],fraisList:[],uniformTariff:false,selectedTarifUnique:null,ouigoDelay:0,exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null});
+  set({step:"menu",flow:null,history:[],delay:0,nbPass:0,segments:[],buildingSeg:{},currentPassenger:0,buildingSegPassengers:[],fraisList:[],uniformTariff:false,selectedTarifUnique:null,ouigoDelay:0,exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null,exceptionalMaxAmt:null});
 }
 
 function mkDosDate(){
@@ -2762,7 +2763,7 @@ function sIntro(){
 
 function sMenu(){
   return card("Que souhaitez-vous calculer ?","Choisissez le type de demande",renderOpts([
-    {icon:"<i data-lucide='train-front'></i>",label:"Retard & Indemnisation",desc:"Calcul BD30/G30 — compensation retard",cb:function(){set({step:"delay",flow:"retard",segments:[],nbPass:0,delay:0,currentPassenger:0,buildingSegPassengers:[],buildingSeg:{},exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null});}},
+    {icon:"<i data-lucide='train-front'></i>",label:"Retard & Indemnisation",desc:"Calcul BD30/G30 — compensation retard",cb:function(){set({step:"delay",flow:"retard",segments:[],nbPass:0,delay:0,currentPassenger:0,buildingSegPassengers:[],buildingSeg:{},exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null,exceptionalMaxAmt:null});}},
     {icon:"<i data-lucide='receipt'></i>",label:"Frais Annexes",desc:"Taxi, restauration, hôtel…",cb:function(){set({step:"frais_type",flow:"frais",fraisList:[]});}},
     {icon:"<i data-lucide='calendar-days'></i>",label:"Rétractation & Résiliation",desc:"Délais légaux et conditions",cb:function(){set({step:"dates_type",flow:"dates"});}},
     {icon:"<i data-lucide='book-open'></i>",label:"Barèmes & Règles",desc:"Consulter les tarifs et conditions",cb:function(){set({step:"bareme"});}},
@@ -3698,6 +3699,72 @@ function sExceptionalIndemnity(){
     ]));
   }
 
+  // ── CAS MAX / FORFAIT ────────────────────────────────────────────────────
+  var isMaxGroup=selectedGroup.every(function(s){return s.tarif==="max_loisirs";});
+
+  if(isMaxGroup){
+    // Saisie du montant fixe ANGORA (€/voyageur)
+    if(!S.exceptionalMaxAmt&&S.exceptionalMaxAmt!==0){
+      var wrapMax=div("");
+
+      var infoBoxMax=div("info-box amber");
+      infoBoxMax.style.marginBottom="16px";
+      infoBoxMax.innerHTML="<div class='info-icon'><i data-lucide='zap'></i></div><div>"
+        +"<strong>Abonnés Max / Forfait — compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageur"+(nbVoy>1?"s":"")+")":" ")+"<br>"
+        +"<span style='font-size:12px;color:var(--tx-muted);'>Saisir le montant indiqué dans ANGORA (montant fixe par voyageur) — remplace le barème G30 (5/10/20 €)</span>"
+        +"</div>";
+      wrapMax.appendChild(infoBoxMax);
+
+      var inputRowMax=div("");
+      inputRowMax.style.cssText="display:flex;gap:10px;align-items:center;margin-bottom:12px;";
+      var inpMax=document.createElement("input");
+      inpMax.type="number";inpMax.min="0";inpMax.step="1";inpMax.value="";inpMax.placeholder="Ex: 30";
+      inpMax.style.cssText="flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface2);color:var(--tx);font-size:15px;";
+      inpMax.id="max-amt-input";
+      var maxLabel=div("");maxLabel.textContent="€ / voyageur";
+      maxLabel.style.cssText="font-size:14px;font-weight:700;color:var(--tx-muted);white-space:nowrap;";
+      inputRowMax.appendChild(inpMax);inputRowMax.appendChild(maxLabel);
+      wrapMax.appendChild(inputRowMax);
+
+      var scMax=div("");
+      scMax.style.cssText="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;";
+      [20,25,30,40,60].forEach(function(v){
+        var btn=document.createElement("button");
+        btn.textContent=v+"€";
+        btn.style.cssText="padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface2);color:var(--tx);font-size:13px;cursor:pointer;";
+        btn.onclick=function(val){return function(){document.getElementById("max-amt-input").value=val;};}(v);
+        scMax.appendChild(btn);
+      });
+      wrapMax.appendChild(scMax);
+
+      var btnMax=document.createElement("button");
+      btnMax.textContent="Valider →";
+      btnMax.style.cssText="width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;border:none;background:var(--prune);color:#fff;margin-top:4px;margin-bottom:32px;display:block;box-shadow:0 4px 16px var(--prune-glow);";
+      btnMax.onclick=function(){
+        var v=parseFloat(document.getElementById("max-amt-input").value);
+        if(isNaN(v)||v<0)v=0;
+        set({exceptionalMaxAmt:v});
+      };
+      wrapMax.appendChild(btnMax);
+      return card("Montant exceptionnel ANGORA","Saisir le montant BAD par voyageur indiqué dans ANGORA",wrapMax);
+    }
+
+    // Montant saisi → appliquer
+    var maxAmtPerPax=S.exceptionalMaxAmt||0;
+    var maxAmtTotal=parseFloat((maxAmtPerPax*nbVoy).toFixed(2));
+    var maxDesc=maxAmtPerPax+"€ BAD"+(nbVoy>1?" × "+nbVoy+" voy = "+maxAmtTotal.toFixed(2)+"€":"");
+    set({
+      exceptionalIndemnity:{
+        groupId:S.selectedTGVForException,segmentIds:segIds,
+        rate:null,amount:maxAmtTotal,
+        totalPrice:0,isMax:true,
+        maxAmtPerPax:maxAmtPerPax,nbVoy:nbVoy
+      },
+      exceptionalMaxAmt:null,selectedTGVForException:null,step:"result_retard"
+    });
+    return;
+  }
+
     // ── CAS STANDARD (non-Prime) ──────────────────────────────────────────────
   var totalPrice=selectedGroup.reduce(function(sum,s){return sum+s.price;},0);
   var regulatoryAmt=selectedGroup.reduce(function(sum,s){
@@ -3853,10 +3920,14 @@ function sResultRetard(){
       displayAmt=amt.toFixed(2)+" € (BAD)";
     }
     else if(seg.tarif==="max_loisirs"){
-      // BAD fixe
-      amt=segAmt(seg.price,seg.tarif,ri);
-      displayAmt=amt.toFixed(2)+" € (BAD fixe)";
-      mode="BAD";
+      var _exIdsMax=S.exceptionalIndemnity&&S.exceptionalIndemnity.isMax?(S.exceptionalIndemnity.segmentIds||[]):[];
+      if(_exIdsMax.indexOf(seg.id)>=0){
+        amt=0;displayAmt="Couvert par l'indemnisation exceptionnelle";mode="—";
+      }else{
+        amt=segAmt(seg.price,seg.tarif,ri);
+        displayAmt=amt.toFixed(2)+" € (BAD fixe)";
+        mode="BAD";
+      }
     }
     else{
       // Tarifs standards: VB ou BAD
@@ -3920,7 +3991,22 @@ function sResultRetard(){
     var exTotalPrice=S.exceptionalIndemnity.totalPrice||(exSegsAll.reduce(function(sum,s){return sum+s.price;},0));
     var exCarrier=exSegsAll.length?getCarrierLabel(exSegsAll[0].carrier):"TGV INOUI";
     var exNbVoy=exSegsAll.length;
-    if(S.exceptionalIndemnity.isPrime){
+    if(S.exceptionalIndemnity.isMax){
+      // Cas Max/Forfait : montant fixe ANGORA × nb voyageurs
+      var maxPax=S.exceptionalIndemnity.maxAmtPerPax||0;
+      var maxNbv=S.exceptionalIndemnity.nbVoy||exNbVoy||1;
+      var maxDisplay=maxPax.toFixed(2)+"€ BAD/voy"+(maxNbv>1?" × "+maxNbv+" = "+S.exceptionalIndemnity.amount.toFixed(2)+"€":"");
+      allDetails.push({
+        idx:-1,
+        carrier:exCarrier+" (EXCEPTIONNEL MAX)"+(maxNbv>1?" — "+maxNbv+" voyageurs":""),
+        tarif:"Indemnisation exceptionnelle",
+        price:0,rate:null,fix:null,
+        mode:"BAD",
+        amt:S.exceptionalIndemnity.amount,
+        points:null,
+        displayAmt:maxDisplay
+      });
+    }else if(S.exceptionalIndemnity.isPrime){
       // Cas Prime : affichage points + euros
       var parts=[];
       if(S.exceptionalIndemnity.primePoints>0) parts.push(S.exceptionalIndemnity.primePoints+" pts Prime");
@@ -4355,8 +4441,13 @@ function sResultFrais(){
       amt=segAmt(seg.price,seg.tarif,ri);
       displayAmt=amt.toFixed(2)+" € (BAD)";
     }else if(seg.tarif==="max_loisirs"){
-      amt=segAmt(seg.price,seg.tarif,ri);
-      displayAmt=amt.toFixed(2)+" € (BAD fixe)";
+      var _exIdsMax2=S.exceptionalIndemnity&&S.exceptionalIndemnity.isMax?(S.exceptionalIndemnity.segmentIds||[]):[];
+      if(_exIdsMax2.indexOf(seg.id)>=0){
+        amt=0;displayAmt="Couvert par l'indemnisation exceptionnelle";mode="—";
+      }else{
+        amt=segAmt(seg.price,seg.tarif,ri);
+        displayAmt=amt.toFixed(2)+" € (BAD fixe)";
+      }
     }else{
       // Split proactif/complément pour Billet Direct OUIGO
       if(isBilletDirectOUIGO && isOUIGOSegment && S.ouigoDelay && S.ouigoDelay<S.delay){
@@ -4390,7 +4481,18 @@ function sResultFrais(){
     var exTotalPrice2=S.exceptionalIndemnity.totalPrice||(exSegs2.reduce(function(sum,s){return sum+s.price;},0));
     var exCarrier2=exSegs2.length?getCarrierLabel(exSegs2[0].carrier):"TGV INOUI";
     var exNbVoy2=exSegs2.length;
-    if(S.exceptionalIndemnity.isPrime){
+    if(S.exceptionalIndemnity.isMax){
+      var maxPax2=S.exceptionalIndemnity.maxAmtPerPax||0;
+      var maxNbv2=S.exceptionalIndemnity.nbVoy||exNbVoy2||1;
+      allDetailsRetard.push({
+        carrier:exCarrier2+" (EXCEPTIONNEL MAX)"+(maxNbv2>1?" — "+maxNbv2+" voyageurs":""),
+        tarif:"Indemnisation exceptionnelle",
+        price:0,rate:null,
+        amt:S.exceptionalIndemnity.amount,
+        mode:"BAD",
+        displayAmt:maxPax2.toFixed(2)+"€ BAD/voy"+(maxNbv2>1?" × "+maxNbv2+" = "+S.exceptionalIndemnity.amount.toFixed(2)+"€":"")
+      });
+    }else if(S.exceptionalIndemnity.isPrime){
       var parts2=[];
       if(S.exceptionalIndemnity.primePoints>0) parts2.push(S.exceptionalIndemnity.primePoints+" pts Prime");
       if(S.exceptionalIndemnity.primeEuros>0) parts2.push(S.exceptionalIndemnity.primeEuros.toFixed(2)+"€ BAD (billet)");
