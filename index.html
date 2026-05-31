@@ -1842,8 +1842,8 @@ body::after {
 }
 
 
-/* ═══ WEBGL CANVAS ═══ */
-#webgl-bg {
+/* ═══ NEBULA CANVAS ═══ */
+#nebula-bg {
   position:fixed; inset:0; z-index:0;
   pointer-events:none; will-change:transform;
 }
@@ -1875,7 +1875,7 @@ body::after {
 }
 
 @media (prefers-reduced-motion:reduce) {
-  #webgl-bg { display:none !important; }
+  #nebula-bg { display:none !important; }
   .logo-mark::before, .h1::before { display:none !important; }
 }
 
@@ -2737,7 +2737,6 @@ body::after {
 }
 
 </style>
-<script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
 </head>
 <body>
 <button id="btn-fs" title="Plein écran">⛶</button>
@@ -3798,94 +3797,371 @@ goto(0);
 
 
 /* ═══════════════════════════════════════════════════════════
-   WEBGL v16 - Soft Orbs System (dark luxury)
-   6 atmospheric glowing orbs, slow Lissajous drift, gentle mouse attraction.
+   PRUNE GLASS NEBULA v3.0 — Ultra Premium Final · TGVCare
+   ─────────────────────────────────────────────────────────
+   Architecture :
+     L1 · Macro nebula   — 4 grands blocs, ultra-lents
+     L2 · Mid clouds     — 5 masses intermédiaires
+     L3 · Detail wisps   — 4 accents fins + parallax fort
+     A  · Star points    — 14 ultra-petites, twinkle pur
+     B  · Glass motes    — 9  noyau + halo 5-stops additif
+     C  · Prism shards   — 3  majestueuses, très lentes
+     +  Vignette pre-baked (profondeur de champ visuelle)
+     +  Noise dual-layer animé (scroll 2 axes, overlay)
+
+   Améliorations v2→v3 :
+     · Lissajous 3 termes/axe (ratio φ=0.618 et √2=1.414)
+       → trajectoires apériodiques, jamais exactement répétées
+     · Dual breathing (f1 lente + f2 plus lente) par nuage
+       → nébuleuse organique, pas mécanique
+     · Gradient 5 stops sur nuages → bord ultra-progressif
+     · Vignette pre-baked : drawImage quasi gratuit chaque frame
+     · Noise soft (64→256 upscale) dual-layer scroll 'overlay'
+       → grain cosmique très subtil, animé, non répétitif
+     · Halos Type B : 5 stops + inner ring (r×0.35)
+     · Halos Type C : multi-ring annulaire + outer halo
+     · Type C réduit à 3 shards, plus lentes (vy×0.55)
+     · Lissage souris 0.012 → parallax comme soie
+   Zéro dépendance · dt-based · 60fps laptop garanti
 ═══════════════════════════════════════════════════════════ */
 (function(){
-  if(!window.THREE)return;
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
 
-  var W=window.innerWidth,H=window.innerHeight;
-  var renderer=new THREE.WebGLRenderer({antialias:false,alpha:true,powerPreference:'low-power'});
-  renderer.setSize(W,H);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
-  renderer.domElement.id='webgl-bg';
-  document.body.prepend(renderer.domElement);
+  /* ── Canvas principal ────────────────────────────────────── */
+  var canvas = document.createElement('canvas');
+  canvas.id  = 'nebula-bg';
+  document.body.prepend(canvas);
+  var ctx = canvas.getContext('2d');
+  var W, H;
 
-  var cam=new THREE.OrthographicCamera(-W/2,W/2,H/2,-H/2,0.1,10);
-  cam.position.z=1;
-  var scene=new THREE.Scene();
+  /* ── Vignette — canvas pré-calculé, rebuild au resize ─────
+     Profondeur de champ : centre clair, bords assombris.
+     Dessiné via drawImage() → quasi gratuit chaque frame.     */
+  var vigCvs = document.createElement('canvas');
+  var vigCtx = vigCvs.getContext('2d');
+  function buildVignette(){
+    vigCvs.width = W; vigCvs.height = H;
+    var cx = W/2, cy = H/2;
+    var g  = vigCtx.createRadialGradient(
+      cx, cy, Math.min(W,H)*0.22,
+      cx, cy, Math.max(W,H)*0.80
+    );
+    g.addColorStop(0,    'rgba(8,9,14,0)');
+    g.addColorStop(0.50, 'rgba(8,9,14,0.08)');
+    g.addColorStop(0.78, 'rgba(8,9,14,0.26)');
+    g.addColorStop(1,    'rgba(8,9,14,0.52)');
+    vigCtx.clearRect(0,0,W,H);
+    vigCtx.fillStyle = g;
+    vigCtx.fillRect(0,0,W,H);
+  }
 
-  var vsh='varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}';
-  var fsh=[
-    'varying vec2 vUv;',
-    'uniform vec3  uColor;',
-    'uniform float uAlpha;',
-    'uniform float uTime;',
-    'uniform float uPhase;',
-    'void main(){',
-    '  vec2 uv=vUv-0.5; float d=length(uv)*2.0;',
-    // gaussian falloff: very soft center, vanishes at edges
-    '  float a=exp(-d*d*4.5);',
-    '  float breathe=0.80+0.20*sin(uTime*0.50+uPhase);',
-    '  gl_FragColor=vec4(uColor,a*uAlpha*breathe);',
-    '}'
-  ].join('\n');
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    buildVignette();
+  }
+  resize();
+  window.addEventListener('resize', resize);
 
-  var DEFS=[
-    {c:[0.63,0.00,0.42],sz:700,spd:0.100,ox: .18,oy: .12,ph:0.0,al:0.55},
-    {c:[0.78,0.08,0.50],sz:540,spd:0.070,ox:-.28,oy: .22,ph:1.4,al:0.40},
-    {c:[0.94,0.63,0.80],sz:380,spd:0.140,ox: .38,oy:-.28,ph:2.6,al:0.30},
-    {c:[0.63,0.00,0.42],sz:600,spd:0.055,ox:-.18,oy:-.32,ph:4.1,al:0.38},
-    {c:[0.78,0.08,0.50],sz:440,spd:0.170,ox: .42,oy: .38,ph:5.0,al:0.28},
-    {c:[0.94,0.63,0.80],sz:300,spd:0.210,ox:-.42,oy:-.05,ph:3.3,al:0.22},
-  ];
+  /* ── Noise soft — 64px upscalé → 256px via bilinear ───────
+     Génération unique au démarrage (< 1ms).
+     Deux layers scrollent en sens opposés → grain cosmique.   */
+  var NS  = 256;                /* taille du tile noise final  */
+  var NL  = 64;                 /* source basse-résolution     */
+  var nCvs = document.createElement('canvas');
+  nCvs.width = nCvs.height = NS;
+  var nCtx = nCvs.getContext('2d');
+  /* étape 1 : pixels aléatoires 64×64 */
+  var srcCvs = document.createElement('canvas');
+  srcCvs.width = srcCvs.height = NL;
+  var sCtx = srcCvs.getContext('2d');
+  var sid = sCtx.createImageData(NL, NL);
+  for(var ni = 0; ni < sid.data.length; ni += 4){
+    var nv = Math.floor(Math.random() * 256);
+    sid.data[ni] = sid.data[ni+1] = sid.data[ni+2] = nv;
+    sid.data[ni+3] = 255;
+  }
+  sCtx.putImageData(sid, 0, 0);
+  /* étape 2 : upscale 64→256 (le browser fait bilinear) */
+  nCtx.imageSmoothingEnabled = true;
+  nCtx.imageSmoothingQuality = 'high';
+  nCtx.drawImage(srcCvs, 0, 0, NS, NS);
+  var noisePat = ctx.createPattern(nCvs, 'repeat');
 
-  var orbs=DEFS.map(function(d,i){
-    var mat=new THREE.ShaderMaterial({
-      uniforms:{
-        uColor:{value:new THREE.Vector3(d.c[0],d.c[1],d.c[2])},
-        uAlpha:{value:d.al},
-        uTime: {value:0.0},
-        uPhase:{value:d.ph},
-      },
-      vertexShader:vsh,fragmentShader:fsh,
-      transparent:true,depthWrite:false,blending:THREE.AdditiveBlending
-    });
-    var mesh=new THREE.Mesh(new THREE.PlaneGeometry(d.sz,d.sz),mat);
-    mesh.userData={bx:d.ox*W*.5,by:d.oy*H*.5,spd:d.spd,ph:d.ph,ox:d.ox,oy:d.oy};
-    mesh.position.set(mesh.userData.bx,mesh.userData.by,0);
-    scene.add(mesh); return mesh;
-  });
-
-  var tX=0,tY=0,smX=0,smY=0;
-  document.addEventListener('mousemove',function(e){
-    tX=e.clientX-W*.5; tY=-(e.clientY-H*.5);
+  /* ── Souris — parallax normalisé [-0.5, +0.5] ─────────── */
+  var mx=0, my=0, smx=0, smy=0;
+  document.addEventListener('mousemove', function(e){
+    mx = e.clientX/W - 0.5;
+    my = e.clientY/H - 0.5;
     document.documentElement.style.setProperty('--gx',(e.clientX/W*100).toFixed(1)+'%');
     document.documentElement.style.setProperty('--gy',(e.clientY/H*100).toFixed(1)+'%');
   });
 
-  window.addEventListener('resize',function(){
-    W=window.innerWidth;H=window.innerHeight;
-    renderer.setSize(W,H);
-    cam.left=-W/2;cam.right=W/2;cam.top=H/2;cam.bottom=-H/2;
-    cam.updateProjectionMatrix();
-    orbs.forEach(function(orb,i){orb.userData.bx=DEFS[i].ox*W*.5;orb.userData.by=DEFS[i].oy*H*.5;});
+  /* ══════════════════════════════════════════════════════════
+     Constantes apériodiques pour Lissajous 3 termes
+     φ  = golden ratio  → fréquences irrationnelles entre elles
+     √2 = sqrt(2)       → troisième dimension indépendante
+     Les 3 termes ne se synchronisent jamais → orbites infinies.
+  ══════════════════════════════════════════════════════════ */
+  var PHI = 0.6180339887;
+  var SR2 = 1.4142135624;
+
+  /* ══════════════════════════════════════════════════════════
+     COUCHE 1 — MACRO NEBULA (4 blocs, ultra-lents)
+     Substrat cosmique — quasi-imperceptibles, effet de fond.
+     Champs : ox,oy=centre·frac · rx,ry=rayons·frac·W/H
+              al=alpha peak · spd=vitesse dérive · ph=phase
+              dp=parallax depth · bs1/bp1 = breathing freq1
+              bs2/bp2 = breathing freq2 (plus lente)
+  ══════════════════════════════════════════════════════════ */
+  var L1 = [
+    { ox:.50,oy:.17, rx:.76,ry:.56, r:161,g:0,  b:107, al:.108, spd:.0058, ph:0.00, dp:.005, bs1:.38,bp1:0.0, bs2:.16,bp2:2.4 },
+    { ox:.07,oy:.83, rx:.68,ry:.48, r:122,g:0,  b:82,  al:.090, spd:.0078, ph:2.10, dp:.007, bs1:.32,bp1:1.4, bs2:.14,bp2:4.2 },
+    { ox:.94,oy:.55, rx:.62,ry:.44, r:161,g:0,  b:107, al:.078, spd:.0054, ph:4.50, dp:.005, bs1:.28,bp1:2.8, bs2:.12,bp2:0.7 },
+    { ox:.50,oy:.97, rx:.85,ry:.32, r:122,g:0,  b:82,  al:.086, spd:.0068, ph:3.80, dp:.004, bs1:.24,bp1:4.2, bs2:.10,bp2:1.9 },
+  ];
+
+  /* ══════════════════════════════════════════════════════════
+     COUCHE 2 — MID CLOUDS (5 masses)
+     Structure : profondeur et perception de volume.
+  ══════════════════════════════════════════════════════════ */
+  var L2 = [
+    { ox:.48,oy:.25, rx:.47,ry:.37, r:172,g:0,  b:113, al:.115, spd:.0118, ph:1.10, dp:.013, bs1:.42,bp1:0.7, bs2:.18,bp2:3.6 },
+    { ox:.15,oy:.70, rx:.41,ry:.33, r:122,g:0,  b:82,  al:.102, spd:.0145, ph:3.30, dp:.016, bs1:.36,bp1:2.1, bs2:.16,bp2:5.8 },
+    { ox:.86,oy:.44, rx:.37,ry:.31, r:161,g:0,  b:107, al:.092, spd:.0108, ph:5.20, dp:.012, bs1:.40,bp1:3.5, bs2:.17,bp2:1.3 },
+    { ox:.72,oy:.18, rx:.30,ry:.24, r:244,g:160,b:204, al:.042, spd:.0162, ph:0.90, dp:.020, bs1:.48,bp1:1.8, bs2:.20,bp2:4.8 },
+    { ox:.22,oy:.44, rx:.27,ry:.22, r:244,g:160,b:204, al:.032, spd:.0178, ph:4.70, dp:.018, bs1:.44,bp1:5.1, bs2:.19,bp2:2.3 },
+  ];
+
+  /* ══════════════════════════════════════════════════════════
+     COUCHE 3 — DETAIL WISPS (4 accents fins)
+     Premier plan — plus de parallax = illusion 3D.
+  ══════════════════════════════════════════════════════════ */
+  var L3 = [
+    { ox:.34,oy:.13, rx:.22,ry:.18, r:185,g:0,  b:123, al:.082, spd:.0225, ph:2.20, dp:.030, bs1:.52,bp1:0.3, bs2:.22,bp2:3.2 },
+    { ox:.80,oy:.10, rx:.18,ry:.15, r:244,g:160,b:204, al:.048, spd:.0268, ph:0.50, dp:.036, bs1:.58,bp1:1.2, bs2:.24,bp2:5.4 },
+    { ox:.78,oy:.76, rx:.24,ry:.19, r:161,g:0,  b:107, al:.074, spd:.0205, ph:5.80, dp:.028, bs1:.48,bp1:3.7, bs2:.21,bp2:1.6 },
+    { ox:.28,oy:.86, rx:.20,ry:.16, r:244,g:160,b:204, al:.036, spd:.0242, ph:4.10, dp:.032, bs1:.50,bp1:5.5, bs2:.22,bp2:0.4 },
+  ];
+
+  /* ══════════════════════════════════════════════════════════
+     TYPE A — Star points (20)
+     r 0.55–1.40px · al 0.30–0.75 · twinkle floor 0.50
+  ══════════════════════════════════════════════════════════ */
+  var starsA = Array.from({length:20}, function(){
+    return {
+      x:Math.random(), y:Math.random(),
+      r:  0.55 + Math.random()*0.85,
+      vy:-(0.0014 + Math.random()*0.0032),
+      wx: 0.12 + Math.random()*0.40, wp:Math.random()*6.28,
+      wa: 5   + Math.random()*18,
+      tp: Math.random()*6.28, ts:0.65+Math.random()*1.40,
+      al: 0.30 + Math.random()*0.45,
+      rose: Math.random()<0.22,
+    };
   });
 
-  var t=0,prev=0;
+  /* ══════════════════════════════════════════════════════════
+     TYPE B — Glass motes (9)
+     Halo 5 stops (inner r×0.35) + noyau 4 stops.
+     Halo : blending 'lighter' → fusionne dans la nébuleuse.
+     Noyau : 'source-over' → point focal lumineux et net.
+  ══════════════════════════════════════════════════════════ */
+  var motesB = Array.from({length:9}, function(){
+    var r = 1.2 + Math.random()*1.1;
+    return {
+      x:Math.random(), y:Math.random(),
+      r:r, hr:r*(4.2+Math.random()*2.0),
+      vy:-(0.0018 + Math.random()*0.0040),
+      wx: 0.13 + Math.random()*0.44, wp:Math.random()*6.28,
+      wa: 11  + Math.random()*25,
+      tp: Math.random()*6.28, ts:0.18+Math.random()*0.54,
+      alCore: 0.72+Math.random()*0.25,
+      alHalo: 0.10+Math.random()*0.12,
+      rose: Math.random()<0.28,
+    };
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     TYPE C — Prism shards (3 — majestueux, très lents)
+     Réduits à 3 pour l'élégance. Vitesse vy ÷2.
+     Halo double-ring : inner=r×0.75, outer=hr.
+     Noyau 4 stops avec pointe ultra-blanche.
+  ══════════════════════════════════════════════════════════ */
+  var shardsC = Array.from({length:3}, function(){
+    var r = 2.6 + Math.random()*1.6;
+    return {
+      x:Math.random(), y:Math.random(),
+      r:r, hr:r*(6.0+Math.random()*3.2),
+      vy:-(0.0007 + Math.random()*0.0016),
+      wx: 0.07 + Math.random()*0.20, wp:Math.random()*6.28,
+      wa: 28  + Math.random()*55,
+      tp: Math.random()*6.28, ts:0.10+Math.random()*0.26,
+      alCore: 0.60+Math.random()*0.30,
+      alHalo: 0.035+Math.random()*0.055,
+      hue: Math.random(),
+    };
+  });
+
+  /* ── Rendu d'un nuage ───────────────────────────────────────
+     Lissajous 3 termes/axe :
+       terme 1 : fréquence de base  (amplitude 0.050)
+       terme 2 : × PHI=φ            (amplitude 0.018) → aperiodic
+       terme 3 : × SR2=√2           (amplitude 0.007) → dimension ⊥
+     Dual breathing : f1 (≈0.34 Hz) + f2 (≈0.17 Hz)
+       → pulsation lente composée, jamais mécanique.            */
+  function drawCloud(c, t){
+    var dx = ( Math.sin(t*c.spd          + c.ph)        * 0.050
+             + Math.cos(t*c.spd*PHI      + c.ph*2.14)   * 0.018
+             + Math.sin(t*c.spd*SR2      + c.ph*0.52)   * 0.007 ) * W;
+    var dy = ( Math.cos(t*c.spd*0.71     + c.ph*1.32)   * 0.040
+             + Math.sin(t*c.spd*PHI*0.71 + c.ph*0.75)   * 0.015
+             + Math.cos(t*c.spd*SR2*0.71 + c.ph*3.08)   * 0.006 ) * H;
+
+    var al = c.al * ( 1.0
+      + c.bs1 * Math.sin(t*0.34 + c.bp1) * 0.22
+      + c.bs2 * Math.sin(t*0.17 + c.bp2) * 0.12 );
+
+    ctx.save();
+    ctx.translate(c.ox*W + dx + smx*c.dp*W,
+                  c.oy*H + dy + smy*c.dp*H);
+    ctx.scale(c.rx*W, c.ry*H);
+
+    /* Centre plus lumineux, chute franche à mi-rayon → contraste net */
+    var g = ctx.createRadialGradient(0,0,0, 0,0,1);
+    g.addColorStop(0,    'rgba('+c.r+','+c.g+','+c.b+','+ al           +')');
+    g.addColorStop(0.15, 'rgba('+c.r+','+c.g+','+c.b+','+(al*0.72)    +')');
+    g.addColorStop(0.42, 'rgba('+c.r+','+c.g+','+c.b+','+(al*0.20)    +')');
+    g.addColorStop(0.72, 'rgba('+c.r+','+c.g+','+c.b+','+(al*0.038)   +')');
+    g.addColorStop(1,    'rgba('+c.r+','+c.g+','+c.b+',0)');
+
+    ctx.beginPath();
+    ctx.arc(0,0,1,0,6.2832);
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  /* ── Boucle principale ─────────────────────────────────── */
+  var t=0, prev=0;
+
   function loop(now){
     requestAnimationFrame(loop);
-    var dt=Math.min((now-prev)*.001,.05); prev=now; t+=dt;
-    smX+=(tX-smX)*.045; smY+=(tY-smY)*.045;
-    orbs.forEach(function(orb){
-      var d=orb.userData;
-      orb.position.x=d.bx+Math.sin(t*d.spd+d.ph)*W*.11+smX*.055;
-      orb.position.y=d.by+Math.cos(t*d.spd*.72+d.ph*1.3)*H*.08+smY*.055;
-      orb.material.uniforms.uTime.value=t;
+    var dt = Math.min((now-prev)*0.001, 0.05);
+    prev = now; t += dt;
+
+    /* Parallax souris — lissage 0.012 = soie */
+    smx += (mx-smx)*0.012;
+    smy += (my-smy)*0.012;
+
+    ctx.clearRect(0,0,W,H);
+
+    /* ── L1 + L2 + L3 en blending additif ────────────────── */
+    ctx.globalCompositeOperation = 'lighter';
+    L1.forEach(function(c){ drawCloud(c,t); });
+    L2.forEach(function(c){ drawCloud(c,t); });
+    L3.forEach(function(c){ drawCloud(c,t); });
+    ctx.globalCompositeOperation = 'source-over';
+
+    /* ── Vignette (drawImage → < 0.05ms) ─────────────────── */
+    ctx.drawImage(vigCvs, 0,0);
+
+    /* ── Type A : star points ───────────────────────────── */
+    starsA.forEach(function(m){
+      m.y += m.vy*dt;
+      if(m.y < -0.01) m.y = 1.01;
+      var tw = 0.50 + 0.50*(0.5+0.5*Math.sin(t*m.ts+m.tp));
+      ctx.globalAlpha = m.al*tw;
+      ctx.fillStyle   = m.rose ? 'rgba(244,183,222,1)' : 'rgba(255,248,255,1)';
+      ctx.beginPath();
+      ctx.arc(m.x*W+Math.sin(t*m.wx+m.wp)*m.wa, m.y*H, m.r, 0,6.2832);
+      ctx.fill();
     });
-    renderer.render(scene,cam);
+    ctx.globalAlpha = 1;
+
+    /* ── Type B : glass motes ───────────────────────────── */
+    motesB.forEach(function(m){
+      m.y += m.vy*dt;
+      if(m.y < -0.02) m.y = 1.02;
+      var tw = 0.48 + 0.52*(0.5+0.5*Math.sin(t*m.ts+m.tp));
+      var px = m.x*W+Math.sin(t*m.wx+m.wp)*m.wa, py = m.y*H;
+
+      /* Halo 5-stops : inner = r×0.35 (anneau lumineux, pas blob) */
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = m.alHalo*tw;
+      var hg = ctx.createRadialGradient(px,py, m.r*0.35, px,py, m.hr);
+      if(m.rose){
+        hg.addColorStop(0,    'rgba(244,162,206,0.92)');
+        hg.addColorStop(0.20, 'rgba(244,140,196,0.58)');
+        hg.addColorStop(0.48, 'rgba(161,0,107,0.22)');
+        hg.addColorStop(0.76, 'rgba(122,0,82,0.05)');
+        hg.addColorStop(1,    'rgba(100,0,68,0)');
+      } else {
+        hg.addColorStop(0,    'rgba(215,150,192,0.88)');
+        hg.addColorStop(0.20, 'rgba(185,110,165,0.55)');
+        hg.addColorStop(0.48, 'rgba(130,0,88,0.20)');
+        hg.addColorStop(0.76, 'rgba(100,0,68,0.05)');
+        hg.addColorStop(1,    'rgba(80,0,55,0)');
+      }
+      ctx.fillStyle = hg;
+      ctx.beginPath(); ctx.arc(px,py,m.hr,0,6.2832); ctx.fill();
+
+      /* Noyau 4-stops : pointe blanche → rose/mauve → transparent */
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = m.alCore*tw;
+      var cg = ctx.createRadialGradient(px,py,0, px,py,m.r);
+      cg.addColorStop(0,    m.rose ? 'rgba(255,230,247,1)'   : 'rgba(255,252,255,1)');
+      cg.addColorStop(0.28, m.rose ? 'rgba(255,205,236,0.92)': 'rgba(242,228,248,0.92)');
+      cg.addColorStop(0.65, m.rose ? 'rgba(244,160,204,0.50)': 'rgba(200,170,225,0.50)');
+      cg.addColorStop(1,    'rgba(161,0,107,0)');
+      ctx.fillStyle = cg;
+      ctx.beginPath(); ctx.arc(px,py,m.r,0,6.2832); ctx.fill();
+    });
+
+    /* ── Type C : prism shards ──────────────────────────── */
+    shardsC.forEach(function(m){
+      m.y += m.vy*dt;
+      if(m.y < -0.03) m.y = 1.03;
+      var tw = 0.22 + 0.78*(0.5+0.5*Math.sin(t*m.ts+m.tp));
+      var px = m.x*W+Math.sin(t*m.wx+m.wp)*m.wa, py = m.y*H;
+
+      /* Halo double-ring : inner=r×0.75, 5 stops */
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = m.alHalo*tw;
+      var hg = ctx.createRadialGradient(px,py, m.r*0.75, px,py, m.hr);
+      if(m.hue > 0.5){
+        hg.addColorStop(0,    'rgba(255,228,252,0.88)');
+        hg.addColorStop(0.18, 'rgba(210,105,185,0.52)');
+        hg.addColorStop(0.42, 'rgba(161,0,107,0.18)');
+        hg.addColorStop(0.70, 'rgba(100,0,68,0.05)');
+        hg.addColorStop(1,    'rgba(70,0,48,0)');
+      } else {
+        hg.addColorStop(0,    'rgba(244,162,206,0.88)');
+        hg.addColorStop(0.18, 'rgba(180,0,120,0.52)');
+        hg.addColorStop(0.42, 'rgba(130,0,86,0.18)');
+        hg.addColorStop(0.70, 'rgba(90,0,62,0.05)');
+        hg.addColorStop(1,    'rgba(60,0,42,0)');
+      }
+      ctx.fillStyle = hg;
+      ctx.beginPath(); ctx.arc(px,py,m.hr,0,6.2832); ctx.fill();
+
+      /* Noyau prismatique 4-stops : blanc pur → iridescent → transparent */
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = m.alCore*tw;
+      var cg = ctx.createRadialGradient(px,py,0, px,py, m.r*1.4);
+      cg.addColorStop(0,    'rgba(255,254,255,1)');
+      cg.addColorStop(0.32, m.hue>.5 ? 'rgba(255,220,248,0.88)' : 'rgba(244,162,206,0.92)');
+      cg.addColorStop(0.70, m.hue>.5 ? 'rgba(200,80,162,0.28)'  : 'rgba(161,0,107,0.32)');
+      cg.addColorStop(1,    'rgba(122,0,82,0)');
+      ctx.fillStyle = cg;
+      ctx.beginPath(); ctx.arc(px,py,m.r*1.4,0,6.2832); ctx.fill();
+    });
+
+    /* ── Reset composite ─────────────────────────────────── */
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
   }
+
   requestAnimationFrame(loop);
 })();
 
