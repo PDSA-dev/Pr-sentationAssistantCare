@@ -2020,20 +2020,32 @@ function getRBADAmount(delay){
 }
 
 function isBilletDirectOUIGOTGV(segments){
-  // Détecte Billet Direct avec OUIGO + TGV/Intercités
-  // Peu importe le nombre de passagers/tarifs différents créant plusieurs segments
-  var carriers=new Set();
-  var hasOUIGO=false, hasTGVOrIC=false;
+  // Détecte Billet Direct avec OUIGO + TGV/Intercités (avec ou sans TER)
+  // Référentiel Normes Voyage Back pp.63-67 : inclut le cas TGV+OUIGO+TER (RT 6970)
+  var hasOUIGO=false, hasTGVOrIC=false, hasAutre=false;
 
   for(var i=0;i<segments.length;i++){
     var c=segments[i].carrier;
-    carriers.add(c);
     if(c==="ouigo")hasOUIGO=true;
-    if(c==="tgv_dom"||c==="tgv_int"||c==="intercites")hasTGVOrIC=true;
+    else if(c==="tgv_dom"||c==="tgv_int"||c==="intercites")hasTGVOrIC=true;
+    else if(c==="ter"||c==="ter_zou"||c==="ter_krono"){}// TER autorisé dans le Billet Direct tri-segment
+    else hasAutre=true; // autre transporteur inconnu = hors périmètre
   }
 
-  // Billet Direct: OUIGO + TGV/IC comme SEULS transporteurs (pas d'autres)
-  return hasOUIGO && hasTGVOrIC && carriers.size===2;
+  // Billet Direct: OUIGO + TGV/IC (TER optionnel), pas d'autre transporteur
+  return hasOUIGO && hasTGVOrIC && !hasAutre;
+}
+
+function isBilletDirectWithTER(segments){
+  // Détecte spécifiquement le cas Billet Direct TGV+OUIGO+TER (3 composantes)
+  var hasOUIGO=false, hasTGVOrIC=false, hasTER=false;
+  for(var i=0;i<segments.length;i++){
+    var c=segments[i].carrier;
+    if(c==="ouigo")hasOUIGO=true;
+    else if(c==="tgv_dom"||c==="tgv_int"||c==="intercites")hasTGVOrIC=true;
+    else if(c==="ter"||c==="ter_zou"||c==="ter_krono")hasTER=true;
+  }
+  return hasOUIGO && hasTGVOrIC && hasTER;
 }
 
 function getBilletDirectRate(carrier,delay){
@@ -3431,10 +3443,12 @@ function sAddSegmentOrCalculate(){
   var hasTER_block=newSegs.some(function(s){return s.carrier==="ter"||s.carrier==="ter_zou"||s.carrier==="ter_krono";});
   var hasTGVIC_block=newSegs.some(function(s){return s.carrier==="tgv_dom"||s.carrier==="tgv_int"||s.carrier==="intercites";});
 
+  // TER + OUIGO SANS TGV/IC = hors périmètre CARE (Référentiel AV p.40)
+  // TER + OUIGO AVEC TGV/IC = Billet Direct tri-segment, couvert (RT 6970)
   if(hasOUIGO_block && hasTER_block && !hasTGVIC_block){
     var c=div("result-card");
     var warn=div("info-box amber");
-    warn.innerHTML="<div class='info-icon'><i data-lucide='alert-triangle'></i></div><div><strong>Transfert requis — TER + OUIGO</strong><br>Cette combinaison TER + OUIGO ne releve pas du perimetre CARE. La demande doit etre transferee manuellement dans la file : <em>Demandes BD30 manuelles TER-OUIGO</em>.</div>";
+    warn.innerHTML="<div class='info-icon'><i data-lucide='alert-triangle'></i></div><div><strong>Transfert requis — TER + OUIGO (sans TGV)</strong><br>Cette combinaison TER + OUIGO sans TGV/Intercités ne releve pas du perimetre CARE. La demande doit etre transferee manuellement dans la file : <em>Demandes BD30 manuelles TER-OUIGO</em>.<br><em>Note : si un segment TGV/Intercités est present, ce cas est traite comme Billet Direct (RT 6970).</em></div>";
     c.appendChild(warn);
     var acts=div("action-row");
     var btnHome=document.createElement("button");btnHome.className="act-btn secondary";btnHome.innerHTML="<i data-lucide='home'></i> Accueil";btnHome.onclick=confirmReset;
@@ -3828,15 +3842,7 @@ function getRTCode_retard(segments){
 
   if(segCount===1){
     // ── G30 : 1 segment ──────────────────────────────────────────────
-    if(hasPrime){
-      // RT 2397 qu'il y ait ou non une compensation exceptionnelle (Réf. AV p.28)
-      return"2397";
-    }
-    if(S.exceptionalIndemnity){
-      // Compensation exceptionnelle décidée par la Direction (Réf. AV p.26 + Normes Voyage Back p.18-19)
-      // Visible dans Angora — tous tarifs hors Prime
-      return"2046";
-    }
+    if(hasPrime)return"2397";          // Billet Prime titulaire / tiers FID/GVT
     if(hasTGVInt)return"2367";         // TGV international (filiale SNCF)
     return"2388";                       // Standard (incl. Max Loisirs/forfait)
   }
@@ -3845,12 +3851,18 @@ function getRTCode_retard(segments){
   if(hasGroupe)return"7321";           // Tarif Groupe
   if(S.exceptionalIndemnity)return"7211"; // Compensation exceptionnelle multi-seg
   if(isBilletDirectOUIGOTGV(segments)){
-    // Billet Direct OUIGO+TGV — RT selon retard final et retard OUIGO (ref. normes AV p.40)
+    // Billet Direct OUIGO+TGV (avec ou sans TER)
+    // Référentiel Normes AV p.40 + Normes Voyage Back pp.63-67
+    if(isBilletDirectWithTER(segments)){
+      // Cas TGV+OUIGO+TER : RT 6970 dans tous les cas
+      return"6970";
+    }
+    // Cas TGV+OUIGO sans TER : RT selon retard final et retard OUIGO
     if(S.delay>=60)return"6489";                              // Retard final ≥ 60 min
     if(S.ouigoDelay>=60&&S.delay<60)return"6373";            // OUIGO proactif ≥ 60, final < 60
     return"5828";                                             // Cas général 30–59 min
   }
-  if(hasTER)return"6970 / 6389";       // TER + TGV/INT
+  if(hasTER)return"6970 / 6389";       // TER + TGV/INT (sans OUIGO)
   return"5828";                         // TGV + TGV (standard BD30)
 }
 
@@ -3904,33 +3916,64 @@ function sResultRetard(){
       amt=0;points=null;displayAmt="Couvert par l'indemnisation exceptionnelle";mode="—";
     }
     else if(seg.tarif==="prime_tiers_seul"){
-      amt=getRBADAmount(S.delay);
-      displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
-      mode="BAD";
+      // TGV International : 30-59 min = aucune compensation
+      // Référentiel Normes Voyage Back p.22 — Tiers seul sur Int, 30-59 min
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)";
+        mode="—";
+      } else {
+        amt=getRBADAmount(S.delay);
+        displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
+        mode="BAD";
+      }
     }
     else if(seg.tarif==="prime_titulaire"){
-      var pt=getPointsInfo(S.delay);
-      if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
-      else{displayAmt="Aucune indemnisation";}
+      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—";
+      } else {
+        var pt=getPointsInfo(S.delay);
+        if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
+        else{displayAmt="Aucune indemnisation";}
+      }
     }
     else if(seg.tarif==="prime_fid_tiers"){
-      var pt=getPointsInfo(S.delay);
-      if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
-      else{displayAmt="0 points";}
-      amt=getRBADAmount(S.delay);
-      displayAmt+=" + "+amt+"€ (Tiers - BAD)";
-      mode="Points + BAD";
+      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+      } else {
+        var pt=getPointsInfo(S.delay);
+        if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
+        else{displayAmt="0 points";}
+        amt=getRBADAmount(S.delay);
+        displayAmt+=" + "+amt+"€ (Tiers - BAD)";
+        mode="Points + BAD";
+      }
     }
     else if(seg.tarif==="prime_gvt_tiers"){
-      var badAmt=getRBADAmount(S.delay);
-      amt=badAmt*2;
-      displayAmt=badAmt+"€ (GVT - BAD) + "+badAmt+"€ (Tiers - BAD)";
-      mode="BAD";
+      // TGV International : 30-59 min = aucune compensation
+      // Référentiel Normes Voyage Back p.22 — GVT + tiers sur Int, 30-59 min
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)";
+        mode="—";
+      } else {
+        var badAmt=getRBADAmount(S.delay);
+        amt=badAmt*2;
+        displayAmt=badAmt+"€ (GVT - BAD) + "+badAmt+"€ (Tiers - BAD)";
+        mode="BAD";
+      }
     }
     else if(seg.tarif==="prime_gvt_transitoire"){
-      amt=getRBADAmount(S.delay);
-      displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
-      mode="BAD";
+      // TGV International : 30-59 min = aucune compensation
+      // Référentiel Normes Voyage Back p.22 — GVT Transitoire sur Int, 30-59 min
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)";
+        mode="—";
+      } else {
+        amt=getRBADAmount(S.delay);
+        displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
+        mode="BAD";
+      }
     }
     // Règle générale: < 60 min = BAD seulement
     else if(S.delay<60){
@@ -4088,7 +4131,8 @@ function sResultRetard(){
     if(S.ouigoDelay){
       ouigoInfo="<br>• Retard OUIGO : "+S.ouigoDelay+" min (traité en proactif)";
     }
-    bdBox.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>Billet Direct OUIGO+TGV :</strong><br>• OUIGO traite en proactif le retard réel de ses trains"+ouigoInfo+"<br>• CARE complète l'indemnisation selon le retard final à destination<br>• Calcul selon le retard global (Pages 18-19 du référentiel)</div>";
+    var bdTERNote=isBilletDirectWithTER(segments)?"<br>• Segment TER inclus — RT 6970 (Normes Voyage Back pp.63-67)":"";
+    bdBox.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>Billet Direct OUIGO+TGV"+(isBilletDirectWithTER(segments)?"+TER":"")+" :</strong><br>• OUIGO traite en proactif le retard réel de ses trains"+ouigoInfo+"<br>• CARE complète l'indemnisation selon le retard final à destination<br>• Calcul selon le retard global (Référentiel AV p.40)"+bdTERNote+"</div>";
     c.appendChild(bdBox);
   }
 
@@ -4438,23 +4482,42 @@ function sResultFrais(){
       displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
       mode="BAD";
     }else if(seg.tarif==="prime_titulaire"){
-      var pt=getPointsInfo(S.delay);
-      if(pt){displayAmt=pt.points+" points Prime";}
-      else{displayAmt="Aucune indemnisation";}
-      amt=0;
+      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+      } else {
+        var pt=getPointsInfo(S.delay);
+        if(pt){displayAmt=pt.points+" points Prime";} else{displayAmt="Aucune indemnisation";}
+        amt=0;
+      }
     }else if(seg.tarif==="prime_fid_tiers"){
-      var pt=getPointsInfo(S.delay);
-      displayAmt=(pt?pt.points+" pts Prime":"0 pts")+" + "+getRBADAmount(S.delay)+"€ BAD";
-      amt=getRBADAmount(S.delay);
+      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+      } else {
+        var pt=getPointsInfo(S.delay);
+        displayAmt=(pt?pt.points+" pts Prime":"0 pts")+" + "+getRBADAmount(S.delay)+"€ BAD";
+        amt=getRBADAmount(S.delay);
+      }
     }else if(seg.tarif==="prime_gvt_tiers"){
-      var badAmt=getRBADAmount(S.delay);
-      amt=badAmt*2;
-      displayAmt=badAmt+"€ (GVT) + "+badAmt+"€ (Tiers) BAD";
-      mode="BAD";
+      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+      } else {
+        var badAmt=getRBADAmount(S.delay);
+        amt=badAmt*2;
+        displayAmt=badAmt+"€ (GVT) + "+badAmt+"€ (Tiers) BAD";
+        mode="BAD";
+      }
     }else if(seg.tarif==="prime_gvt_transitoire"){
-      amt=getRBADAmount(S.delay);
-      displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
-      mode="BAD";
+      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+      } else {
+        amt=getRBADAmount(S.delay);
+        displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
+        mode="BAD";
+      }
     }else if(S.delay<60){
       mode="BAD";
       amt=segAmt(seg.price,seg.tarif,ri);
@@ -4589,7 +4652,10 @@ function sResultFrais(){
       }else if(fd.montant!==undefined&&isPerPerson&&fd.nbPassUsed){
         capHtml="<div style='font-size:10px;color:var(--tx-muted);margin-top:3px;'>"+digipecBadge+"Facture "+fd.montant.toFixed(2)+"€ — plafond "+fd.maxPerPerson+"€/pass × "+fd.nbPassUsed+"</div>";
       }
-      item.innerHTML="<div style='flex:1;'><div style='font-weight:600;color:var(--tx);'>"+fd.type.label+"</div><div style='font-size:11px;color:var(--tx-muted);margin-top:2px;'>"+fd.type.note+"</div>"+capHtml+"</div><div style='text-align:right;'><div style='font-weight:700;color:var(--prune);font-size:14px;'>"+fd.finalAmt.toFixed(2)+"€</div></div>";
+      // Alerte DNV-DNIC : hébergement > 350€ (Référentiel AV p.54)
+      var isHotel=(fd.type.id==="hotel_province"||fd.type.id==="hotel_grande"||fd.type.id==="hotel_province_optimum"||fd.type.id==="hotel_grande_optimum");
+      var dnvAlert=isHotel&&fd.finalAmt>350?"<div style='font-size:10px;color:#991B1B;margin-top:3px;font-weight:700;'>⚠ Frais > 350€ — Se rapprocher du pôle AV avant traitement (DNV-DNIC requis)</div>":"";
+      item.innerHTML="<div style='flex:1;'><div style='font-weight:600;color:var(--tx);'>"+fd.type.label+"</div><div style='font-size:11px;color:var(--tx-muted);margin-top:2px;'>"+fd.type.note+"</div>"+capHtml+dnvAlert+"</div><div style='text-align:right;'><div style='font-weight:700;color:var(--prune);font-size:14px;'>"+fd.finalAmt.toFixed(2)+"€</div></div>";
       fraisBreakdown.appendChild(item);
     });
     c.appendChild(fraisBreakdown);
@@ -4838,7 +4904,7 @@ function sBareme(){
 
   // Header
   var hdr=div("");
-  hdr.innerHTML="<div style='font-size:14px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;'><i data-lucide='book-open' style='width:20px;height:20px;color:var(--prune);'></i>Barèmes & Règles — Référentiel PRR 2021 en vigueur au 02/03/2026. À titre informatif.</div>";
+  hdr.innerHTML="<div style='font-size:14px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;'><i data-lucide='book-open' style='width:20px;height:20px;color:var(--prune);'></i>Barèmes & Règles — Référentiel des Normes AV MAJ 27/04/2026. À titre informatif.</div>";
   c.appendChild(hdr);
 
   // Accordéons
@@ -5339,7 +5405,7 @@ function render(){
     });
   });
 
-  app.appendChild(div("footer","TGVCare Assistant • BD30/G30 • Calcul de conformité SNCF • v1.9.1"));
+  app.appendChild(div("footer","TGVCare Assistant • BD30/G30 • Calcul de conformité SNCF • v2.0"));
 
   if(window.lucide&&typeof lucide.createIcons==="function"){
     try{lucide.createIcons();}catch(e){}
