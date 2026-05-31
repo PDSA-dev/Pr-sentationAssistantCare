@@ -3573,7 +3573,7 @@ function sExceptionalIndemnity(){
       var inputRow1=div("");
       inputRow1.style.cssText="display:flex;gap:10px;align-items:center;";
       var inpPts=document.createElement("input");
-      inpPts.type="number";inpPts.min="0";inpPts.step="500";inpPts.value="0";inpPts.placeholder="Ex: 3000";
+      inpPts.type="number";inpPts.min="0";inpPts.step="500";inpPts.value="";inpPts.placeholder="Ex: 3 000";
       inpPts.style.cssText="flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface2);color:var(--tx);font-size:15px;";
       inpPts.id="prime-pts-input";
       var ptsLabel=div("");ptsLabel.textContent="pts";
@@ -3606,7 +3606,7 @@ function sExceptionalIndemnity(){
       var inputRow2=div("");
       inputRow2.style.cssText="display:flex;gap:10px;align-items:center;";
       var inpEur=document.createElement("input");
-      inpEur.type="number";inpEur.min="0";inpEur.step="0.01";inpEur.value="0";inpEur.placeholder="Ex: 7.50";
+      inpEur.type="number";inpEur.min="0";inpEur.step="0.01";inpEur.value="";inpEur.placeholder="Ex: 7,50";
       inpEur.style.cssText="flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface2);color:var(--tx);font-size:15px;";
       inpEur.id="prime-euros-input";
       var eurLabel=div("");eurLabel.textContent="€";
