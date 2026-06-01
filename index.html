@@ -182,12 +182,14 @@ html, body {
   margin-top:40px; animation:fadeUp 1.0s cubic-bezier(.22,1,.36,1) both 5.8s;
 }
 #s-intro .sncf-bar {
-  margin-top:48px; display:flex; align-items:center; gap:12px;
+  margin-top:48px; display:flex; align-items:center; justify-content:center; gap:12px;
   animation:fadeIn 1.0s cubic-bezier(.22,1,.36,1) both 6.4s;
 }
 .sncf-logo-pill {
+  display:inline-flex; align-items:center; flex-shrink:0;
   padding:5px 14px; border-radius:8px;
   background:var(--prune); font-size:13px; font-weight:800; letter-spacing:.5px; color:white;
+  line-height:1.4;
 }
 
 .particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; display:none; }
@@ -1882,7 +1884,7 @@ body::after {
 
 /* ═══ FULLSCREEN BUTTON ═══ */
 #btn-fs {
-  position:fixed; top:20px; right:20px; z-index:300;
+  position:fixed; top:20px; right:20px; z-index:10000;
   width:38px; height:38px; border-radius:50%;
   background:rgba(255,255,255,0.09); border:1px solid rgba(255,255,255,0.14);
   color:#fff; font-size:15px; cursor:pointer;
@@ -2378,8 +2380,70 @@ body::after {
 }
 #s-intro .tag-row { margin-top: 52px !important; gap: 14px !important; }
 #s-intro .badge   { font-size: 16px !important; padding: 10px 24px !important; }
-#s-intro .sncf-bar { margin-top: 60px !important; }
 #s-intro .logo-mark { margin-bottom: 44px !important; font-size: 28px !important; }
+
+/* ══ SNCF Attribution — composant premium ══ */
+#s-intro .sncf-bar {
+  margin-top: clamp(28px, 3.5vw, 48px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: clamp(9px, 1vw, 12px) !important;
+  flex-wrap: nowrap !important;
+  padding-top: 18px !important;
+  border-top: 1px solid rgba(255,255,255,0.065) !important;
+}
+
+/* Badge SNCF — taille optiquement cohérente avec le texte */
+#s-intro .sncf-bar .sncf-logo-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  padding: clamp(3px, 0.4vw, 4.5px) clamp(8px, 0.9vw, 11px) !important;
+  border-radius: 5px !important;
+  font-size: clamp(9px, 0.9vw, 10px) !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,0.96) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  /* Profondeur — gradient + highlight interne + micro-ombre */
+  background: linear-gradient(148deg, var(--prune) 0%, var(--prune-dk) 100%) !important;
+  border: 1px solid rgba(255,255,255,0.11) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    0 1px 4px rgba(0,0,0,0.32),
+    0 0 12px rgba(161,0,107,0.16) !important;
+  /* Correction optique : nudge minimal pour aligner avec x-height */
+  transform: translateY(-0.5px) !important;
+}
+
+/* Texte attribution */
+#s-intro .sncf-bar .sncf-bar-text {
+  font-size: clamp(11.5px, 1.2vw, 13px) !important;
+  font-weight: 400 !important;
+  color: rgba(238,238,248,0.56) !important;
+  letter-spacing: 0.05px !important;
+  line-height: 1.5 !important;
+  white-space: nowrap !important;
+}
+
+/* Responsive — tablette / mobile */
+@media (max-width: 640px) {
+  #s-intro .sncf-bar {
+    flex-direction: column !important;
+    gap: 8px !important;
+    padding-top: 14px !important;
+  }
+  #s-intro .sncf-bar .sncf-bar-text {
+    white-space: normal !important;
+    text-align: center !important;
+  }
+  #s-intro .sncf-bar .sncf-logo-pill {
+    transform: translateY(0) !important;
+  }
+}
 
 /* ── Scene 2 — Ancien (ONICS) ────────────────────────────── */
 #s-ancien .old-calc-wrap {
@@ -2736,6 +2800,196 @@ body::after {
   padding: 44px 42px !important;
 }
 
+/* ════════════════════════════════════════════════════════
+   STAND-BY — animations premium
+════════════════════════════════════════════════════════ */
+
+/* ── Keyframes partagés (réutilisés par .logo-mark en scène 1) ── */
+@keyframes logoReveal {
+  0%   { opacity:0; transform:translate3d(0,36px,0) scale3d(.78,.78,1); filter:blur(10px); }
+  52%  { opacity:.88; transform:translate3d(0,-5px,0) scale3d(1.03,1.03,1); filter:blur(0); }
+  76%  { opacity:.97; transform:translate3d(0,1px,0) scale3d(.996,.996,1); }
+  100% { opacity:1;  transform:translate3d(0,0,0) scale3d(1,1,1); filter:blur(0); }
+}
+@keyframes logoDrift {
+  0%,100% { transform:translateY(0) scale(1); }
+  35%     { transform:translateY(-10px) scale(1.012); }
+  70%     { transform:translateY(-5px) scale(1.006); }
+}
+
+/* ── Stand-by keyframes exclusifs ── */
+/* Logo entry cinématique */
+@keyframes sbLogoEntry {
+  0%   { opacity:0; transform:scale(0.92) translateY(10px); filter:blur(14px); }
+  55%  { filter:blur(2px); }
+  100% { opacity:1; transform:scale(1) translateY(0); filter:blur(0); }
+}
+/* Glow sphere — respiration lente */
+@keyframes sbGlowBreathe {
+  0%,100% { opacity:.58; transform:scale(1); }
+  35%     { opacity:.92; transform:scale(1.07); }
+  70%     { opacity:.68; transform:scale(1.03); }
+}
+/* Ombre au sol */
+@keyframes sbShadowPulse {
+  0%,100% { opacity:.58; }
+  50%     { opacity:.84; }
+}
+@keyframes sbCTAIn {
+  from { opacity:0; transform:translateY(16px) scale(.97); }
+  to   { opacity:1; transform:translateY(0)    scale(1); }
+}
+@keyframes sbPulse {
+  0%,100% { opacity:.65; }
+  50%     { opacity:1; }
+}
+@keyframes sbShimmer {
+  0%   { transform:translateX(-200%); }
+  100% { transform:translateX(450%); }
+}
+@keyframes sbFadeOut {
+  from { opacity:1; }
+  to   { opacity:0; }
+}
+/* Logo settle : s-intro logo passe de 210px-scale → 120px naturel */
+@keyframes sbLogoSettle {
+  0%   { transform:scale(1.75) translateY(-8px); opacity:.88; }
+  100% { transform:scale(1)    translateY(0);    opacity:1; }
+}
+
+/* ── Layout ── */
+#stand-by {
+  position:fixed; inset:0; z-index:9999;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:transparent; cursor:pointer; user-select:none;
+}
+#stand-by::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 85% 55% at 50% -8%, rgba(161,0,107,.20) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at  8% 95%, rgba(122,0,82,.15) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 35% at 92% 85%, rgba(161,0,107,.10) 0%, transparent 50%);
+}
+
+/* ── Scene container (hôte de perspective) ── */
+#sb-logo-wrap { margin-bottom:44px; position:relative; }
+#sb-scene {
+  position:relative;
+  width:320px; height:320px;
+  display:flex; align-items:center; justify-content:center;
+  perspective:900px; perspective-origin:50% 50%;
+}
+
+/* Glow sphere ambiant — bouge 2× plus que le logo (parallax) */
+#sb-glow-ring {
+  position:absolute; inset:-40px; border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,
+    rgba(161,0,107,.45) 0%,
+    rgba(161,0,107,.18) 38%,
+    rgba(122,0,82,.06)  58%,
+    transparent 72%
+  );
+  filter:blur(22px);
+  will-change:transform;
+  animation:sbGlowBreathe 11s ease-in-out infinite;
+  pointer-events:none; z-index:0;
+}
+
+/* Wrapper parallax — JS y applique rotateX/rotateY */
+#sb-parallax { transform-style:preserve-3d; will-change:transform; z-index:1; }
+
+/* Wrapper float — JS y applique le drift organique */
+#sb-float { will-change:transform; }
+
+/* Logo core — 210px avec entrée cinématique */
+#sb-logo-core {
+  position:relative; overflow:hidden;
+  width:210px !important; height:210px !important;
+  border-radius:50px !important; margin-bottom:0 !important;
+  animation:sbLogoEntry 2.2s cubic-bezier(0.16,1,0.3,1) both 0.15s !important;
+  will-change:transform,opacity,filter;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.52),
+    0 16px 48px rgba(0,0,0,.36),
+    0 32px 80px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.11) !important;
+}
+#sb-logo-core .logo-tgv  { font-size:52px !important; }
+#sb-logo-core .logo-care { font-size:20px !important; letter-spacing:3.5px !important; }
+
+/* Light pass — balayage lumineux studio (JS-driven) */
+#sb-light-pass {
+  position:absolute; top:0; left:0;
+  width:55%; height:100%;
+  background:linear-gradient(108deg,
+    transparent 0%,
+    rgba(255,255,255,.04) 35%,
+    rgba(255,255,255,.13) 50%,
+    rgba(255,255,255,.04) 65%,
+    transparent 100%
+  );
+  transform:translateX(-160%) skewX(-18deg);
+  opacity:0; pointer-events:none; z-index:2;
+}
+
+/* Ombre au sol — bouge à l'opposé du curseur */
+#sb-shadow {
+  position:absolute; bottom:36px; left:50%;
+  width:170px; height:30px;
+  transform:translate3d(-50%,0,0);
+  border-radius:50%;
+  background:radial-gradient(ellipse at center,
+    rgba(0,0,0,.60) 0%,
+    rgba(0,0,0,.18) 55%,
+    transparent 75%
+  );
+  filter:blur(11px);
+  will-change:transform,opacity;
+  animation:sbShadowPulse 11s ease-in-out infinite;
+  pointer-events:none; z-index:0;
+}
+
+/* ── CTA avec shimmer ── */
+#sb-cta {
+  position:relative; overflow:hidden;
+  padding:13px 38px; border-radius:100px;
+  border:1.5px solid rgba(244,160,204,.35);
+  background:rgba(161,0,107,.07);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  font-size:11.5px; font-weight:600; letter-spacing:3.5px;
+  text-transform:uppercase; color:#F4A0CC; white-space:nowrap;
+  opacity:0;
+  animation:
+    sbCTAIn  1s    cubic-bezier(.23,1,.32,1) both 2.5s,
+    sbPulse  3.2s  4.2s ease-in-out infinite;
+}
+#sb-cta::after {
+  content:''; position:absolute; top:0; bottom:0; left:0; width:45%;
+  background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.22) 50%, transparent 100%);
+  transform:translateX(-200%);
+  animation:sbShimmer 4s 5.5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+/* ── Dismiss ── */
+#stand-by.dismissing {
+  animation:sbFadeOut 1.1s cubic-bezier(.4,0,.6,1) both;
+  pointer-events:none;
+}
+
+/* ── Masque nav / progress pendant le stand-by ── */
+body.sb-mode #progress-bar,
+body.sb-mode #scene-idx,
+body.sb-mode #nav {
+  opacity:0 !important; pointer-events:none; transition:opacity .6s ease;
+}
+
+/* ── s-intro : scène entière invisible pendant le stand-by ── */
+#s-intro.sb-holding {
+  opacity:0 !important;
+  pointer-events:none;
+}
+
 </style>
 </head>
 <body>
@@ -2743,8 +2997,30 @@ body::after {
 <div class="bg-ambient"></div>
 <div id="pres">
 
+<!-- ══════════════════ STAND-BY SCREEN ══════════════════ -->
+<div id="stand-by" role="button" tabindex="0" aria-label="Cliquez pour commencer la présentation">
+  <div id="sb-logo-wrap">
+    <div id="sb-scene">
+      <div id="sb-glow-ring"></div>
+      <div id="sb-parallax">
+        <div id="sb-float">
+          <div id="sb-logo-core" class="logo-mark">
+            <div id="sb-light-pass"></div>
+            <div class="logo-inner">
+              <span class="logo-tgv">TGV</span>
+              <span class="logo-care">CARE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sb-shadow"></div>
+    </div>
+  </div>
+  <div id="sb-cta">Cliquez pour commencer la présentation</div>
+</div>
+
 <!-- ══════════════════ SCENE 1 - INTRO ══════════════════ -->
-<div class="scene active" id="s-intro">
+<div class="scene active sb-holding" id="s-intro">
   <div class="particles" id="particles"></div>
   <div class="logo-mark">
     <div class="logo-inner">
@@ -2762,7 +3038,7 @@ body::after {
   </div>
   <div class="sncf-bar">
     <span class="sncf-logo-pill">SNCF</span>
-    <span class="sub" style="font-size:12px;">Service Relation Client TGV Care · Outil métier interne</span>
+    <span class="sncf-bar-text">Service Relation Client TGV Care · Outil métier interne</span>
   </div>
 </div>
 
@@ -2897,7 +3173,7 @@ body::after {
 <div class="scene" id="s-transition">
   <div class="transition-ring">✦</div>
   <div class="h1" style="font-size:clamp(26px,4vw,50px);animation-delay:.5s;">Deux outils complémentaires - pas substituables</div>
-  <div class="sub" style="margin-top:12px;text-align:center;animation:fadeUp .8s ease both 1s;">BD30Assistant intervient en amont ou en parallèle d'ONICS - jamais à sa place</div>
+  <div class="sub" style="margin-top:12px;text-align:center;animation:fadeUp .8s ease both 1s;">BD30Assistant intervient en amont ou en parallèle d'ONICS</div>
   <div class="accent-line"></div>
 </div>
 
@@ -3772,11 +4048,251 @@ btnP.addEventListener('click',function(){
 btnN.addEventListener('click',function(){clearTimeout(timer);goto(cur+1);});
 btnPr.addEventListener('click',function(){clearTimeout(timer);goto(cur-1);});
 document.addEventListener('keydown',function(e){
+  if(document.getElementById('stand-by'))return;
   if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();clearTimeout(timer);goto(cur+1);}
   if(e.key==='ArrowLeft'){e.preventDefault();clearTimeout(timer);goto(cur-1);}
 });
 
-goto(0);
+/* ── Stand-by ── */
+(function(){
+  var sb    = document.getElementById('stand-by');
+  var intro = document.getElementById('s-intro');
+  if(!sb) return;
+
+  document.body.classList.add('sb-mode');
+  cur = 0;
+  sidx.textContent = '1 / ' + SCENES.length;
+
+  var logo = intro ? intro.querySelector(':scope > .logo-mark') : null;
+  var rest = intro
+    ? Array.prototype.slice.call(
+        intro.querySelectorAll(':scope > *:not(.logo-mark):not(.particles)')
+      )
+    : [];
+
+  function launch(){
+    if(sb.classList.contains('dismissing')) return;
+
+    /* 1 ─ Geler logo + éléments AVANT de retirer sb-holding (évite le flash) */
+    if(logo){
+      logo.style.opacity    = '0';
+      logo.style.animation  = 'none';
+      logo.style.transition = 'none';
+    }
+    rest.forEach(function(el){
+      el.style.opacity    = '0';
+      el.style.transform  = 'translateY(22px)';
+      el.style.transition = 'none';
+      el.style.animation  = 'none'; /* désactive fill-mode des animations originales */
+    });
+
+    /* 2 ─ Maintenant on peut retirer sb-holding sans flash */
+    if(intro) intro.classList.remove('sb-holding');
+
+    /* 3 ─ Libère la nav */
+    document.body.classList.remove('sb-mode');
+
+    /* 4 ─ Fade-out du stand-by (1.1s) */
+    sb.classList.add('dismissing');
+    var sbDone = false;
+    function removeSb(){
+      if(sbDone) return; sbDone = true;
+      if(sb.parentNode) sb.parentNode.removeChild(sb);
+    }
+    sb.addEventListener('animationend', removeSb, {once:true});
+    setTimeout(removeSb, 1400);
+
+    /* 5 ─ Reflow puis animations séquentielles :
+          logo seul d'abord, puis chaque ligne l'une après l'autre */
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+
+        /* Logo : efface l'inline opacity:0 avant de lancer sbLogoSettle
+           (sinon l'inline style écrase la valeur de l'animation) */
+        if(logo){
+          logo.style.opacity    = '';
+          logo.style.transition = '';
+          logo.style.animation  =
+            'sbLogoSettle 1.0s cubic-bezier(.23,1,.32,1) both,' +
+            'logoDrift 7s 1.05s ease-in-out infinite,' +
+            'glowPulse 6s 1.10s ease-in-out infinite';
+        }
+
+        /* Chaque élément démarre quand le précédent est presque terminé :
+           base 1000ms (logo settle), puis 650ms de stagger */
+        rest.forEach(function(el, i){
+          setTimeout(function(){
+            el.style.transition = 'opacity 0.85s cubic-bezier(.23,1,.32,1), transform 0.85s cubic-bezier(.23,1,.32,1)';
+            el.style.opacity    = '1';
+            el.style.transform  = 'translateY(0)';
+          }, 1000 + i * 650);
+        });
+      });
+    });
+
+    /* 6 ─ Cleanup : GARDE animation:none + opacity:1 intentionnellement
+          (restaurer animation:'' relancerait fill-mode:both avec délais 5-6s
+           → les éléments disparaîtraient à nouveau) */
+    var totalMs = 1000 + rest.length * 650 + 950;
+    setTimeout(function(){
+      if(logo){
+        logo.style.transition = '';
+        logo.style.animation  = 'logoDrift 7s ease-in-out infinite, glowPulse 6s ease-in-out infinite';
+      }
+      rest.forEach(function(el){
+        el.style.transition = '';
+        el.style.transform  = '';
+        /* animation reste 'none', opacity reste '1' — intentionnel */
+      });
+      onEnter(0);
+      if(playing) schedNext();
+      startProg();
+    }, totalMs);
+  }
+
+  sb.addEventListener('click', launch);
+  document.addEventListener('keydown', function(e){
+    if(!document.getElementById('stand-by')) return;
+    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); launch(); }
+  });
+})();
+
+/* ════════════════════════════════════════════════════════
+   STAND-BY MOTION SYSTEM
+   Float organique · Parallax 3D · Glow · Light pass
+════════════════════════════════════════════════════════ */
+(function initSBMotion(){
+  var sb        = document.getElementById('stand-by');
+  if(!sb) return;
+
+  var parallax  = document.getElementById('sb-parallax');
+  var floatEl   = document.getElementById('sb-float');
+  var glowRing  = document.getElementById('sb-glow-ring');
+  var shadowEl  = document.getElementById('sb-shadow');
+  var lightPass = document.getElementById('sb-light-pass');
+  if(!parallax || !floatEl) return;
+
+  var reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ── Input state ── */
+  var txT=0, tyT=0, tx=0, ty=0;  // target / current (lerped)
+
+  function onPointer(nx,ny){
+    txT = Math.max(-1,Math.min(1,nx));
+    tyT = Math.max(-1,Math.min(1,ny));
+  }
+  document.addEventListener('mousemove',function(e){
+    if(reduced)return;
+    onPointer((e.clientX/window.innerWidth -.5)*2,
+              (e.clientY/window.innerHeight-.5)*2);
+  });
+  document.addEventListener('touchmove',function(e){
+    if(reduced||!e.touches.length)return;
+    onPointer((e.touches[0].clientX/window.innerWidth -.5)*2,
+              (e.touches[0].clientY/window.innerHeight-.5)*2);
+  },{passive:true});
+  if(window.DeviceOrientationEvent){
+    window.addEventListener('deviceorientation',function(e){
+      if(reduced||e.gamma===null||e.beta===null)return;
+      onPointer(e.gamma/18, (e.beta-45)/28);
+    });
+  }
+
+  /* ── Ambient light pass ── */
+  var lpActive=false;
+  function scheduleLightPass(){
+    if(!document.getElementById('stand-by'))return;
+    setTimeout(function(){
+      if(!document.getElementById('stand-by')||lpActive||reduced)return;
+      lpActive=true;
+      lightPass.style.transition='none';
+      lightPass.style.transform ='translateX(-160%) skewX(-18deg)';
+      lightPass.style.opacity   ='0';
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          lightPass.style.transition='transform 2.8s cubic-bezier(.25,.46,.45,.94),opacity .5s ease';
+          lightPass.style.transform ='translateX(175%) skewX(-18deg)';
+          lightPass.style.opacity   ='1';
+          setTimeout(function(){
+            lightPass.style.transition='opacity .8s ease';
+            lightPass.style.opacity   ='0';
+            setTimeout(function(){ lpActive=false; scheduleLightPass(); },900);
+          },1900);
+        });
+      });
+    }, 6000+Math.random()*10000);
+  }
+
+  /* ── Animation loop ── */
+  var t=0, lastNow=performance.now(), raf;
+
+  function tick(now){
+    if(!document.getElementById('stand-by')){ cancelAnimationFrame(raf); return; }
+    raf=requestAnimationFrame(tick);
+
+    var dt=Math.min((now-lastNow)*.001,.05);
+    lastNow=now; t+=dt;
+
+    /* Lerp mouse — vitesse plus lente = sensation de masse/inertie */
+    var lr=reduced?1:.036;
+    tx+=(txT-tx)*lr;
+    ty+=(tyT-ty)*lr;
+
+    /* Float organique — 3 fréquences incommensurables */
+    var fy=reduced?0:
+      Math.sin(t*.38)       *2.8+
+      Math.sin(t*.67+1.13)  *1.1+
+      Math.sin(t*.23+2.71)  *.7;
+    var fx=reduced?0:
+      Math.sin(t*.29+.78)   *.5+
+      Math.sin(t*.53+1.57)  *.25;
+
+    /* Micro-scale breathe (respiration) */
+    var bs=reduced?1:
+      1+Math.sin(t*.22)*.007+Math.sin(t*.43)*.003;
+
+    /* Tilt 3D — parallax souris */
+    var px=reduced?0:tx*7;
+    var py=reduced?0:ty*4;
+    var rx=reduced?0:-ty*2.5;
+    var ry=reduced?0: tx*3.5;
+
+    /* Apply — GPU only (transform) */
+    floatEl.style.transform=
+      'translate3d('+fx.toFixed(3)+'px,'+fy.toFixed(3)+'px,0)'+
+      ' scale('+bs.toFixed(5)+')';
+
+    parallax.style.transform=
+      'translate3d('+px.toFixed(3)+'px,'+py.toFixed(3)+'px,0)'+
+      ' rotateX('+rx.toFixed(3)+'deg)'+
+      ' rotateY('+ry.toFixed(3)+'deg)';
+
+    /* Glow — bouge plus (profondeur) */
+    if(glowRing){
+      var gx=reduced?0:tx*15;
+      var gy=reduced?0:ty*10;
+      var gs=1+Math.sin(t*.18)*.055+Math.sin(t*.31)*.025;
+      glowRing.style.transform=
+        'translate3d('+gx.toFixed(3)+'px,'+gy.toFixed(3)+'px,0)'+
+        ' scale('+gs.toFixed(4)+')';
+    }
+
+    /* Shadow — déplacement inverse + suit légèrement le float */
+    if(shadowEl){
+      var sx=reduced?0:tx*6;
+      var sxScale=reduced?1:1+tx*.06;
+      var shadowY=reduced?0:fy*.22;
+      shadowEl.style.transform=
+        'translate3d(calc(-50% + '+sx.toFixed(3)+'px),'+shadowY.toFixed(3)+'px,0)'+
+        ' scaleX('+sxScale.toFixed(4)+')';
+      var sOp=reduced?.70:Math.max(.30,Math.min(.90,.75-fy*.035));
+      shadowEl.style.opacity=sOp.toFixed(3);
+    }
+  }
+
+  raf=requestAnimationFrame(tick);
+  if(!reduced) scheduleLightPass();
+})();
 
 /* ── Mouse parallax (CSS vars) ── */
 (function(){
