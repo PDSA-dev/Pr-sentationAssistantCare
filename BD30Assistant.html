@@ -3559,12 +3559,18 @@ function sExceptionalIndemnity(){
   var nbVoy=selectedGroup.length;
   var carrierLabel=getCarrierLabel(selectedGroup[0].carrier);
 
-  // Détecter si le groupe est de type Prime
-  var isPrimeGroup=selectedGroup.every(function(s){return PRIME_TARIFS.indexOf(s.tarif)>=0;});
+  // Détecter si le groupe contient au moins un Prime
+  var primeSegs=selectedGroup.filter(function(s){return PRIME_TARIFS.indexOf(s.tarif)>=0;});
+  var stdSegs=selectedGroup.filter(function(s){return PRIME_TARIFS.indexOf(s.tarif)<0;});
+  var isPrimeGroup=primeSegs.length>0;
+  var isMixedGroup=primeSegs.length>0&&stdSegs.length>0;
 
-  // ── CAS PRIME ─────────────────────────────────────────────────────────────
+  // ── CAS PRIME (pur ou mixte) ───────────────────────────────────────────────
   if(isPrimeGroup){
-    var firstTarif=selectedGroup[0].tarif;
+    var firstTarif=primeSegs[0].tarif;
+    var nbPrime=primeSegs.length;
+    var nbStd=stdSegs.length;
+    var stdTotalPrice=stdSegs.reduce(function(sum,s){return sum+s.price;},0);
 
     // Étape 2b : saisie points + euros du billet Prime par voyageur
     // On utilise un objet {pts, euros} stocké dans exceptionalPrimeEuros
@@ -3574,10 +3580,11 @@ function sExceptionalIndemnity(){
 
       var infoBox=div("info-box amber");
       infoBox.style.marginBottom="16px";
-      infoBox.innerHTML="<div class='info-icon'><i data-lucide='star'></i></div><div>"
-        +"<strong>Billet Prime: compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageurs)":"")+"<br>"
-        +"<span style='font-size:12px;color:var(--tx-muted);'>Le % s’applique directement sur les points et euros du billet (page 19 Normes Voyage Back): le barème G30 ne s’applique pas.</span>"
-        +"</div>";
+      var mixedNote=isMixedGroup?"<br><span style=’font-size:11px;color:var(--prune);font-weight:600;’>Groupe mixte: saisir les données du billet Prime uniquement ("+nbPrime+" voy. Prime). Les "+nbStd+" passager(s) standard seront calculés au même % sur leur prix billet.</span>":"";
+      infoBox.innerHTML="<div class=’info-icon’><i data-lucide=’star’></i></div><div>"
+        +"<strong>Billet Prime: compensation exceptionnelle</strong>"+(nbPrime>1?" ("+nbPrime+" voy. Prime)":"")+"<br>"
+        +"<span style=’font-size:12px;color:var(--tx-muted);’>Le % s’applique directement sur les points et euros du billet (page 19 Normes Voyage Back): le barème G30 ne s’applique pas.</span>"
+        +mixedNote+"</div>";
       wrap.appendChild(infoBox);
 
       // Champ 1 : points du billet
@@ -3660,13 +3667,13 @@ function sExceptionalIndemnity(){
     var eurosPerPax=primeData.eur||0;
 
     function calcPrime(rate){
-      // Points réels du billet × % (pas le barème G30)
+      // Points réels du billet Prime × % (pas le barème G30)
       var ptsResultPerPax=Math.round(ptsPerPax*(rate/100));
-      var ptsTotal=ptsResultPerPax*nbVoy;
-      // Euros billet × %
+      var ptsTotal=ptsResultPerPax*nbPrime;
+      // Euros billet Prime × %
       var eurosResultPerPax=parseFloat((eurosPerPax*(rate/100)).toFixed(2));
-      var eurosTotal=parseFloat((eurosResultPerPax*nbVoy).toFixed(2));
-      // BAD tiers/GVT : barème × % (ces montants ne sont pas achetés, ils sont réglementaires)
+      var eurosTotal=parseFloat((eurosResultPerPax*nbPrime).toFixed(2));
+      // BAD tiers/GVT : barème × %
       var badBase=getRBADAmount(S.delay);
       var badTiersPerPax=0;
       if(firstTarif==="prime_gvt_tiers"){
@@ -3674,17 +3681,20 @@ function sExceptionalIndemnity(){
       }else if(firstTarif==="prime_fid_tiers"||firstTarif==="prime_tiers_seul"||firstTarif==="prime_gvt_transitoire"){
         badTiersPerPax=parseFloat((badBase*(rate/100)).toFixed(2));
       }
-      var badTiersTotal=parseFloat((badTiersPerPax*nbVoy).toFixed(2));
-      var totalEuros=parseFloat((eurosTotal+badTiersTotal).toFixed(2));
-      return{ptsTotal:ptsTotal,ptsPerPax:ptsResultPerPax,eurosTotal:eurosTotal,badTiersTotal:badTiersTotal,totalEuros:totalEuros};
+      var badTiersTotal=parseFloat((badTiersPerPax*nbPrime).toFixed(2));
+      // Passagers standard dans le groupe mixte : % sur leur prix billet
+      var stdCompensation=isMixedGroup?parseFloat((stdTotalPrice*(rate/100)).toFixed(2)):0;
+      var totalEuros=parseFloat((eurosTotal+badTiersTotal+stdCompensation).toFixed(2));
+      return{ptsTotal:ptsTotal,ptsPerPax:ptsResultPerPax,eurosTotal:eurosTotal,badTiersTotal:badTiersTotal,stdCompensation:stdCompensation,totalEuros:totalEuros};
     }
 
     function makeDescPrime(rate){
       var r=calcPrime(rate);
       var parts=[];
-      if(r.ptsTotal>0) parts.push(r.ptsTotal+" pts Prime"+(nbVoy>1?" ("+r.ptsPerPax+"×"+nbVoy+" voy)":""));
+      if(r.ptsTotal>0) parts.push(r.ptsTotal+" pts Prime"+(nbPrime>1?" ("+r.ptsPerPax+"×"+nbPrime+" voy)":""));
       if(r.eurosTotal>0) parts.push(r.eurosTotal.toFixed(2)+"€ BAD (billet)");
       if(r.badTiersTotal>0) parts.push(r.badTiersTotal.toFixed(2)+"€ BAD (tiers/GVT)");
+      if(r.stdCompensation>0) parts.push(r.stdCompensation.toFixed(2)+"€ ("+nbStd+" pass. standard)");
       return parts.length?parts.join(" + "):"Aucune indemnisation";
     }
 
@@ -3694,17 +3704,19 @@ function sExceptionalIndemnity(){
         exceptionalIndemnity:{
           groupId:S.selectedTGVForException,segmentIds:segIds,
           rate:rate,amount:r.totalEuros,
-          totalPrice:eurosPerPax*nbVoy,
+          totalPrice:eurosPerPax*nbPrime,
           primePoints:r.ptsTotal,primeEuros:r.eurosTotal,
           primeBadTiers:r.badTiersTotal,isPrime:true,
+          stdCompensation:r.stdCompensation,nbStd:nbStd,
           primeInputPts:ptsPerPax,primeInputEur:eurosPerPax
         },
         exceptionalPrimeEuros:null,selectedTGVForException:null,step:"result_retard"
       });
     }
 
-    var subtitle="Billet Prime"+(nbVoy>1?": "+nbVoy+" voyageurs":"")+
-      " : "+ptsPerPax.toLocaleString("fr-FR")+" pts"+(eurosPerPax>0?" + "+eurosPerPax+"€":"")+"/voy (retard "+S.delay+" min)";
+    var subtitle="Billet Prime"+(nbPrime>1?": "+nbPrime+" voy. Prime":"")+
+      (isMixedGroup?" + "+nbStd+" standard":"")+
+      " : "+ptsPerPax.toLocaleString("fr-FR")+" pts"+(eurosPerPax>0?" + "+eurosPerPax+"€":"")+"/voy Prime (retard "+S.delay+" min)";
     return card("% Compensation exceptionnelle (Prime)",subtitle,renderOpts([
       {icon:"<i data-lucide='percent'></i>",label:"100%",desc:makeDescPrime(100),cb:function(){applyPrime(100);}},
       {icon:"<i data-lucide='percent'></i>",label:"150%",desc:makeDescPrime(150),cb:function(){applyPrime(150);}},
@@ -3714,19 +3726,26 @@ function sExceptionalIndemnity(){
   }
 
   // ── CAS MAX / FORFAIT ────────────────────────────────────────────────────
-  var isMaxGroup=selectedGroup.every(function(s){return s.tarif==="max_loisirs";});
+  var maxSegs=selectedGroup.filter(function(s){return s.tarif==="max_loisirs";});
+  var maxStdSegs=selectedGroup.filter(function(s){return s.tarif!=="max_loisirs";});
+  var isMaxGroup=maxSegs.length>0;
+  var isMaxMixed=maxSegs.length>0&&maxStdSegs.length>0;
+  var nbMax=maxSegs.length;
+  var nbMaxStd=maxStdSegs.length;
+  var maxStdTotalPrice=maxStdSegs.reduce(function(sum,s){return sum+s.price;},0);
 
   if(isMaxGroup){
-    // Saisie du montant fixe ANGORA (€/voyageur)
+    // Saisie du montant fixe ANGORA (€/voyageur Max)
     if(!S.exceptionalMaxAmt&&S.exceptionalMaxAmt!==0){
       var wrapMax=div("");
 
       var infoBoxMax=div("info-box amber");
       infoBoxMax.style.marginBottom="16px";
+      var mixedMaxNote=isMaxMixed?"<br><span style='font-size:11px;color:var(--prune);font-weight:600;'>Groupe mixte: "+nbMax+" voy. Max/Forfait + "+nbMaxStd+" standard. Montant ANGORA pour les Max uniquement.</span>":"";
       infoBoxMax.innerHTML="<div class='info-icon'><i data-lucide='zap'></i></div><div>"
-        +"<strong>Abonnés Max / Forfait: compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageur"+(nbVoy>1?"s":"")+")":" ")+"<br>"
-        +"<span style='font-size:12px;color:var(--tx-muted);'>Saisir le montant indiqué dans ANGORA (montant fixe par voyageur): remplace le barème G30 (5/10/20 €)</span>"
-        +"</div>";
+        +"<strong>Abonnés Max / Forfait: compensation exceptionnelle</strong>"+(nbMax>1?" ("+nbMax+" voy. Max)":" ")+"<br>"
+        +"<span style='font-size:12px;color:var(--tx-muted);'>Saisir le montant indiqué dans ANGORA (montant fixe par voyageur Max): remplace le barème G30 (5/10/20 €)</span>"
+        +mixedMaxNote+"</div>";
       wrapMax.appendChild(infoBoxMax);
 
       var inputRowMax=div("");
@@ -3776,14 +3795,16 @@ function sExceptionalIndemnity(){
 
     // Montant saisi → appliquer
     var maxAmtPerPax=S.exceptionalMaxAmt||0;
-    var maxAmtTotal=parseFloat((maxAmtPerPax*nbVoy).toFixed(2));
-    var maxDesc=maxAmtPerPax+"€ BAD"+(nbVoy>1?" × "+nbVoy+" voy = "+maxAmtTotal.toFixed(2)+"€":"");
+    var maxAmtTotal=parseFloat((maxAmtPerPax*nbMax).toFixed(2));
+    // Passagers standard dans le groupe mixte: compensation séparée (à calculer)
+    var maxStdComp=isMaxMixed?parseFloat((maxStdTotalPrice*0).toFixed(2)):0; // Standard non couverts par exceptionnel Max
+    var maxDesc=maxAmtPerPax+"€ BAD"+(nbMax>1?" × "+nbMax+" voy. Max = "+maxAmtTotal.toFixed(2)+"€":"")+(isMaxMixed?" + "+nbMaxStd+" standard (barème G30)":"");
     set({
       exceptionalIndemnity:{
-        groupId:S.selectedTGVForException,segmentIds:segIds,
+        groupId:S.selectedTGVForException,segmentIds:maxSegs.map(function(s){return s.id;}),
         rate:null,amount:maxAmtTotal,
         totalPrice:0,isMax:true,
-        maxAmtPerPax:maxAmtPerPax,nbVoy:nbVoy
+        maxAmtPerPax:maxAmtPerPax,nbVoy:nbMax,isMaxMixed:isMaxMixed,nbMaxStd:nbMaxStd
       },
       exceptionalMaxAmt:null,selectedTGVForException:null,step:"result_retard"
     });
@@ -4060,7 +4081,7 @@ function sResultRetard(){
       var maxDisplay=maxPax.toFixed(2)+"€ BAD/voy"+(maxNbv>1?" × "+maxNbv+" = "+S.exceptionalIndemnity.amount.toFixed(2)+"€":"");
       allDetails.push({
         idx:-1,
-        carrier:exCarrier+" (EXCEPTIONNEL MAX)"+(maxNbv>1?": "+maxNbv+" voyageurs":""),
+        carrier:exCarrier+" (EXCEPTIONNEL MAX)"+(maxNbv>1?": "+maxNbv+" voy. Max":"")+(S.exceptionalIndemnity.isMaxMixed?" + "+S.exceptionalIndemnity.nbMaxStd+" standard (G30)":""),
         tarif:"Indemnisation exceptionnelle",
         price:0,rate:null,fix:null,
         mode:"BAD",
@@ -4069,15 +4090,16 @@ function sResultRetard(){
         displayAmt:maxDisplay
       });
     }else if(S.exceptionalIndemnity.isPrime){
-      // Cas Prime : affichage points + euros
+      // Cas Prime (pur ou mixte) : affichage points + euros + pass. standard
       var parts=[];
       if(S.exceptionalIndemnity.primePoints>0) parts.push(S.exceptionalIndemnity.primePoints+" pts Prime");
       if(S.exceptionalIndemnity.primeEuros>0) parts.push(S.exceptionalIndemnity.primeEuros.toFixed(2)+"€ BAD (billet)");
       if(S.exceptionalIndemnity.primeBadTiers>0) parts.push(S.exceptionalIndemnity.primeBadTiers.toFixed(2)+"€ BAD (tiers/GVT)");
+      if(S.exceptionalIndemnity.stdCompensation>0) parts.push(S.exceptionalIndemnity.stdCompensation.toFixed(2)+"€ ("+S.exceptionalIndemnity.nbStd+" pass. standard)");
       var excDisplay=S.exceptionalIndemnity.rate+"% exceptionnel : "+parts.join(" + ");
       allDetails.push({
         idx:-1,
-        carrier:exCarrier+" (EXCEPTIONNEL PRIME)"+(exNbVoy>1?": "+exNbVoy+" voyageurs":""),
+        carrier:exCarrier+" (EXCEPTIONNEL PRIME)"+(exNbVoy>1?": "+exNbVoy+" voy.":""),
         tarif:"Indemnisation exceptionnelle",
         price:exTotalPrice,
         rate:S.exceptionalIndemnity.rate,
@@ -4657,6 +4679,7 @@ function sResultFrais(){
       if(S.exceptionalIndemnity.primePoints>0) parts2.push(S.exceptionalIndemnity.primePoints+" pts Prime");
       if(S.exceptionalIndemnity.primeEuros>0) parts2.push(S.exceptionalIndemnity.primeEuros.toFixed(2)+"€ BAD (billet)");
       if(S.exceptionalIndemnity.primeBadTiers>0) parts2.push(S.exceptionalIndemnity.primeBadTiers.toFixed(2)+"€ BAD (tiers/GVT)");
+      if(S.exceptionalIndemnity.stdCompensation>0) parts2.push(S.exceptionalIndemnity.stdCompensation.toFixed(2)+"€ ("+S.exceptionalIndemnity.nbStd+" pass. standard)");
       allDetailsRetard.push({
         carrier:exCarrier2+" (EXCEPTIONNEL PRIME)"+(exNbVoy2>1?": "+exNbVoy2+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
@@ -4762,9 +4785,36 @@ function sResultFrais(){
 
     var parts = [];
 
-    // --- Segments éligibles ---
+    // --- Indemnisation exceptionnelle en premier ---
+    if(S.exceptionalIndemnity){
+      var ex=S.exceptionalIndemnity;
+      var exIds=ex.segmentIds||[ex.segmentId];
+      var exSegs=S.segments.filter(function(s){return exIds.indexOf(s.id)>=0;});
+      var exCarrier=exSegs.length?getCarrierLabel(exSegs[0].carrier):"TGV INOUI";
+      var exNbv=ex.nbVoy||exSegs.length||1;
+      var exLabel=exCarrier+(ex.isMax?" (EXCEPTIONNEL MAX)":ex.isPrime?" (EXCEPTIONNEL PRIME)":" (COMPLÉMENT)")+(exNbv>1?": "+exNbv+" voy":"");
+      var exPart="";
+      if(ex.isMax){
+        var maxPax=ex.maxAmtPerPax||0;
+        exPart=exLabel+": "+maxPax.toFixed(2)+"€ BAD"+(exNbv>1?" x"+exNbv+" = "+ex.amount.toFixed(2)+"€":"");
+      }else if(ex.isPrime){
+        var pParts=[];
+        if(ex.primePoints>0)pParts.push(ex.primePoints+"pts");
+        if(ex.primeEuros>0)pParts.push(ex.primeEuros.toFixed(2)+"€ BAD billet");
+        if(ex.primeBadTiers>0)pParts.push(ex.primeBadTiers.toFixed(2)+"€ BAD tiers");
+        exPart=exLabel+": "+ex.rate+"% = "+pParts.join(" + ");
+      }else{
+        exPart=exLabel+": "+ex.rate+"% = "+ex.amount.toFixed(2)+"€";
+      }
+      parts.push(exPart);
+    }
+
+    // --- Segments éligibles (hors couverts par exceptionnel) ---
+    var coveredIds=S.exceptionalIndemnity?(S.exceptionalIndemnity.segmentIds||[S.exceptionalIndemnity.segmentId]).filter(function(id){return S.exceptionalIndemnity.isMax||S.exceptionalIndemnity.isPrime;}):[]; // Pour isMax/isPrime les segments sont neutralisés
     S.segments.forEach(function(seg){
       if(!seg.elig) return;
+      // Ignorer les segments couverts par un exceptionnel isMax ou isPrime
+      if(coveredIds.indexOf(seg.id)>=0) return;
       var needsName=TARIFS_AVEC_NOM.indexOf(seg.tarif)>=0;
       var tarifLabel=getTarifObj(seg.tarif).label;
       var carrierLabel=getCarrierLabel(seg.carrier)+(needsName?" ("+tarifLabel+")":"");
