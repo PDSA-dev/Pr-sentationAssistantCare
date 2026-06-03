@@ -36,9 +36,9 @@ setTimeout(function() {
   --red: #DC2626;
 
   /* Backgrounds */
-  --bg: #F5F3F0;
+  --bg: #F5F4F8;
   --surface: #FFFFFF;
-  --surface2: #F8F6F3;
+  --surface2: #F8F6FC;
 
   /* Glass & Transparency */
   --glass: rgba(255, 255, 255, 0.82);
@@ -85,6 +85,37 @@ setTimeout(function() {
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.64);
   --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.72);
   --shadow-xxl: 0 32px 80px rgba(0, 0, 0, 0.80);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* LIGHT MODE — HEADER SOMBRE (signature visuelle cohérente avec le dark) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .hdr {
+  background: #1A1025;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(26, 16, 37, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="light"] .hdr-title {
+  color: #F5F4F8;
+}
+
+[data-theme="light"] .hdr-sub {
+  color: #C8177A;
+}
+
+[data-theme="light"] .hdr .icon-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.65);
+  box-shadow: none;
+}
+
+[data-theme="light"] .hdr .icon-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #C8177A;
+  box-shadow: 0 0 20px rgba(200, 23, 122, 0.3);
 }
 
 * {
@@ -1929,10 +1960,121 @@ html { scroll-behavior: smooth; }
 @keyframes loader-sweep {
   to { transform: translateX(0); }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ✦ MOTION LAYER v3 — Stagger · Depth · Ambient · Shimmer                   */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. STAGGER automatique sur les options (CSS pur, nth-child) ── */
+.opts .opt { opacity: 0; transform: translateY(10px) scale(0.985); animation: opt-enter 0.38s var(--pm-expo) both; }
+.opts .opt:nth-child(1) { animation-delay: 0.04s; }
+.opts .opt:nth-child(2) { animation-delay: 0.10s; }
+.opts .opt:nth-child(3) { animation-delay: 0.16s; }
+.opts .opt:nth-child(4) { animation-delay: 0.22s; }
+.opts .opt:nth-child(5) { animation-delay: 0.28s; }
+.opts .opt:nth-child(6) { animation-delay: 0.34s; }
+.opts .opt:nth-child(n+7) { animation-delay: 0.38s; }
+
+@keyframes opt-enter {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── 2. HOVER physique renforcé ── */
+.opt:hover {
+  transform: translateY(-5px) scale(1.008) !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.10), 0 0 0 1px var(--border-accent), 0 6px 20px var(--prune-glow) !important;
+}
+.opt:hover .opt-icon {
+  transform: scale(1.18) rotate(-6deg) !important;
+  box-shadow: 0 6px 20px var(--prune-glow);
+}
+.opt:active { transform: scale(0.96) translateY(0) !important; }
+
+/* ── 3. DEPTH system : 3 niveaux d'élévation colorée ── */
+:root {
+  --elev-0: none;
+  --elev-1: 0 2px 8px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --elev-2: 0 8px 24px rgba(0,0,0,0.09), 0 3px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.02);
+  --elev-3: 0 16px 48px rgba(0,0,0,0.13), 0 6px 16px rgba(0,0,0,0.08), 0 0 32px var(--prune-glow);
+  --elev-float: 0 24px 64px rgba(0,0,0,0.16), 0 8px 24px rgba(0,0,0,0.10), 0 0 48px var(--prune-glow);
+}
+
+/* Ombres colorées sur boutons action */
+.act-btn.success { box-shadow: 0 4px 18px rgba(130,190,0,0.35), 0 2px 8px rgba(130,190,0,0.20), inset 0 1px 0 rgba(255,255,255,0.18) !important; }
+.act-btn.success:hover { box-shadow: 0 10px 32px rgba(130,190,0,0.45), 0 4px 14px rgba(130,190,0,0.28), inset 0 1px 0 rgba(255,255,255,0.18) !important; }
+.act-btn.danger  { box-shadow: 0 4px 18px rgba(220,38,38,0.30), 0 2px 8px rgba(220,38,38,0.18), inset 0 1px 0 rgba(255,255,255,0.14) !important; }
+.act-btn.danger:hover  { box-shadow: 0 10px 32px rgba(220,38,38,0.42), 0 4px 14px rgba(220,38,38,0.26), inset 0 1px 0 rgba(255,255,255,0.14) !important; }
+
+/* Card en élévation 3 au hover */
+.step-card:hover { box-shadow: var(--elev-3), inset 0 1px 0 rgba(255,255,255,0.72) !important; }
+[data-theme="dark"] .step-card:hover { box-shadow: var(--elev-3), inset 0 1px 0 rgba(255,255,255,0.05) !important; }
+
+/* ── 4. PROGRESS BAR shimmer branché ── */
+.progress-fill {
+  background: linear-gradient(90deg, var(--prune) 0%, #E91E8C 40%, #F4A0CC 55%, #E91E8C 70%, var(--prune) 100%) !important;
+  background-size: 300% 100% !important;
+  animation: pm-shimmer 2.4s linear infinite !important;
+}
+
+/* ── 5. 3ème ORBE AMBIENT — centre, couleur bleue froide ── */
+#pm-orb3 {
+  position: fixed;
+  top: 50%; left: 50%;
+  width: 500px; height: 500px;
+  margin: -250px 0 0 -250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,136,206,0.055) 0%, transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  animation: orb3-float 32s ease-in-out infinite;
+}
+[data-theme="dark"] #pm-orb3 { background: radial-gradient(circle, rgba(0,136,206,0.09) 0%, transparent 65%); }
+
+@keyframes orb3-float {
+  0%,100% { transform: translate(0, 0) scale(1); }
+  30%      { transform: translate(60px, -40px) scale(1.07); }
+  65%      { transform: translate(-50px, 55px) scale(0.93); }
+}
+
+/* ── 6. HALOS INTERNES sur result-header ── */
+.result-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(255,255,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 80%, rgba(255,255,255,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── 7. INNER REFLECTION sur les cards ── */
+.step-card, .result-card {
+  background-image: radial-gradient(ellipse 80% 30% at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 60%) !important;
+}
+[data-theme="dark"] .step-card,
+[data-theme="dark"] .result-card {
+  background-image: radial-gradient(ellipse 80% 30% at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 60%) !important;
+}
+
+/* ── 8. Smooth will-change sur éléments interactifs ── */
+.opt, .btn-confirm, .act-btn, .icon-btn, .hist-item { will-change: transform; }
+
+/* ── Reduced motion: désactiver tout le layer v3 ── */
+@media (prefers-reduced-motion: reduce) {
+  .opts .opt { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .progress-fill { animation: none !important; background-size: 100% 100% !important; }
+  #pm-orb3 { animation: none !important; }
+  .opt, .btn-confirm, .act-btn, .icon-btn, .hist-item { will-change: auto !important; }
+}
 </style>
 </head>
 <body>
 
+<div id="pm-orb3" aria-hidden="true"></div>
 <div id="app"></div>
 
 <script>
@@ -2193,25 +2335,38 @@ function attachCleanPaste(inputElement) {
   });
 }
 
-// Hook: Connecter cleanPaste à tous les inputs
+// Hook: Connecter cleanPaste à tous les inputs (appelé depuis afterRender)
 function setupCleanPasteHooks() {
   var inputs = document.querySelectorAll("input[type='text'], input[type='number'], textarea");
   inputs.forEach(function(inp) {
+    if (inp._pasteHooked) return;
+    inp._pasteHooked = true;
     inp.addEventListener("paste", function(e) {
       e.preventDefault();
-      var cleaned = cleanPaste(e.clipboardData.getData("text"));
-      inp.value = cleaned;
+      var raw = (e.clipboardData || window.clipboardData).getData("text");
+      var cleaned = cleanPaste(raw);
+
+      // input[type=number] ne supporte pas selectionStart/End (lève une exception)
+      // → remplacement direct de la valeur entière
+      if (inp.type === "number") {
+        inp.value = cleaned;
+      } else {
+        // Insertion à la position curseur : préserver le texte avant/après la sélection
+        var start = inp.selectionStart != null ? inp.selectionStart : inp.value.length;
+        var end   = inp.selectionEnd   != null ? inp.selectionEnd   : inp.value.length;
+        var before = inp.value.slice(0, start);
+        var after  = inp.value.slice(end);
+        inp.value = before + cleaned + after;
+        // Replacer le curseur juste après le texte inséré
+        var newPos = start + cleaned.length;
+        inp.setSelectionRange(newPos, newPos);
+      }
+
+      inp.dispatchEvent(new Event("input",  { bubbles: true }));
       inp.dispatchEvent(new Event("change", { bubbles: true }));
     });
   });
 }
-
-// Appeler après chaque render
-var originalRender = render;
-render = function() {
-  originalRender();
-  setTimeout(setupCleanPasteHooks, 50);
-};
 
 var S={
   step:"menu",flow:null,history:[],dark:false,
@@ -2762,13 +2917,14 @@ function sIntro(){
   /* Marque le halo visible (pour activer ::after) après l'apparition */
   setTimeout(function(){ halo.classList.add('visible'); }, 2200);
 
-  /* Auto-dismiss vers sMenu après 3.6s */
+  /* Auto-dismiss vers sMenu après 3.2s */
   setTimeout(function(){
     scene.classList.add('outro');
-    setTimeout(function(){
-      if(scene.parentNode) scene.parentNode.removeChild(scene);
-    }, 580);
-  }, 3600);
+    scene.addEventListener('animationend', function onOut(){
+      scene.removeEventListener('animationend', onOut);
+      scene.remove();
+    });
+  }, 3200);
 
   return scene;
 }
@@ -4578,9 +4734,15 @@ function sResultFrais(){
     if(_isPrimeExSeg2){
       amt=0;displayAmt="Couvert par l'indemnisation exceptionnelle";mode="—";
     }else if(seg.tarif==="prime_tiers_seul"){
-      amt=getRBADAmount(S.delay);
-      displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
-      mode="BAD";
+      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
+      if(seg.carrier==="tgv_int" && S.delay<60){
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)";
+        mode="—";
+      } else {
+        amt=getRBADAmount(S.delay);
+        displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
+        mode="BAD";
+      }
     }else if(seg.tarif==="prime_titulaire"){
       // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
       if(seg.carrier==="tgv_int" && S.delay<60){
@@ -4725,8 +4887,9 @@ function sResultFrais(){
   h.innerHTML="<div class='result-mode'>Indemnisation complète</div><div class='result-amount'>"+totalGlobal.toFixed(2)+"</div><div class='result-label'>€ TTC</div><div class='rt-badge'>RT\u00a0"+rtCodeFrais+"</div>";
   c.appendChild(h);
 
-  // Indemnité retard
-  if(indemniteRetard>0){
+  // Indemnité retard (ou points seuls : prime_titulaire)
+  var _hasPointsOnly=allDetailsRetard.some(function(d){return d.mode==="Points"||d.mode==="Points + BAD";});
+  if(indemniteRetard>0 || _hasPointsOnly){
     var indemnBreakdown=div("result-breakdown");
     indemnBreakdown.appendChild(div("breakdown-title","<i data-lucide='train'></i>Indemnité retard"));
     allDetailsRetard.forEach(function(d){
@@ -5768,6 +5931,8 @@ render();
       pf.style.animationTimingFunction  = 'linear';
       pf.style.animationIterationCount  = 'infinite';
     }
+
+    setupCleanPasteHooks();
   }
 
   /* ── 7. Patch render(): exit → original → afterRender ──────────────── */
