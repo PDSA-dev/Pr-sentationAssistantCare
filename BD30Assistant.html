@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="theme-color" content="#A1006B"/>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23A1006B' width='180' height='180'/><text x='50%' y='50%' font-size='60' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='middle'>TGV</text></svg>"/>
-<title>TGVCare Assistant — BD30/G30</title>
+<title>TGVCare Assistant: BD30/G30</title>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.307.0/dist/umd/lucide.min.js"></script>
 <script>
 setTimeout(function() {
@@ -1223,7 +1223,7 @@ table td {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* ✦ PREMIUM DESIGN LAYER — Enhanced UI Overrides                            */
+/* ✦ PREMIUM DESIGN LAYER: Enhanced UI Overrides                            */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Easing & radius tokens */
@@ -1608,13 +1608,13 @@ body::after {
   transition: opacity 0.4s ease;
 }
 
-/* 2. Proper enter animation — ease-out-expo + blur rise */
+/* 2. Proper enter animation: ease-out-expo + blur rise */
 @keyframes pm-enter {
   from { opacity: 0; transform: translateY(12px) scale(0.986); filter: blur(3px); }
   to   { opacity: 1; transform: none; filter: none; }
 }
 
-/* Replace bounce entrances with pm-enter (cascade wins — this block is last) */
+/* Replace bounce entrances with pm-enter (cascade wins: this block is last) */
 .step-card, .result-card { animation: pm-enter 0.36s var(--pm-expo) both; }
 .result-header            { animation: pm-enter 0.36s var(--pm-expo) both; }
 .result-amount            { animation: pm-enter 0.36s var(--pm-expo) 0.08s both; }
@@ -1626,7 +1626,7 @@ body::after {
 }
 .hdr { animation: pm-hdr 0.22s var(--pm-expo) both; }
 
-/* 3. Card shimmer sweep on hover (::after is free — ::before is the top sheen) */
+/* 3. Card shimmer sweep on hover (::after is free: ::before is the top sheen) */
 .step-card::after {
   content: '';
   position: absolute;
@@ -1689,7 +1689,7 @@ body::after  { animation: pm-orb-b 27s ease-in-out infinite !important; }
 /* 7. Smooth scrolling */
 html { scroll-behavior: smooth; }
 
-/* 8. Reduced motion — hard override */
+/* 8. Reduced motion: hard override */
 @media (prefers-reduced-motion: reduce) {
   #pm-glow { display: none !important; }
   body::before, body::after { animation: none !important; }
@@ -1704,7 +1704,7 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* INTRO SCENE — #s-intro                                                     */
+/* INTRO SCENE: #s-intro                                                     */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 #s-intro {
@@ -1825,7 +1825,7 @@ html { scroll-behavior: smooth; }
   );
 }
 
-/* ── Second halo (::after) — plus fin, sens inverse ── */
+/* ── Second halo (::after): plus fin, sens inverse ── */
 .logo-halo::after {
   content: '';
   position: absolute;
@@ -1958,24 +1958,24 @@ var CARRIERS=[
 ];
 
 var TARIFS=[
-  {id:"standard",             label:"Loisir / Avantage",         desc:"Billet payant — indemnisation en % du prix", mode:"Virement"},
+  {id:"standard",             label:"Loisir / Avantage",         desc:"Billet payant: indemnisation en % du prix", mode:"Virement"},
   {id:"carte_liberte_billet", label:"Carte Liberté",             desc:"Plancher forfaitaire 5 € min / passager à partir de 30 min de retard", mode:"Virement"},
-  {id:"max_loisirs",          label:"Abonnés Max & Forfaits",    desc:"Billet à 0 € — montant fixe BAD", mode:"BAD"},
+  {id:"max_loisirs",          label:"Abonnés Max & Forfaits",    desc:"Billet à 0 €: montant fixe BAD", mode:"BAD"},
   {id:"prime_billet", label:"Billet Prime", desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers", mode:"Prime"},
 ];
 
-// Tarifs résolus via l'étape déposant — non affichés dans la liste UI mais nécessaires au calcul et au lookup
+// Tarifs résolus via l'étape déposant: non affichés dans la liste UI mais nécessaires au calcul et au lookup
 var TARIFS_PRIME_HIDDEN=[
-  {id:"prime_titulaire",       label:"Prime — Titulaire (FID)",    desc:"Titulaire carte Prime — points fidélité", mode:"Points"},
-  {id:"prime_gvt_transitoire", label:"Prime — GVT Transitoire",   desc:"Grand Voyageur Transitoire sortant du programme — BAD seul", mode:"BAD"},
-  {id:"prime_fid_tiers",       label:"Prime — FID + Tiers",       desc:"FID avec Prime pour un tiers — pts Prime + BAD tiers", mode:"Points + BAD"},
-  {id:"prime_gvt_tiers",       label:"Prime — GVT + Tiers",       desc:"GVT avec Prime + tiers — BAD GVT + BAD tiers", mode:"BAD"},
-  {id:"prime_tiers_seul",      label:"Prime — Tiers seul",        desc:"Billet Prime GV/GVLC acheté pour un tiers — BAD fixe selon délai", mode:"BAD"},
+  {id:"prime_titulaire",       label:"Prime: Titulaire (FID)",    desc:"Titulaire carte Prime: points fidélité", mode:"Points"},
+  {id:"prime_gvt_transitoire", label:"Prime: GVT Transitoire",   desc:"Grand Voyageur Transitoire sortant du programme: BAD seul", mode:"BAD"},
+  {id:"prime_fid_tiers",       label:"Prime: FID + Tiers",       desc:"FID avec Prime pour un tiers: pts Prime + BAD tiers", mode:"Points + BAD"},
+  {id:"prime_gvt_tiers",       label:"Prime: GVT + Tiers",       desc:"GVT avec Prime + tiers: BAD GVT + BAD tiers", mode:"BAD"},
+  {id:"prime_tiers_seul",      label:"Prime: Tiers seul",        desc:"Billet Prime GV/GVLC acheté pour un tiers: BAD fixe selon délai", mode:"BAD"},
 ];
 
-var TARIFS_OUIGO=[{id:"standard",label:"Standard OUIGO",desc:"Billet payant OUIGO — indemnisation en %", mode:"Virement"}];
+var TARIFS_OUIGO=[{id:"standard",label:"Standard OUIGO",desc:"Billet payant OUIGO: indemnisation en %", mode:"Virement"}];
 var TARIFS_TER=[
-  {id:"standard",label:"Standard",    desc:"Billet payant — indemnisation en % du prix", mode:"Virement"},
+  {id:"standard",label:"Standard",    desc:"Billet payant: indemnisation en % du prix", mode:"Virement"},
   {id:"groupe",  label:"Tarif Groupe",desc:"Un seul prix pour l'ensemble des voyageurs", mode:"Virement"},
 ];
 
@@ -2069,15 +2069,15 @@ function getBilletDirectRate(carrier,delay){
 }
 
 var FRAIS_TYPES=[
-  {id:"restauration",           label:"Restauration",                        icon:"<i data-lucide='utensils'></i>",unit:"voyageur",max:15, note:"Dès 60 min — sur justificatif"},
+  {id:"restauration",           label:"Restauration",                        icon:"<i data-lucide='utensils'></i>",unit:"voyageur",max:15, note:"Dès 60 min: sur justificatif"},
   {id:"transport",              label:"Acheminement (autocar / taxi hôtel)", icon:"<i data-lucide='bus'></i>",unit:"voyageur",max:30, note:"UNIQUEMENT si aucune solution dans les 100 min"},
-  {id:"taxi_nuit",              label:"Taxi nuit 23h–6h (≥ 60 min)",        icon:"<i data-lucide='moon'></i>",unit:"course",  max:50, note:"Arrivée entre 23h et 6h — dès 60 min de retard"},
-  {id:"taxi_optimum",           label:"Taxi nuit Optimum+ (≥ 15 min)",      icon:"<i data-lucide='star'></i>",unit:"course",  max:100,note:"Clients Optimum+ — arrivée 23h–6h — dès 15 min"},
-  {id:"hotel_province",         label:"Hébergement Province (Tous tarifs)", icon:"<i data-lucide='bed'></i>",unit:"passager",max:110,note:"Si poursuite impossible — hors grandes villes"},
+  {id:"taxi_nuit",              label:"Taxi nuit 23h–6h (≥ 60 min)",        icon:"<i data-lucide='moon'></i>",unit:"course",  max:50, note:"Arrivée entre 23h et 6h: dès 60 min de retard"},
+  {id:"taxi_optimum",           label:"Taxi nuit Optimum+ (≥ 15 min)",      icon:"<i data-lucide='star'></i>",unit:"course",  max:100,note:"Clients Optimum+: arrivée 23h–6h: dès 15 min"},
+  {id:"hotel_province",         label:"Hébergement Province (Tous tarifs)", icon:"<i data-lucide='bed'></i>",unit:"passager",max:110,note:"Si poursuite impossible: hors grandes villes"},
   {id:"hotel_grande",           label:"Hébergement Grande ville (Tous)",    icon:"<i data-lucide='building-2'></i>",unit:"passager",max:150,note:"Paris, Lyon, Marseille, Bordeaux, Lille, Nantes…"},
-  {id:"hotel_province_optimum", label:"Hébergement Province (Optimum+)",    icon:"<i data-lucide='star'></i>",unit:"passager",max:300,note:"Autres villes — Optimum+"},
-  {id:"hotel_grande_optimum",   label:"Hébergement Grande ville (Optimum+)",icon:"<i data-lucide='star'></i>",unit:"passager",max:300,note:"Paris, Lyon, Marseille… — Optimum+"},
-  {id:"rachat_billets",         label:"Rachat billets / frais d'échange",   icon:"<i data-lucide='ticket'></i>",unit:"dossier", max:null,note:"Remboursement du surcoût — sur justificatif"},
+  {id:"hotel_province_optimum", label:"Hébergement Province (Optimum+)",    icon:"<i data-lucide='star'></i>",unit:"passager",max:300,note:"Autres villes: Optimum+"},
+  {id:"hotel_grande_optimum",   label:"Hébergement Grande ville (Optimum+)",icon:"<i data-lucide='star'></i>",unit:"passager",max:300,note:"Paris, Lyon, Marseille…: Optimum+"},
+  {id:"rachat_billets",         label:"Rachat billets / frais d'échange",   icon:"<i data-lucide='ticket'></i>",unit:"dossier", max:null,note:"Remboursement du surcoût: sur justificatif"},
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2721,7 +2721,7 @@ function inp(type,ph){
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-//  FLUX RETARD — ORDRE CORRECT
+//  FLUX RETARD: ORDRE CORRECT
 // ═══════════════════════════════════════════════════════════════════════════
 
 function sIntro(){
@@ -2749,7 +2749,7 @@ function sIntro(){
 
   var sub = document.createElement('div');
   sub.className = 'intro-sub';
-  sub.textContent = 'BD30 / G30 — Conformité SNCF';
+  sub.textContent = 'BD30 / G30: Conformité SNCF';
   scene.appendChild(sub);
 
   var loader = document.createElement('div');
@@ -2775,8 +2775,8 @@ function sIntro(){
 
 function sMenu(){
   return card("Que souhaitez-vous calculer ?","Choisissez le type de demande",renderOpts([
-    {icon:"<i data-lucide='train-front'></i>",label:"Retard & Indemnisation",desc:"Calcul BD30/G30 — compensation retard",cb:function(){set({step:"delay",flow:"retard",segments:[],nbPass:0,delay:0,currentPassenger:0,buildingSegPassengers:[],buildingSeg:{},exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null,exceptionalMaxAmt:null});}},
-    {icon:"<i data-lucide='receipt'></i>",label:"Frais Annexes",desc:"Taxi, restauration, hôtel…",cb:function(){set({step:"frais_type",flow:"frais",fraisList:[]});}},
+    {icon:"<i data-lucide='train-front'></i>",label:"Retard & Indemnisation",desc:"Calcul BD30/G30: compensation retard",cb:function(){set({step:"delay",flow:"retard",segments:[],nbPass:0,delay:0,currentPassenger:0,buildingSegPassengers:[],buildingSeg:{},exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null,exceptionalMaxAmt:null});}},
+    {icon:"<i data-lucide='receipt'></i>",label:"Frais Annexes",desc:"Taxi, restauration, hôtel…",cb:function(){set({step:"frais_type",flow:"frais",fraisList:[],nbPass:1});}},
     {icon:"<i data-lucide='calendar-days'></i>",label:"Rétractation & Résiliation",desc:"Délais légaux et conditions",cb:function(){set({step:"dates_type",flow:"dates"});}},
     {icon:"<i data-lucide='book-open'></i>",label:"Barèmes & Règles",desc:"Consulter les tarifs et conditions",cb:function(){set({step:"bareme"});}},
   ]));
@@ -2846,7 +2846,7 @@ function sDelay(){
 
   // Bloc saisie directe minutes (avant le résultat)
   var manualBox=div("delay-manual-box");
-  manualBox.appendChild(div("delay-manual-label","— ou saisir directement le retard —"));
+  manualBox.appendChild(div("delay-manual-label","ou saisir directement le retard :"));
   var manualRow=div("delay-manual-row");
   var mi=document.createElement("input");mi.id="delay-min-inp";mi.type="number";mi.className="delay-min-input";mi.min=0;mi.max=1440;mi.placeholder="0";mi.value=localDelay||"";mi.addEventListener("input",function(e){localDelay=parseInt(e.target.value)||0;updateDisplay();});attachCleanPaste(mi);manualRow.appendChild(mi);
   manualRow.appendChild(div("delay-min-unit","min"));
@@ -3034,7 +3034,7 @@ function sTerZouSelection(){
     if(isTrsi) {
       // TRSI coché = non-éligible, pas de tarif
       var seg={id:Date.now()+"",carrier:"ter_zou",elig:false};
-      pushH("<i data-lucide='train'></i>","Transporteur","TER ZOU — TRSI (Transdev) [EXCLU]");
+      pushH("<i data-lucide='train'></i>","Transporteur","TER ZOU: TRSI (Transdev) [EXCLU]");
       set({segments:S.segments.concat([seg]),buildingSeg:{},buildingSegPassengers:[],currentPassenger:0,step:"add_segment"});
     } else {
       // TRSI décoché = éligible, tarif requis
@@ -3099,13 +3099,13 @@ function sTarifUnique(){
         label:"Billet Prime",
         desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers",
         children:[
-          {_sep:"Titulaire — le voyageur est le titulaire"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Prime — Titulaire (FID)",desc:"Titulaire carte Prime — indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarifUnique("prime_titulaire","Prime — Titulaire (FID)");}},
-          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime — GVT Transitoire",desc:"Sortant du programme fidélité — BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarifUnique("prime_gvt_transitoire","Prime — GVT Transitoire");}},
-          {_sep:"Tiers — billet acheté pour un autre voyageur"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarifUnique("prime_fid_tiers","Prime — FID + Tiers");}},
-          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarifUnique("prime_gvt_tiers","Prime — GVT + Tiers");}},
-          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarifUnique("prime_tiers_seul","Prime — Tiers seul");}}
+          {_sep:"Titulaire: le voyageur est le titulaire"},
+          {icon:"<i data-lucide='id-card'></i>",label:"Prime: Titulaire (FID)",desc:"Titulaire carte Prime: indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarifUnique("prime_titulaire","Prime: Titulaire (FID)");}},
+          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime: GVT Transitoire",desc:"Sortant du programme fidélité: BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarifUnique("prime_gvt_transitoire","Prime: GVT Transitoire");}},
+          {_sep:"Tiers: billet acheté pour un autre voyageur"},
+          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarifUnique("prime_fid_tiers","Prime: FID + Tiers");}},
+          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarifUnique("prime_gvt_tiers","Prime: GVT + Tiers");}},
+          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarifUnique("prime_tiers_seul","Prime: Tiers seul");}}
         ]
       };
     }
@@ -3172,7 +3172,7 @@ function sTarifPassenger(idx){
     return;
   }
 
-  var q="Passager "+(idx+1)+" / "+S.nbPass+" — Type de billet ?";
+  var q="Passager "+(idx+1)+" / "+S.nbPass+": Type de billet ?";
   var desc=null;
   if(S.nbPass>1)desc="Sélectionnez le tarif pour le passager "+(idx+1);
 
@@ -3194,13 +3194,13 @@ function sTarifPassenger(idx){
         label:"Billet Prime",
         desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers",
         children:[
-          {_sep:"Titulaire — le voyageur est le titulaire"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Prime — Titulaire (FID)",desc:"Titulaire carte Prime — indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarif("prime_titulaire","Prime — Titulaire (FID)");}},
-          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime — GVT Transitoire",desc:"Sortant du programme fidélité — BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarif("prime_gvt_transitoire","Prime — GVT Transitoire");}},
-          {_sep:"Tiers — billet acheté pour un autre voyageur"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarif("prime_fid_tiers","Prime — FID + Tiers");}},
-          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarif("prime_gvt_tiers","Prime — GVT + Tiers");}},
-          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarif("prime_tiers_seul","Prime — Tiers seul");}}
+          {_sep:"Titulaire: le voyageur est le titulaire"},
+          {icon:"<i data-lucide='id-card'></i>",label:"Prime: Titulaire (FID)",desc:"Titulaire carte Prime: indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarif("prime_titulaire","Prime: Titulaire (FID)");}},
+          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime: GVT Transitoire",desc:"Sortant du programme fidélité: BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarif("prime_gvt_transitoire","Prime: GVT Transitoire");}},
+          {_sep:"Tiers: billet acheté pour un autre voyageur"},
+          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarif("prime_fid_tiers","Prime: FID + Tiers");}},
+          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarif("prime_gvt_tiers","Prime: GVT + Tiers");}},
+          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarif("prime_tiers_seul","Prime: Tiers seul");}}
         ]
       };
     }
@@ -3230,9 +3230,9 @@ function sPricePassenger(idx){
 
   var wrap=div("input-row");
   if(isGroupeTarif){
-    wrap.appendChild(div("step-sub","Tarif Groupe — Prix total pour tous les passagers (€) :"));
+    wrap.appendChild(div("step-sub","Tarif Groupe: Prix total pour tous les passagers (€) :"));
   }else{
-    wrap.appendChild(div("step-sub","Passager "+(idx+1)+" — Prix du billet (€) :"));
+    wrap.appendChild(div("step-sub","Passager "+(idx+1)+": Prix du billet (€) :"));
   }
   var i=inp("number","Ex : 45.50");i.min=0;i.step="0.01";
   wrap.appendChild(i);
@@ -3259,12 +3259,12 @@ function sPricePassenger(idx){
     }
   };
   wrap.appendChild(btn);
-  var cardTitle=isGroupeTarif?"Tarif Groupe — Prix total":"Passager "+(idx+1)+" — Prix du billet";
+  var cardTitle=isGroupeTarif?"Tarif Groupe: Prix total":"Passager "+(idx+1)+": Prix du billet";
   return card(cardTitle,null,wrap);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-//  PRIME DÉPOSANT — Qui dépose la réclamation pour un billet Prime tiers ?
+//  PRIME DÉPOSANT: Qui dépose la réclamation pour un billet Prime tiers ?
 // ═══════════════════════════════════════════════════════════════════════════
 
 function sPrimeDeposant(idx){
@@ -3272,8 +3272,8 @@ function sPrimeDeposant(idx){
   var proc=div("info-box amber");
   proc.style.marginBottom="18px";
   proc.innerHTML="<div class='info-icon'><i data-lucide='clipboard-list'></i></div><div><strong>Procédure selon le déposant :</strong><br>"
-    +"<span style='display:block;margin-top:6px;'>👤 <strong>Titulaire FID dépose</strong> — Traitement en file FID AV Voyage · Note interne : <em>« billet prime pour tiers »</em></span>"
-    +"<span style='display:block;margin-top:4px;'>🔄 <strong>Tiers dépose seul</strong> — Transférer en file <strong>Fid AV Voyage Senior Oscar / GVLC</strong> · Note interne : <em>« billet prime pour tiers »</em></span>"
+    +"<span style='display:block;margin-top:6px;'>👤 <strong>Titulaire FID dépose</strong>: Traitement en file FID AV Voyage · Note interne : <em>« billet prime pour tiers »</em></span>"
+    +"<span style='display:block;margin-top:4px;'>🔄 <strong>Tiers dépose seul</strong>: Transférer en file <strong>Fid AV Voyage Senior Oscar / GVLC</strong> · Note interne : <em>« billet prime pour tiers »</em></span>"
   +"</div>";
 
   function confirmTarif(tarifId,tarifLabel){
@@ -3291,16 +3291,16 @@ function sPrimeDeposant(idx){
     {
       icon:"<i data-lucide='id-card'></i>",
       label:"Le titulaire Prime (FID) dépose",
-      desc:"Client fidélisé carte Prime — indemnisation : pts Prime + BAD tiers",
+      desc:"Client fidélisé carte Prime: indemnisation : pts Prime + BAD tiers",
       badge:"<span style='color:#0066CC;font-weight:800;'>Pts + BAD</span>",
-      cb:function(){confirmTarif("prime_fid_tiers","Prime — FID + Tiers");}
+      cb:function(){confirmTarif("prime_fid_tiers","Prime: FID + Tiers");}
     },
     {
       icon:"<i data-lucide='user'></i>",
       label:"Le tiers dépose seul",
-      desc:"Client loisir / non fidélisé — BAD fixe selon délai · Transfert file GVLC requis",
+      desc:"Client loisir / non fidélisé: BAD fixe selon délai · Transfert file GVLC requis",
       badge:"<span style='color:#A1006B;font-weight:800;'>BAD · GVLC</span>",
-      cb:function(){confirmTarif("prime_tiers_seul","Prime — Tiers seul");}
+      cb:function(){confirmTarif("prime_tiers_seul","Prime: Tiers seul");}
     }
   ]);
 
@@ -3314,8 +3314,8 @@ function sPrimeDeposantUnique(){
   var proc=div("info-box amber");
   proc.style.marginBottom="18px";
   proc.innerHTML="<div class='info-icon'><i data-lucide='clipboard-list'></i></div><div><strong>Procédure selon le déposant :</strong><br>"
-    +"<span style='display:block;margin-top:6px;'>👤 <strong>Titulaire FID dépose</strong> — Traitement en file FID AV Voyage · Note interne : <em>« billet prime pour tiers »</em></span>"
-    +"<span style='display:block;margin-top:4px;'>🔄 <strong>Tiers dépose seul</strong> — Transférer en file <strong>Fid AV Voyage Senior Oscar / GVLC</strong> · Note interne : <em>« billet prime pour tiers »</em></span>"
+    +"<span style='display:block;margin-top:6px;'>👤 <strong>Titulaire FID dépose</strong>: Traitement en file FID AV Voyage · Note interne : <em>« billet prime pour tiers »</em></span>"
+    +"<span style='display:block;margin-top:4px;'>🔄 <strong>Tiers dépose seul</strong>: Transférer en file <strong>Fid AV Voyage Senior Oscar / GVLC</strong> · Note interne : <em>« billet prime pour tiers »</em></span>"
   +"</div>";
 
   function confirmTarifUnique(tarifId,tarifLabel){
@@ -3329,23 +3329,23 @@ function sPrimeDeposantUnique(){
     {
       icon:"<i data-lucide='id-card'></i>",
       label:"Le titulaire Prime (FID) dépose",
-      desc:"Client fidélisé carte Prime — indemnisation : pts Prime + BAD tiers",
+      desc:"Client fidélisé carte Prime: indemnisation : pts Prime + BAD tiers",
       badge:"<span style='color:#0066CC;font-weight:800;'>Pts + BAD</span>",
-      cb:function(){confirmTarifUnique("prime_fid_tiers","Prime — FID + Tiers");}
+      cb:function(){confirmTarifUnique("prime_fid_tiers","Prime: FID + Tiers");}
     },
     {
       icon:"<i data-lucide='user'></i>",
       label:"Le tiers dépose seul",
-      desc:"Client loisir / non fidélisé — BAD fixe selon délai · Transfert file GVLC requis",
+      desc:"Client loisir / non fidélisé: BAD fixe selon délai · Transfert file GVLC requis",
       badge:"<span style='color:#A1006B;font-weight:800;'>BAD · GVLC</span>",
-      cb:function(){confirmTarifUnique("prime_tiers_seul","Prime — Tiers seul");}
+      cb:function(){confirmTarifUnique("prime_tiers_seul","Prime: Tiers seul");}
     }
   ]);
 
   var wrap=div("");
   wrap.appendChild(proc);
   wrap.appendChild(opts);
-  return card("Qui dépose la réclamation ?","Billet Prime — "+S.nbPass+" passagers identiques",wrap);
+  return card("Qui dépose la réclamation ?","Billet Prime: "+S.nbPass+" passagers identiques",wrap);
 }
 
 function sTarif(){
@@ -3364,13 +3364,13 @@ function sTarif(){
         label:"Billet Prime",
         desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers",
         children:[
-          {_sep:"Titulaire — le voyageur est le titulaire"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Prime — Titulaire (FID)",desc:"Titulaire carte Prime — indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarifSingle("prime_titulaire","Prime — Titulaire (FID)");}},
-          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime — GVT Transitoire",desc:"Sortant du programme fidélité — BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarifSingle("prime_gvt_transitoire","Prime — GVT Transitoire");}},
-          {_sep:"Tiers — billet acheté pour un autre voyageur"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarifSingle("prime_fid_tiers","Prime — FID + Tiers");}},
-          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarifSingle("prime_gvt_tiers","Prime — GVT + Tiers");}},
-          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarifSingle("prime_tiers_seul","Prime — Tiers seul");}}
+          {_sep:"Titulaire: le voyageur est le titulaire"},
+          {icon:"<i data-lucide='id-card'></i>",label:"Prime: Titulaire (FID)",desc:"Titulaire carte Prime: indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarifSingle("prime_titulaire","Prime: Titulaire (FID)");}},
+          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime: GVT Transitoire",desc:"Sortant du programme fidélité: BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarifSingle("prime_gvt_transitoire","Prime: GVT Transitoire");}},
+          {_sep:"Tiers: billet acheté pour un autre voyageur"},
+          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarifSingle("prime_fid_tiers","Prime: FID + Tiers");}},
+          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarifSingle("prime_gvt_tiers","Prime: GVT + Tiers");}},
+          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarifSingle("prime_tiers_seul","Prime: Tiers seul");}}
         ]
       };
     }
@@ -3422,7 +3422,7 @@ function sAddSegmentOrCalculate(){
       elig:true
     });
   }else{
-    // Cas normal: un passager par entrée — tous partagent le même groupId
+    // Cas normal: un passager par entrée: tous partagent le même groupId
     S.buildingSegPassengers.forEach(function(pass,idx){
       newSegs.push({
         id:Date.now()+"_p"+idx,
@@ -3438,7 +3438,7 @@ function sAddSegmentOrCalculate(){
   var segCount=newSegs.length;
   var desc=segCount+" segment"+(segCount>1?"s":"");
 
-  // CORRECTION 1 — Blocage TER + OUIGO (hors périmètre CARE)
+  // CORRECTION 1: Blocage TER + OUIGO (hors périmètre CARE)
   var hasOUIGO_block=newSegs.some(function(s){return s.carrier==="ouigo";});
   var hasTER_block=newSegs.some(function(s){return s.carrier==="ter"||s.carrier==="ter_zou"||s.carrier==="ter_krono";});
   var hasTGVIC_block=newSegs.some(function(s){return s.carrier==="tgv_dom"||s.carrier==="tgv_int"||s.carrier==="intercites";});
@@ -3448,7 +3448,7 @@ function sAddSegmentOrCalculate(){
   if(hasOUIGO_block && hasTER_block && !hasTGVIC_block){
     var c=div("result-card");
     var warn=div("info-box amber");
-    warn.innerHTML="<div class='info-icon'><i data-lucide='alert-triangle'></i></div><div><strong>Transfert requis — TER + OUIGO (sans TGV)</strong><br>Cette combinaison TER + OUIGO sans TGV/Intercités ne releve pas du perimetre CARE. La demande doit etre transferee manuellement dans la file : <em>Demandes BD30 manuelles TER-OUIGO</em>.<br><em>Note : si un segment TGV/Intercités est present, ce cas est traite comme Billet Direct (RT 6970).</em></div>";
+    warn.innerHTML="<div class='info-icon'><i data-lucide='alert-triangle'></i></div><div><strong>Transfert requis: TER + OUIGO (sans TGV)</strong><br>Cette combinaison TER + OUIGO sans TGV/Intercités ne releve pas du perimetre CARE. La demande doit etre transferee manuellement dans la file : <em>Demandes BD30 manuelles TER-OUIGO</em>.<br><em>Note : si un segment TGV/Intercités est present, ce cas est traite comme Billet Direct (RT 6970).</em></div>";
     c.appendChild(warn);
     var acts=div("action-row");
     var btnHome=document.createElement("button");btnHome.className="act-btn secondary";btnHome.innerHTML="<i data-lucide='home'></i> Accueil";btnHome.onclick=confirmReset;
@@ -3479,7 +3479,7 @@ function sAddSegmentOrCalculate(){
     (canAddExceptional?{icon:"<i data-lucide='star'></i>",label:"Ajouter une indemnisation exceptionnelle",desc:"Appliquer une compensation exceptionnelle sur un segment TGV INOUI / Intercités",cb:function(){
       set({segments:newSegs,step:"exceptional_indemnity"});
     }}:null),
-    (canCalculate?{icon:"<i data-lucide='check-circle-2'></i>",label:"Calculer le résultat",desc:desc+" remplis — Afficher la compensation",cb:function(){
+    (canCalculate?{icon:"<i data-lucide='check-circle-2'></i>",label:"Calculer le résultat",desc:desc+" remplis: Afficher la compensation",cb:function(){
       if(isBilletDirectOUIGOTGV(newSegs)&&!S.ouigoDelay){
         set({segments:newSegs,step:"ouigo_retard_segment"});
       }else{
@@ -3500,7 +3500,7 @@ function sAddSegmentOrCalculate(){
 function sAddSegment(){
   var segCount=S.segments.length+1;
   var passageLeft=Math.max(0,S.nbPass-segCount);
-  var desc=segCount+" segment"+(segCount>1?"s":"")+" — "+(passageLeft>0?passageLeft+" passager(s) restant(s)":"tous les passagers remplis");
+  var desc=segCount+" segment"+(segCount>1?"s":"")+": "+(passageLeft>0?passageLeft+" passager(s) restant(s)":"tous les passagers remplis");
 
   var opts=renderOpts([
     (passageLeft>0?{icon:"<i data-lucide='plus'></i>",label:"Ajouter un passager",desc:"Entrer tarif et prix pour le prochain passager",cb:function(){
@@ -3538,7 +3538,7 @@ function sExceptionalIndemnity(){
       var opts=renderOpts(groups.map(function(g,idx){
         var totalPrice=g.segs.reduce(function(sum,s){return sum+s.price;},0);
         var nbv=g.segs.length;
-        var label="Trajet "+(idx+1)+" — "+getCarrierLabel(g.segs[0].carrier)+" ("+nbv+" voyageur"+(nbv>1?"s":"")+")";
+        var label="Trajet "+(idx+1)+": "+getCarrierLabel(g.segs[0].carrier)+" ("+nbv+" voyageur"+(nbv>1?"s":"")+")";
         return{icon:"<i data-lucide='train'></i>",label:label,desc:totalPrice.toFixed(2)+" € total",cb:function(){
           set({selectedTGVForException:g.gid});
         }};
@@ -3575,8 +3575,8 @@ function sExceptionalIndemnity(){
       var infoBox=div("info-box amber");
       infoBox.style.marginBottom="16px";
       infoBox.innerHTML="<div class='info-icon'><i data-lucide='star'></i></div><div>"
-        +"<strong>Billet Prime — compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageurs)":"")+"<br>"
-        +"<span style='font-size:12px;color:var(--tx-muted);'>Le % s’applique directement sur les points et euros du billet (page 19 Normes Voyage Back) — le barème G30 ne s’applique pas.</span>"
+        +"<strong>Billet Prime: compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageurs)":"")+"<br>"
+        +"<span style='font-size:12px;color:var(--tx-muted);'>Le % s’applique directement sur les points et euros du billet (page 19 Normes Voyage Back): le barème G30 ne s’applique pas.</span>"
         +"</div>";
       wrap.appendChild(infoBox);
 
@@ -3703,7 +3703,7 @@ function sExceptionalIndemnity(){
       });
     }
 
-    var subtitle="Billet Prime"+(nbVoy>1?" — "+nbVoy+" voyageurs":"")+
+    var subtitle="Billet Prime"+(nbVoy>1?": "+nbVoy+" voyageurs":"")+
       " : "+ptsPerPax.toLocaleString("fr-FR")+" pts"+(eurosPerPax>0?" + "+eurosPerPax+"€":"")+"/voy (retard "+S.delay+" min)";
     return card("% Compensation exceptionnelle (Prime)",subtitle,renderOpts([
       {icon:"<i data-lucide='percent'></i>",label:"100%",desc:makeDescPrime(100),cb:function(){applyPrime(100);}},
@@ -3724,8 +3724,8 @@ function sExceptionalIndemnity(){
       var infoBoxMax=div("info-box amber");
       infoBoxMax.style.marginBottom="16px";
       infoBoxMax.innerHTML="<div class='info-icon'><i data-lucide='zap'></i></div><div>"
-        +"<strong>Abonnés Max / Forfait — compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageur"+(nbVoy>1?"s":"")+")":" ")+"<br>"
-        +"<span style='font-size:12px;color:var(--tx-muted);'>Saisir le montant indiqué dans ANGORA (montant fixe par voyageur) — remplace le barème G30 (5/10/20 €)</span>"
+        +"<strong>Abonnés Max / Forfait: compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageur"+(nbVoy>1?"s":"")+")":" ")+"<br>"
+        +"<span style='font-size:12px;color:var(--tx-muted);'>Saisir le montant indiqué dans ANGORA (montant fixe par voyageur): remplace le barème G30 (5/10/20 €)</span>"
         +"</div>";
       wrapMax.appendChild(infoBoxMax);
 
@@ -3756,9 +3756,9 @@ function sExceptionalIndemnity(){
       var modeNote=div("");
       modeNote.style.cssText="font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:14px;background:var(--surface2);border-left:3px solid var(--prune);color:var(--tx-muted);";
       if(isBD){
-        modeNote.innerHTML="<strong>Billet Direct</strong> — BAD si retard < 60 min &middot; BAD ou Virement Bancaire si ≥ 60 min (RIB requis)";
+        modeNote.innerHTML="<strong>Billet Direct</strong>: BAD si retard < 60 min &middot; BAD ou Virement Bancaire si ≥ 60 min (RIB requis)";
       }else{
-        modeNote.innerHTML="<strong>G30 hors Billet Direct</strong> — Indemnisation <strong>uniquement en BAD</strong> (Normes Voyage Back p. 14)";
+        modeNote.innerHTML="<strong>G30 hors Billet Direct</strong>: Indemnisation <strong>uniquement en BAD</strong> (Normes Voyage Back p. 14)";
       }
       wrapMax.appendChild(modeNote);
 
@@ -3803,7 +3803,7 @@ function sExceptionalIndemnity(){
   }
 
   var passLabel=nbVoy>1?" ("+nbVoy+" voyageurs)":"";
-  return card("Indemnisation exceptionnelle","Sélectionne le niveau de compensation — "+carrierLabel+passLabel+" | Total billets: "+totalPrice.toFixed(2)+" € | Compensation actuelle: "+regulatoryAmt.toFixed(2)+" €",renderOpts([
+  return card("Indemnisation exceptionnelle","Sélectionne le niveau de compensation: "+carrierLabel+passLabel+" | Total billets: "+totalPrice.toFixed(2)+" € | Compensation actuelle: "+regulatoryAmt.toFixed(2)+" €",renderOpts([
     {icon:"<i data-lucide='percent'></i>",label:"100% du billet",desc:"Complément pour atteindre 100% du prix total",cb:function(){
       set({exceptionalIndemnity:{groupId:S.selectedTGVForException,segmentIds:segIds,rate:100,amount:calcComplementAmt(100),regulatory:regulatoryAmt,totalPrice:totalPrice,isPrime:false},exceptionalPrimeEuros:null,selectedTGVForException:null,step:"result_retard"});
     }},
@@ -3907,7 +3907,7 @@ function sResultRetard(){
     var displayAmt="";
     var ouigoProactiveAmt=0; // Montant payé en proactif par OUIGO
 
-    // Tarifs Prime : calcul barème G30 — supprimé si compensation exceptionnelle Prime active sur ce segment
+    // Tarifs Prime : calcul barème G30: supprimé si compensation exceptionnelle Prime active sur ce segment
     var _exIds1=S.exceptionalIndemnity&&S.exceptionalIndemnity.isPrime?(S.exceptionalIndemnity.segmentIds||[S.exceptionalIndemnity.segmentId]):[];
     var _isPrimeExSeg=_exIds1.indexOf(seg.id)>=0;
 
@@ -3917,9 +3917,9 @@ function sResultRetard(){
     }
     else if(seg.tarif==="prime_tiers_seul"){
       // TGV International : 30-59 min = aucune compensation
-      // Référentiel Normes Voyage Back p.22 — Tiers seul sur Int, 30-59 min
+      // Référentiel Normes Voyage Back p.22: Tiers seul sur Int, 30-59 min
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)";
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)";
         mode="—";
       } else {
         amt=getRBADAmount(S.delay);
@@ -3930,7 +3930,7 @@ function sResultRetard(){
     else if(seg.tarif==="prime_titulaire"){
       // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—";
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—";
       } else {
         var pt=getPointsInfo(S.delay);
         if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
@@ -3940,7 +3940,7 @@ function sResultRetard(){
     else if(seg.tarif==="prime_fid_tiers"){
       // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
       } else {
         var pt=getPointsInfo(S.delay);
         if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
@@ -3952,9 +3952,9 @@ function sResultRetard(){
     }
     else if(seg.tarif==="prime_gvt_tiers"){
       // TGV International : 30-59 min = aucune compensation
-      // Référentiel Normes Voyage Back p.22 — GVT + tiers sur Int, 30-59 min
+      // Référentiel Normes Voyage Back p.22: GVT + tiers sur Int, 30-59 min
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)";
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)";
         mode="—";
       } else {
         var badAmt=getRBADAmount(S.delay);
@@ -3965,9 +3965,9 @@ function sResultRetard(){
     }
     else if(seg.tarif==="prime_gvt_transitoire"){
       // TGV International : 30-59 min = aucune compensation
-      // Référentiel Normes Voyage Back p.22 — GVT Transitoire sur Int, 30-59 min
+      // Référentiel Normes Voyage Back p.22: GVT Transitoire sur Int, 30-59 min
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)";
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)";
         mode="—";
       } else {
         amt=getRBADAmount(S.delay);
@@ -4007,7 +4007,7 @@ function sResultRetard(){
         displayAmt="Proactif ("+ouigoRate+"%): "+proactiveAmt.toFixed(2)+"€ | Complément CARE ("+complementRate+"%): "+complementAmt.toFixed(2)+"€";
         ouigoProactiveAmt=proactiveAmt;
       }else if(isBilletDirectOUIGO && isOUIGOSegment && S.ouigoDelay && S.ouigoDelay>=S.delay){
-        // OUIGO a déjà compensé autant ou plus que le dû — CARE ne verse rien sur ce segment
+        // OUIGO a déjà compensé autant ou plus que le dû: CARE ne verse rien sur ce segment
         amt=0;
         displayAmt="Déjà compensé par OUIGO (retard OUIGO >= retard final)";
         mode="BAD";
@@ -4060,7 +4060,7 @@ function sResultRetard(){
       var maxDisplay=maxPax.toFixed(2)+"€ BAD/voy"+(maxNbv>1?" × "+maxNbv+" = "+S.exceptionalIndemnity.amount.toFixed(2)+"€":"");
       allDetails.push({
         idx:-1,
-        carrier:exCarrier+" (EXCEPTIONNEL MAX)"+(maxNbv>1?" — "+maxNbv+" voyageurs":""),
+        carrier:exCarrier+" (EXCEPTIONNEL MAX)"+(maxNbv>1?": "+maxNbv+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
         price:0,rate:null,fix:null,
         mode:"BAD",
@@ -4077,7 +4077,7 @@ function sResultRetard(){
       var excDisplay=S.exceptionalIndemnity.rate+"% exceptionnel : "+parts.join(" + ");
       allDetails.push({
         idx:-1,
-        carrier:exCarrier+" (EXCEPTIONNEL PRIME)"+(exNbVoy>1?" — "+exNbVoy+" voyageurs":""),
+        carrier:exCarrier+" (EXCEPTIONNEL PRIME)"+(exNbVoy>1?": "+exNbVoy+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
         price:exTotalPrice,
         rate:S.exceptionalIndemnity.rate,
@@ -4089,7 +4089,7 @@ function sResultRetard(){
       });
     }else if(exTotalPrice>0||exSegsAll.length>0){
       var finalAmt=exTotalPrice*(S.exceptionalIndemnity.rate/100);
-      var exVoyLabel=exNbVoy>1?" — "+exNbVoy+" voyageurs":"";
+      var exVoyLabel=exNbVoy>1?": "+exNbVoy+" voyageurs":"";
       allDetails.push({
         idx:-1,
         carrier:exCarrier+" (COMPLÉMENT)",
@@ -4107,10 +4107,10 @@ function sResultRetard(){
 
   var c=div("result-card");
 
-  // CORRECTION 4 — Refus automatique si total > 0 et < 4€ (RT 2388)
+  // CORRECTION 4: Refus automatique si total > 0 et < 4€ (RT 2388)
   if(total>0 && total<4){
     var hRef=div("result-header");
-    hRef.innerHTML="<div class='result-mode'>REFUS — RT 2388</div><div class='result-amount'>< 4 €</div><div class='result-label'>Compensation inferieure au seuil reglementaire — Aucun versement</div>";
+    hRef.innerHTML="<div class='result-mode'>REFUS: RT 2388</div><div class='result-amount'>< 4 €</div><div class='result-label'>Compensation inferieure au seuil reglementaire: Aucun versement</div>";
     c.appendChild(hRef);
     var actsRef=div("action-row");
     var btnRef=document.createElement("button");btnRef.className="act-btn secondary";btnRef.innerHTML="<i data-lucide='home'></i> Accueil";btnRef.onclick=confirmReset;
@@ -4131,7 +4131,7 @@ function sResultRetard(){
     if(S.ouigoDelay){
       ouigoInfo="<br>• Retard OUIGO : "+S.ouigoDelay+" min (traité en proactif)";
     }
-    var bdTERNote=isBilletDirectWithTER(segments)?"<br>• Segment TER inclus — RT 6970 (Normes Voyage Back pp.63-67)":"";
+    var bdTERNote=isBilletDirectWithTER(segments)?"<br>• Segment TER inclus: RT 6970 (Normes Voyage Back pp.63-67)":"";
     bdBox.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>Billet Direct OUIGO+TGV"+(isBilletDirectWithTER(segments)?"+TER":"")+" :</strong><br>• OUIGO traite en proactif le retard réel de ses trains"+ouigoInfo+"<br>• CARE complète l'indemnisation selon le retard final à destination<br>• Calcul selon le retard global (Référentiel AV p.40)"+bdTERNote+"</div>";
     c.appendChild(bdBox);
   }
@@ -4142,7 +4142,7 @@ function sResultRetard(){
   ruleBox.innerHTML="<div class='info-icon'><i data-lucide='"+icon+"'></i></div><div><strong>Règle d'indemnisation :</strong><br>"+compensationRule.text+"</div>";
   c.appendChild(ruleBox);
 
-  // CORRECTION 5 — Alerte barème TER si au moins un segment TER présent
+  // CORRECTION 5: Alerte barème TER si au moins un segment TER présent
   var hasTERSegment=segments.some(function(s){return s.carrier==="ter"||s.carrier==="ter_zou"||s.carrier==="ter_krono";});
   if(hasTERSegment){
     var terBox=div("info-box amber");
@@ -4182,7 +4182,7 @@ function sResultRetard(){
     "<div class='summary-label'>Mode(s) de remboursement</div><div class='summary-value'>"+modesStr+"</div>"
   ));
 
-  // CORRECTION 3 — Rappel choix VB/BAD si retard >= 60 min et au moins un segment en mode VB ou BAD
+  // CORRECTION 3: Rappel choix VB/BAD si retard >= 60 min et au moins un segment en mode VB ou BAD
   var hasVBorBAD=allDetails.some(function(d){return d.mode==="VB ou BAD";});
   if(S.delay>=60 && hasVBorBAD){
     summary.appendChild(div("summary-row",
@@ -4209,36 +4209,87 @@ function sResultRetard(){
     var modeLabel=segments.length===1?"G30":"BD30";
     var retardLabel=formatMin(S.delay);
 
-    // Format : carrier: tarif prix€ taux% = montant€
-    var _exRate2=S.exceptionalIndemnity?S.exceptionalIndemnity.rate:null;
-    var _exIds2=S.exceptionalIndemnity?(S.exceptionalIndemnity.segmentIds||[S.exceptionalIndemnity.segmentId]):[];
-    var segParts=allDetails
-      .filter(function(d){return d.idx!==-1;})
-      .map(function(d){
-        // Identifier si ce segment bénéficie de l'indemnisation exceptionnelle
-        var dSeg=segments[d.idx];
-        var isEx=_exRate2&&dSeg&&_exIds2.indexOf(dSeg.id)>=0;
-        var part=d.carrier+": "+d.tarif+" "+d.price.toFixed(2)+"€ ";
-        if(d.points&&d.amt>0){
-          part+=d.points+"pts + "+d.amt.toFixed(2)+"€";
-        }else if(d.points){
-          part+=d.points+"pts";
-        }else if(d.ouigoProactiveAmt>0){
-          part+="(OUIGO "+S.ouigoDelay+"mn "+d.rate+"%: "+d.ouigoProactiveAmt.toFixed(2)+"€) + CARE "+d.amt.toFixed(2)+"€";
-        }else if(isEx){
-          var exA=(d.price*_exRate2/100);
-          part+=_exRate2+"% = "+exA.toFixed(2)+"€";
-        }else if(d.fix){
-          part+="= "+d.amt.toFixed(2)+"€";
-        }else if(d.rate>0){
-          part+=d.rate+"% = "+d.amt.toFixed(2)+"€";
+    // Tarifs nécessitant le nom pour justification (BAD, points)
+    var TARIFS_AVEC_NOM=["prime_titulaire","prime_fid_tiers","prime_tiers_seul","prime_gvt_tiers","prime_gvt_transitoire"];
+
+    var parts=[];
+
+    // --- Ligne exceptionnelle en premier ---
+    allDetails
+      .filter(function(d){return d.idx===-1;})
+      .forEach(function(d){
+        var ex=S.exceptionalIndemnity;
+        var label=d.carrier; // contient déjà "(EXCEPTIONNEL MAX/PRIME)" et nb voy
+        var part="";
+        if(ex&&ex.isMax){
+          // Max/Forfait : montant fixe BAD par voyageur
+          var maxPax=ex.maxAmtPerPax||0;
+          var maxNbv=ex.nbVoy||1;
+          part=label+": "+maxPax.toFixed(2)+"€ BAD"+(maxNbv>1?" x"+maxNbv+" = "+d.amt.toFixed(2)+"€":"");
+        }else if(ex&&ex.isPrime){
+          // Prime exceptionnel : taux + points + BAD
+          var primeParts=[];
+          if(ex.primePoints>0) primeParts.push(ex.primePoints+"pts");
+          if(ex.primeEuros>0) primeParts.push(ex.primeEuros.toFixed(2)+"€ BAD billet");
+          if(ex.primeBadTiers>0) primeParts.push(ex.primeBadTiers.toFixed(2)+"€ BAD tiers");
+          part=label+": "+ex.rate+"% = "+primeParts.join(" + ");
         }else{
-          part+="= "+d.amt.toFixed(2)+"€";
+          // Complément standard (100/150/200/300%)
+          part=label+": "+d.rate+"% = "+d.amt.toFixed(2)+"€";
         }
-        return part;
+        parts.push(part);
       });
 
-    var txt=modeLabel+" "+total.toFixed(2)+"€ | Retard "+retardLabel+" | "+segParts.join(" | ");
+    // --- Segments éligibles (hors couverts par exceptionnel) ---
+    allDetails
+      .filter(function(d){return d.idx!==-1;})
+      .forEach(function(d){
+        // Ignorer segments neutralisés (couverts par exceptionnel, amt=0 sans points)
+        if(!d.points&&d.amt===0) return;
+        var seg=segments[d.idx];
+        var needsName=TARIFS_AVEC_NOM.indexOf(seg?seg.tarif:"")>=0;
+        var label=d.carrier+(needsName?" ("+d.tarif+")":"");
+        var part="";
+        if(d.points&&d.amt>0){
+          part=label+": "+d.points+"pts + "+d.amt.toFixed(2)+"€ BAD";
+        }else if(d.points){
+          part=label+": "+d.points+"pts";
+        }else if(d.ouigoProactiveAmt>0){
+          part=label+": Proactif OUIGO "+d.ouigoProactiveAmt.toFixed(2)+"€ + Compl. CARE "+d.amt.toFixed(2)+"€";
+        }else if(d.fix){
+          part=label+": Forfait = "+d.amt.toFixed(2)+"€";
+        }else if(d.rate>0){
+          part=label+": "+d.rate+"% = "+d.amt.toFixed(2)+"€";
+        }else{
+          part=label+": "+d.amt.toFixed(2)+"€";
+        }
+        parts.push(part);
+      });
+
+    // --- Segments hors périmètre ---
+    var horsPerim=segments.filter(function(s){return!s.elig;});
+    if(horsPerim.length>0){
+      var hpLabels=horsPerim.map(function(s){return getCarrierLabel(s.carrier);});
+      parts.push("Hors périmètre: "+hpLabels.join(", "));
+    }
+
+    // --- En-tête résumé : indemnisation d'abord ---
+    var hasPoints=allDetails.some(function(d){return d.points;});
+    var headerDesc="";
+    if(hasPoints){
+      // Collecter points et euros BAD
+      var totalPts=0,totalBad=0;
+      allDetails.forEach(function(d){if(d.points)totalPts+=d.points;if(d.amt>0&&!d.points)totalBad+=d.amt;});
+      if(S.exceptionalIndemnity&&S.exceptionalIndemnity.isPrime){
+        if(S.exceptionalIndemnity.primePoints>0)totalPts+=(S.exceptionalIndemnity.primePoints);
+        if(S.exceptionalIndemnity.primeEuros>0)totalBad+=S.exceptionalIndemnity.primeEuros;
+        if(S.exceptionalIndemnity.primeBadTiers>0)totalBad+=S.exceptionalIndemnity.primeBadTiers;
+      }
+      headerDesc=totalPts+"pts"+(totalBad>0?" + "+totalBad.toFixed(2)+"€":"");
+    }else{
+      headerDesc=total.toFixed(2)+"€";
+    }
+    var txt=modeLabel+" : "+headerDesc+" | Retard "+retardLabel+" | "+parts.join(" | ");
 
     if(navigator.clipboard){
       navigator.clipboard.writeText(txt).then(function(){
@@ -4322,12 +4373,39 @@ function sOUIGORetardSegment(){
 // ═══════════════════════════════════════════════════════════════════════════
 
 function sFraisType(){
-  return card("Type de frais ?",null,renderOpts(FRAIS_TYPES.map(function(f){
+  var wrap=div("");
+
+  // Sélecteur voyageurs : éditable uniquement en flow frais seul (pas après un calcul retard)
+  var fromRetard=S.segments&&S.segments.length>0;
+  var nbRow=document.createElement("div");
+  nbRow.style.cssText="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;";
+  var nbIcon=document.createElement("span");nbIcon.innerHTML="<i data-lucide='"+(S.nbPass>1?"users":"user")+"'></i>";nbIcon.style.cssText="color:var(--prune);display:flex;align-items:center;";
+  var nbLbl=document.createElement("span");nbLbl.textContent="Voyageurs :";nbLbl.style.cssText="font-size:13px;font-weight:600;color:var(--tx);";
+  nbRow.appendChild(nbIcon);nbRow.appendChild(nbLbl);
+  if(fromRetard){
+    // Lecture seule : nombre fixé par le voyage
+    var nbVal=document.createElement("span");
+    nbVal.textContent=String(Math.max(1,S.nbPass));
+    nbVal.style.cssText="font-size:14px;font-weight:700;color:var(--prune);min-width:24px;text-align:center;";
+    var nbNote=document.createElement("span");nbNote.textContent="(issu du voyage)";
+    nbNote.style.cssText="font-size:11px;color:var(--tx-muted);margin-left:4px;";
+    nbRow.appendChild(nbVal);nbRow.appendChild(nbNote);
+  }else{
+    var nbInp=inp("number",String(Math.max(1,S.nbPass)));
+    nbInp.min=1;nbInp.max=99;nbInp.step=1;
+    nbInp.style.cssText="width:60px;font-size:14px;font-weight:700;text-align:center;";
+    nbInp.oninput=function(){ var v=parseInt(this.value)||1; S.nbPass=Math.max(1,v); };
+    nbRow.appendChild(nbInp);
+  }
+  wrap.appendChild(nbRow);
+
+  wrap.appendChild(renderOpts(FRAIS_TYPES.map(function(f){
     return{icon:f.icon,label:f.label,desc:f.note,badge:f.max!=null?"Max "+f.max+"€":"Sans plafond",cb:function(){
       pushH(f.icon,"Frais",f.label);
       set({buildingSeg:{fraisType:f.id,fraisMax:f.max},step:"frais_montant"});
     }};
   })));
+  return card("Type de frais ?",null,wrap);
 }
 
 function sFraisMontant(){
@@ -4349,7 +4427,7 @@ function sFraisMontant(){
     return cap;
   }
   function buildNote(cap){
-    if(cap==null) return " (sans plafond fixe — remboursement du surcoût sur justificatif)";
+    if(cap==null) return " (sans plafond fixe: remboursement du surcoût sur justificatif)";
     if(frais.unit==="voyageur"||frais.unit==="passager"){
       var mt=cap*Math.max(1,S.nbPass);
       return " (plafond"+(digipecActive?" DIGIPEC":"")+": "+cap+"€/pass × "+Math.max(1,S.nbPass)+" = "+mt+"€ max)";
@@ -4484,7 +4562,7 @@ function sResultFrais(){
     }else if(seg.tarif==="prime_titulaire"){
       // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
       } else {
         var pt=getPointsInfo(S.delay);
         if(pt){displayAmt=pt.points+" points Prime";} else{displayAmt="Aucune indemnisation";}
@@ -4493,7 +4571,7 @@ function sResultFrais(){
     }else if(seg.tarif==="prime_fid_tiers"){
       // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
       } else {
         var pt=getPointsInfo(S.delay);
         displayAmt=(pt?pt.points+" pts Prime":"0 pts")+" + "+getRBADAmount(S.delay)+"€ BAD";
@@ -4502,7 +4580,7 @@ function sResultFrais(){
     }else if(seg.tarif==="prime_gvt_tiers"){
       // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
       } else {
         var badAmt=getRBADAmount(S.delay);
         amt=badAmt*2;
@@ -4512,7 +4590,7 @@ function sResultFrais(){
     }else if(seg.tarif==="prime_gvt_transitoire"){
       // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
       if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int. — retard < 60 min)"; mode="—"; amt=0;
+        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
       } else {
         amt=getRBADAmount(S.delay);
         displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
@@ -4541,7 +4619,7 @@ function sResultFrais(){
         amt=complementAmt;
         displayAmt="Proactif ("+ouigoRate+"%): "+proactiveAmt.toFixed(2)+"€ | Complément CARE ("+complementRate+"%): "+complementAmt.toFixed(2)+"€";
       }else if(isBilletDirectOUIGO && isOUIGOSegment && S.ouigoDelay && S.ouigoDelay>=S.delay){
-        // OUIGO a déjà compensé autant ou plus — CARE ne verse rien sur ce segment
+        // OUIGO a déjà compensé autant ou plus: CARE ne verse rien sur ce segment
         amt=0;
         displayAmt="Déjà compensé par OUIGO (retard OUIGO >= retard final)";
         mode="BAD";
@@ -4567,7 +4645,7 @@ function sResultFrais(){
       var maxPax2=S.exceptionalIndemnity.maxAmtPerPax||0;
       var maxNbv2=S.exceptionalIndemnity.nbVoy||exNbVoy2||1;
       allDetailsRetard.push({
-        carrier:exCarrier2+" (EXCEPTIONNEL MAX)"+(maxNbv2>1?" — "+maxNbv2+" voyageurs":""),
+        carrier:exCarrier2+" (EXCEPTIONNEL MAX)"+(maxNbv2>1?": "+maxNbv2+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
         price:0,rate:null,
         amt:S.exceptionalIndemnity.amount,
@@ -4580,7 +4658,7 @@ function sResultFrais(){
       if(S.exceptionalIndemnity.primeEuros>0) parts2.push(S.exceptionalIndemnity.primeEuros.toFixed(2)+"€ BAD (billet)");
       if(S.exceptionalIndemnity.primeBadTiers>0) parts2.push(S.exceptionalIndemnity.primeBadTiers.toFixed(2)+"€ BAD (tiers/GVT)");
       allDetailsRetard.push({
-        carrier:exCarrier2+" (EXCEPTIONNEL PRIME)"+(exNbVoy2>1?" — "+exNbVoy2+" voyageurs":""),
+        carrier:exCarrier2+" (EXCEPTIONNEL PRIME)"+(exNbVoy2>1?": "+exNbVoy2+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
         price:exTotalPrice2,
         rate:S.exceptionalIndemnity.rate,
@@ -4590,7 +4668,7 @@ function sResultFrais(){
       });
     }else if(exTotalPrice2>0||exSegs2.length>0){
       var exFinalAmt2=exTotalPrice2*(S.exceptionalIndemnity.rate/100);
-      var exVoyLabel2=exNbVoy2>1?" — "+exNbVoy2+" voyageurs":"";
+      var exVoyLabel2=exNbVoy2>1?": "+exNbVoy2+" voyageurs":"";
       allDetailsRetard.push({
         carrier:exCarrier2+" (COMPLÉMENT)",
         tarif:"Indemnisation exceptionnelle",
@@ -4650,11 +4728,11 @@ function sResultFrais(){
         var nbp=fd.nbPassUsed||1;
         capHtml="<div style='font-size:10px;color:var(--amber);margin-top:3px;'>"+digipecBadge+"Facture "+fd.montant.toFixed(2)+"€ → plafonné "+fd.maxPerPerson+"€/pass × "+nbp+" = "+fd.finalAmt.toFixed(2)+"€</div>";
       }else if(fd.montant!==undefined&&isPerPerson&&fd.nbPassUsed){
-        capHtml="<div style='font-size:10px;color:var(--tx-muted);margin-top:3px;'>"+digipecBadge+"Facture "+fd.montant.toFixed(2)+"€ — plafond "+fd.maxPerPerson+"€/pass × "+fd.nbPassUsed+"</div>";
+        capHtml="<div style='font-size:10px;color:var(--tx-muted);margin-top:3px;'>"+digipecBadge+"Facture "+fd.montant.toFixed(2)+"€: plafond "+fd.maxPerPerson+"€/pass × "+fd.nbPassUsed+"</div>";
       }
       // Alerte DNV-DNIC : hébergement > 350€ (Référentiel AV p.54)
       var isHotel=(fd.type.id==="hotel_province"||fd.type.id==="hotel_grande"||fd.type.id==="hotel_province_optimum"||fd.type.id==="hotel_grande_optimum");
-      var dnvAlert=isHotel&&fd.finalAmt>350?"<div style='font-size:10px;color:#991B1B;margin-top:3px;font-weight:700;'>⚠ Frais > 350€ — Se rapprocher du pôle AV avant traitement (DNV-DNIC requis)</div>":"";
+      var dnvAlert=isHotel&&fd.finalAmt>350?"<div style='font-size:10px;color:#991B1B;margin-top:3px;font-weight:700;'>⚠ Frais > 350€: Se rapprocher du pôle AV avant traitement (DNV-DNIC requis)</div>":"";
       item.innerHTML="<div style='flex:1;'><div style='font-weight:600;color:var(--tx);'>"+fd.type.label+"</div><div style='font-size:11px;color:var(--tx-muted);margin-top:2px;'>"+fd.type.note+"</div>"+capHtml+dnvAlert+"</div><div style='text-align:right;'><div style='font-weight:700;color:var(--prune);font-size:14px;'>"+fd.finalAmt.toFixed(2)+"€</div></div>";
       fraisBreakdown.appendChild(item);
     });
@@ -4680,53 +4758,76 @@ function sResultFrais(){
     var modeText = S.segments.length === 1 ? "G30" : "BD30";
     var retardText = formatMin(S.delay);
     var isBDcopy = isBilletDirectOUIGOTGV(S.segments);
-    var exRate = S.exceptionalIndemnity ? S.exceptionalIndemnity.rate : null;
-    var exIds = S.exceptionalIndemnity ? (S.exceptionalIndemnity.segmentIds || [S.exceptionalIndemnity.segmentId]) : [];
+    var TARIFS_AVEC_NOM=["prime_titulaire","prime_fid_tiers","prime_tiers_seul","prime_gvt_tiers","prime_gvt_transitoire"];
 
-    // Construire une ligne par segment avec : carrier: tarif prix€ taux% = montant€
-    var segLines = [];
+    var parts = [];
+
+    // --- Segments éligibles ---
     S.segments.forEach(function(seg){
       if(!seg.elig) return;
+      var needsName=TARIFS_AVEC_NOM.indexOf(seg.tarif)>=0;
+      var tarifLabel=getTarifObj(seg.tarif).label;
+      var carrierLabel=getCarrierLabel(seg.carrier)+(needsName?" ("+tarifLabel+")":"");
       var ri={rate:0,fix:null}, amt=0, pts=null;
-      if(seg.tarif==="prime_titulaire"){var ptI=getPointsInfo(S.delay);pts=ptI?ptI.points:null;}
-      else if(seg.tarif==="prime_fid_tiers"){var ptI=getPointsInfo(S.delay);pts=ptI?ptI.points:null;amt=getRBADAmount(S.delay);}
-      else if(seg.tarif==="prime_tiers_seul"){amt=getRBADAmount(S.delay);}
-      else if(seg.tarif==="prime_gvt_tiers"){amt=getRBADAmount(S.delay)*2;}
-      else if(seg.tarif==="prime_gvt_transitoire"){amt=getRBADAmount(S.delay);}
+      if(seg.tarif==="prime_titulaire"){ var ptI=getPointsInfo(S.delay); pts=ptI?ptI.points:null; }
+      else if(seg.tarif==="prime_fid_tiers"){ var ptI=getPointsInfo(S.delay); pts=ptI?ptI.points:null; amt=getRBADAmount(S.delay); }
+      else if(seg.tarif==="prime_tiers_seul"){ amt=getRBADAmount(S.delay); }
+      else if(seg.tarif==="prime_gvt_tiers"){ amt=getRBADAmount(S.delay)*2; }
+      else if(seg.tarif==="prime_gvt_transitoire"){ amt=getRBADAmount(S.delay); }
       else{
         ri=isBDcopy?{rate:getBilletDirectRate(seg.carrier,seg.carrier==="ouigo"&&S.ouigoDelay?S.ouigoDelay:S.delay),fix:null}:getRateInfo(seg.carrier,seg.tarif,S.delay);
         amt=segAmt(seg.price,seg.tarif,ri);
       }
-      var carrierLabel=getCarrierLabel(seg.carrier);
-      var tarifLabel=getTarifObj(seg.tarif).label;
-      var isEx=exRate&&exIds.indexOf(seg.id)>=0;
-      var line=carrierLabel+": "+tarifLabel+" "+seg.price.toFixed(2)+"€ ";
-      if(pts){
-        line+=pts+"pts"+(amt>0?" + "+amt.toFixed(2)+"€":"");
-      }else if(isEx){
-        var exAmt=seg.price*exRate/100;
-        line+=exRate+"% = "+exAmt.toFixed(2)+"€";
-      }else if(ri.fix){
-        line+="= "+amt.toFixed(2)+"€";
-      }else{
-        line+=ri.rate+"% = "+amt.toFixed(2)+"€";
-      }
-      segLines.push(line);
+      var part="";
+      if(pts&&amt>0){ part=carrierLabel+": "+pts+"pts + "+amt.toFixed(2)+"€ BAD"; }
+      else if(pts){ part=carrierLabel+": "+pts+"pts"; }
+      else if(ri.fix){ part=carrierLabel+": Forfait = "+amt.toFixed(2)+"€"; }
+      else if(ri.rate>0){ part=carrierLabel+": "+ri.rate+"% = "+amt.toFixed(2)+"€"; }
+      else{ part=carrierLabel+": "+amt.toFixed(2)+"€"; }
+      parts.push(part);
     });
 
-    // Total = indemniteRetard (inclut déjà le complément exceptionnel) + frais
-    var totalCopy = indemniteRetard + totalFrais;
-    var txt = modeText+" "+totalCopy.toFixed(2)+"€ | Retard "+retardText+" | "+segLines.join(" | ");
-
-    if(totalFrais > 0){
-      var fraisComposition = [];
-      fraisDetails.forEach(function(fd){
-        var unit = fd.type.unit==="voyageur"||fd.type.unit==="passager" ? "x"+S.nbPass : "";
-        var base = fd.type.unit==="voyageur"||fd.type.unit==="passager" ? (fd.finalAmt/S.nbPass).toFixed(2) : fd.finalAmt.toFixed(2);
-        fraisComposition.push(fd.type.label.toLowerCase()+(fd.digipec?" [DIGIPEC]":"")+" "+base+unit);
-      });
-      txt += " | Frais "+totalFrais.toFixed(2)+"€ ("+fraisComposition.join(" + ")+")";
+    // --- Segments hors périmètre ---
+    var horsPerim=S.segments.filter(function(s){return!s.elig;});
+    if(horsPerim.length>0){
+      parts.push("Hors périmètre: "+horsPerim.map(function(s){return getCarrierLabel(s.carrier);}).join(", "));
     }
+
+    // --- Frais ---
+    if(totalFrais>0){
+      var fraisParts=[];
+      fraisDetails.forEach(function(fd){
+        var isPerPass=fd.type.unit==="voyageur"||fd.type.unit==="passager";
+        var nbp=fd.nbPassUsed||S.nbPass||1;
+        var rawInput=fd.montant!=null?fd.montant:fd.finalAmt;
+        var cap=fd.maxPerPerson!=null?(isPerPass?fd.maxPerPerson*Math.max(1,nbp):fd.maxPerPerson):null;
+        var isCapped=cap!=null&&rawInput>cap;
+        // Afficher le montant brut saisi, puis [PLAFONNÉ] si dépassement
+        var displayAmt=rawInput%1===0?rawInput.toFixed(0):rawInput.toFixed(2);
+        var suffix=(isPerPass&&nbp>1)?" x"+nbp+"="+fd.finalAmt.toFixed(2)+"€":"";
+        var overCap=isCapped?" [PLAFONNÉ à "+fd.finalAmt.toFixed(2)+"€]":"";
+        var digipecTag=fd.digipec?" [DIGIPEC "+fd.digipecCap+"€/pass]":"";
+        fraisParts.push(fd.type.label+": "+displayAmt+"€"+suffix+overCap+digipecTag);
+      });
+      parts.push("Frais: "+fraisParts.join(" + "));
+    }
+
+    // --- En-tête résumé ---
+    var hasRetardPts=S.segments.some(function(s){
+      return s.elig&&(s.tarif==="prime_titulaire"||s.tarif==="prime_fid_tiers");
+    });
+    var retardDesc="";
+    if(hasRetardPts){
+      var ptI=getPointsInfo(S.delay);
+      var badI=0;
+      S.segments.forEach(function(s){if(s.elig&&(s.tarif==="prime_fid_tiers"||s.tarif==="prime_gvt_tiers"||s.tarif==="prime_tiers_seul"||s.tarif==="prime_gvt_transitoire"))badI+=getRBADAmount(S.delay)*(s.tarif==="prime_gvt_tiers"?2:1);});
+      retardDesc=(ptI?ptI.points+"pts":"")+(badI>0?" + "+badI.toFixed(2)+"€ BAD":"");
+    }else{
+      retardDesc=indemniteRetard.toFixed(2)+"€";
+    }
+    var modeLabel2=modeText+(totalFrais>0?" + frais":"");
+    var headerSuffix=totalFrais>0?" + "+totalFrais.toFixed(2)+"€ frais":"";
+    var txt = modeLabel2+" : "+retardDesc+headerSuffix+" | Retard "+retardText+" | "+parts.join(" | ");
 
     navigator.clipboard.writeText(txt);
     btnCopy.innerHTML="<i data-lucide='check'></i> Copié!";
@@ -4748,7 +4849,7 @@ function sResultFrais(){
 
 function sDatesType(){
   return card("Rétraction ou Résiliation ?","Choisissez le type de demande",renderOpts([
-    {icon:"<i data-lucide='calendar-days'></i>",label:"Rétraction de carte",desc:"Délai légal — 14 jours calendaires",cb:function(){set({step:"retraction",retractionData:{}});}},
+    {icon:"<i data-lucide='calendar-days'></i>",label:"Rétraction de carte",desc:"Délai légal: 14 jours calendaires",cb:function(){set({step:"retraction",retractionData:{}});}},
     {icon:"<i data-lucide='clipboard-list'></i>",label:"Résiliation abonnement Max",desc:"Calcul des frais et date d'effet",cb:function(){set({step:"resiliation",resiliationData:{}});}},
   ]));
 }
@@ -4798,7 +4899,7 @@ function sRetraction(){
   var wrap=div("step-card");
   wrap.appendChild(div("step-title","Rétraction"));
   wrap.appendChild(div("step-sub","Cartes avantage / Abonnement Max"));
-  wrap.appendChild(div("step-sub","Droit légal — 14 jours calendaires"));
+  wrap.appendChild(div("step-sub","Droit légal: 14 jours calendaires"));
 
   // Date de signature
   var dateRow=div("input-row");
@@ -4869,7 +4970,7 @@ function sResultRetraction(){
   c.appendChild(bd);
 
   var info=div("info-box blue");
-  info.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>À titre informatif</strong> — Consultez les CGV de l'abonnement pour les modalités de demande de rétraction auprès du service client.</div>";
+  info.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>À titre informatif</strong>: Consultez les CGV de l'abonnement pour les modalités de demande de rétraction auprès du service client.</div>";
   c.appendChild(info);
 
   var acts=div("action-row");
@@ -4904,7 +5005,7 @@ function sBareme(){
 
   // Header
   var hdr=div("");
-  hdr.innerHTML="<div style='font-size:14px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;'><i data-lucide='book-open' style='width:20px;height:20px;color:var(--prune);'></i>Barèmes & Règles — Référentiel des Normes AV MAJ 27/04/2026. À titre informatif.</div>";
+  hdr.innerHTML="<div style='font-size:14px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;'><i data-lucide='book-open' style='width:20px;height:20px;color:var(--prune);'></i>Barèmes & Règles: Référentiel des Normes AV MAJ 27/04/2026. À titre informatif.</div>";
   c.appendChild(hdr);
 
   // Accordéons
@@ -4927,7 +5028,7 @@ function sBareme(){
     {
       title:"Plafonds Frais Annexes",
       color:"#006666",
-      content:"<table style='width:100%;border-collapse:collapse;font-size:12px;'><tr style='background:var(--surface2);'><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>TYPE</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>PLAFOND</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>UNITÉ</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>CONDITION</th></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Restauration</td><td style='padding:8px;border-bottom:1px solid var(--border);'>15 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>voyageur</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Dès 60 min de retard — sur justificatif (boissons alcoolisées exclues)</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Acheminement (autocar / taxi hôtel)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>30 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>voyageur</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Autocar, autobus, taxi pour hôtel et retour ou rachat de billets — UNIQUEMENT si pas de solution dans les 100 min.</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Taxi nuit 23h–6h (≥ 60 min retard)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>50 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>course</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Toute arrivée entre 23h et 6h — dès 60 min de retard</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Taxi nuit Optimum+ (≥ 15 min retard)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>100 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>course</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Clients Optimum+ — arrivée 23h–6h — dès 15 min de retard</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement — Province (Tous tarifs)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>110 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Si la poursuite du voyage n'est pas possible le jour même — Autres villes France/Europe — sur facture acquittée</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement — Grande ville (Tous tarifs)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>150 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Paris, Lyon, Marseille, Bordeaux, Lille, Nantes, Strasbourg…</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement — Province (Optimum+)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>300 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Autres villes — Optimum+</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement — Grande ville (Optimum+)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>300 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Paris, Lyon, Nantes, Marseille… — Optimum+</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Rachat billets / frais d'échange</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Sans plafond</td><td style='padding:8px;border-bottom:1px solid var(--border);'>dossier</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Remboursement du surcoût — sur justificatif — pas de plafond fixe (à valider selon dossier)</td></tr></table>"
+      content:"<table style='width:100%;border-collapse:collapse;font-size:12px;'><tr style='background:var(--surface2);'><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>TYPE</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>PLAFOND</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>UNITÉ</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>CONDITION</th></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Restauration</td><td style='padding:8px;border-bottom:1px solid var(--border);'>15 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>voyageur</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Dès 60 min de retard: sur justificatif (boissons alcoolisées exclues)</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Acheminement (autocar / taxi hôtel)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>30 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>voyageur</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Autocar, autobus, taxi pour hôtel et retour ou rachat de billets: UNIQUEMENT si pas de solution dans les 100 min.</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Taxi nuit 23h–6h (≥ 60 min retard)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>50 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>course</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Toute arrivée entre 23h et 6h: dès 60 min de retard</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Taxi nuit Optimum+ (≥ 15 min retard)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>100 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>course</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Clients Optimum+: arrivée 23h–6h: dès 15 min de retard</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement: Province (Tous tarifs)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>110 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Si la poursuite du voyage n'est pas possible le jour même: Autres villes France/Europe: sur facture acquittée</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement: Grande ville (Tous tarifs)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>150 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Paris, Lyon, Marseille, Bordeaux, Lille, Nantes, Strasbourg…</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement: Province (Optimum+)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>300 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Autres villes: Optimum+</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement: Grande ville (Optimum+)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>300 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Paris, Lyon, Nantes, Marseille…: Optimum+</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Rachat billets / frais d'échange</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Sans plafond</td><td style='padding:8px;border-bottom:1px solid var(--border);'>dossier</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Remboursement du surcoût: sur justificatif: pas de plafond fixe (à valider selon dossier)</td></tr></table>"
     }
   ];
 
@@ -5320,7 +5421,7 @@ function render(){
         return{label:_lbl,amt:_amt,montant:f.montant,maxPerPerson:f.maxPerPerson,nbPassUsed:f.nbPassUsed};
       });
       var _tf=_fraisArr.reduce(function(acc,f){return acc+f.amt;},0);
-      var _sfr=_tf.toFixed(2)+"€ — frais annexes";
+      var _sfr=_tf.toFixed(2)+"€: frais annexes";
       pushH("<i data-lucide='receipt'></i>","Résultat frais",_sfr);
       if(S.retardDossierId){
         updateDossierFrais(S.retardDossierId,_fraisArr,_tf);
@@ -5469,7 +5570,7 @@ render();
   var rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
   function noMotion() { return rmq.matches; }
 
-  /* Easing — mirrors CSS token */
+  /* Easing: mirrors CSS token */
   function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
 
   /* ── 1. Cursor glow ──────────────────────────────────────────────────── */
@@ -5496,7 +5597,7 @@ render();
     requestAnimationFrame(glowLoop);
   })();
 
-  /* ── 2. Card parallax (event delegation — per card) ─────────────────── */
+  /* ── 2. Card parallax (event delegation: per card) ─────────────────── */
   document.addEventListener('mouseover', function (e) {
     if (noMotion()) return;
     var card = e.target.closest && e.target.closest('.step-card, .result-card');
@@ -5619,7 +5720,7 @@ render();
     }
   }
 
-  /* ── 7. Patch render() — exit → original → afterRender ──────────────── */
+  /* ── 7. Patch render(): exit → original → afterRender ──────────────── */
   var _orig  = window.render;
   var _busy  = false;
   var _queue = null;
@@ -5646,7 +5747,7 @@ render();
 
     _busy = true;
 
-    /* Exit — 95ms fade + upward nudge on content (not header) */
+    /* Exit: 95ms fade + upward nudge on content (not header) */
     kids.forEach(function (el) {
       el.style.transition = 'opacity 0.09s ease, transform 0.09s ease';
       el.style.opacity    = '0';
