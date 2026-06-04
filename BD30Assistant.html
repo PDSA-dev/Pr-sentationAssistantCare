@@ -315,6 +315,9 @@ body {
   margin-bottom: 22px;
   line-height: 1.6;
 }
+.input-row .step-sub {
+  margin-bottom: 4px;
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
 /* OPTIONS & INTERACTIVE ELEMENTS */
@@ -658,7 +661,7 @@ body {
 .input-row {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 6px;
 }
 
 .inp {
@@ -2563,6 +2566,24 @@ function updateDossierFrais(dossierId,fraisArr,fraisTotal){
     localStorage.setItem("bd30-dossiers",JSON.stringify(d));
   }catch(e){}
 }
+function saveRetractionDossier(data){
+  try{
+    var d=JSON.parse(localStorage.getItem("bd30-dossiers")||"[]");
+    var entry={id:Date.now(),date:mkDosDate(),type:"retraction",signatureDate:data.signatureDate,demandeDate:data.demandeDate,deadlineDate:data.deadlineDate,remboursement:data.remboursement,summary:data.summary};
+    d.unshift(entry);
+    if(d.length>50)d=d.slice(0,50);
+    localStorage.setItem("bd30-dossiers",JSON.stringify(d));
+  }catch(e){}
+}
+function saveResiliationDossier(data){
+  try{
+    var d=JSON.parse(localStorage.getItem("bd30-dossiers")||"[]");
+    var entry={id:Date.now(),date:mkDosDate(),type:"resiliation",abonnement:data.abonnement,frais:data.frais,effectiveDate:data.effectiveDate,message:data.message,summary:data.summary};
+    d.unshift(entry);
+    if(d.length>50)d=d.slice(0,50);
+    localStorage.setItem("bd30-dossiers",JSON.stringify(d));
+  }catch(e){}
+}
 function deleteDossierById(id){
   try{
     var d=JSON.parse(localStorage.getItem("bd30-dossiers")||"[]");
@@ -2587,6 +2608,51 @@ function sDossierHistory(){
     var bd=div("result-breakdown");
     bd.appendChild(div("breakdown-title","<i data-lucide='clock'></i>Dossiers récents"));
     dossiers.forEach(function(dos){
+      // Rétractation entry
+      if(dos.type==="retraction"){
+        var card=document.createElement("div");
+        card.style.cssText="border:1px solid var(--border);border-left:3px solid #7B2D8B;border-radius:8px;padding:12px;background:var(--surface);margin-bottom:10px;";
+        var hRow=document.createElement("div");hRow.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:8px;";
+        var badge=document.createElement("span");badge.style.cssText="background:#7B2D8B;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:800;";badge.textContent="RÉTRACTION";
+        hRow.appendChild(badge);
+        var ds=document.createElement("span");ds.style.cssText="font-size:11px;color:var(--tx-muted);flex:1;";ds.textContent=dos.date;hRow.appendChild(ds);
+        var delBtn=document.createElement("button");delBtn.style.cssText="background:none;border:none;cursor:pointer;color:var(--tx-muted);padding:2px 4px;";delBtn.innerHTML="<i data-lucide='x'></i>";
+        (function(id){delBtn.onclick=function(){if(window.confirm("Supprimer ce dossier ?"))deleteDossierById(id);};})(dos.id);
+        hRow.appendChild(delBtn);card.appendChild(hRow);
+        var rows=[["Signature",dos.signatureDate],["Demande",dos.demandeDate],["Date limite",dos.deadlineDate],["Remboursement",dos.remboursement]];
+        rows.forEach(function(r){
+          var rEl=document.createElement("div");rEl.style.cssText="display:flex;font-size:11px;gap:6px;margin-bottom:3px;";
+          var l=document.createElement("span");l.style.cssText="color:var(--tx-muted);width:90px;flex-shrink:0;";l.textContent=r[0]+" :";
+          var v=document.createElement("span");v.style.cssText="color:var(--tx);font-weight:600;";v.textContent=r[1]||"—";
+          rEl.appendChild(l);rEl.appendChild(v);card.appendChild(rEl);
+        });
+        bd.appendChild(card);
+        return;
+      }
+      // Résiliation entry
+      if(dos.type==="resiliation"){
+        var card=document.createElement("div");
+        card.style.cssText="border:1px solid var(--border);border-left:3px solid #1a6e1a;border-radius:8px;padding:12px;background:var(--surface);margin-bottom:10px;";
+        var hRow=document.createElement("div");hRow.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:8px;";
+        var badge=document.createElement("span");badge.style.cssText="background:#1a6e1a;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:800;";badge.textContent="RÉSILIATION";
+        hRow.appendChild(badge);
+        var aboSpan=document.createElement("span");aboSpan.style.cssText="font-size:11px;font-weight:600;color:var(--tx);";aboSpan.textContent=dos.abonnement||"";hRow.appendChild(aboSpan);
+        var ds=document.createElement("span");ds.style.cssText="font-size:11px;color:var(--tx-muted);flex:1;text-align:right;";ds.textContent=dos.date;hRow.appendChild(ds);
+        var delBtn=document.createElement("button");delBtn.style.cssText="background:none;border:none;cursor:pointer;color:var(--tx-muted);padding:2px 4px;";delBtn.innerHTML="<i data-lucide='x'></i>";
+        (function(id){delBtn.onclick=function(){if(window.confirm("Supprimer ce dossier ?"))deleteDossierById(id);};})(dos.id);
+        hRow.appendChild(delBtn);card.appendChild(hRow);
+        var fraisStr=dos.frais>0?dos.frais.toFixed(2)+"€":"Gratuit / Impossible";
+        var rows2=[["Frais",fraisStr],["Date d'effet",dos.effectiveDate],["Note",dos.message]];
+        rows2.forEach(function(r){
+          if(!r[1])return;
+          var rEl=document.createElement("div");rEl.style.cssText="display:flex;font-size:11px;gap:6px;margin-bottom:3px;align-items:flex-start;";
+          var l=document.createElement("span");l.style.cssText="color:var(--tx-muted);width:80px;flex-shrink:0;";l.textContent=r[0]+" :";
+          var v=document.createElement("span");v.style.cssText="color:var(--tx);font-weight:600;flex:1;";v.textContent=r[1];
+          rEl.appendChild(l);rEl.appendChild(v);card.appendChild(rEl);
+        });
+        bd.appendChild(card);
+        return;
+      }
       // Rich entry (has segs field) vs legacy string entry
       if(dos.segs!==undefined){
         var card=document.createElement("div");
@@ -4947,7 +5013,8 @@ function sResultFrais(){
   // 🆕 BOUTON: Copier retard + frais (FORMAT DÉTAILLÉ)
   var btnCopy=document.createElement("button");
   btnCopy.className="act-btn primary";
-  btnCopy.innerHTML="<i data-lucide='copy'></i> Copier Retard+Frais";
+  var _hasRetard=S.retardDossierId||S.segments.some(function(s){return s.elig;});
+  btnCopy.innerHTML="<i data-lucide='copy'></i> Copier "+(_hasRetard?"Retard+Frais":"Frais");
   btnCopy.onclick=function(){
     var modeText = S.segments.length === 1 ? "G30" : "BD30";
     var retardText = formatMin(S.delay);
@@ -5053,7 +5120,7 @@ function sResultFrais(){
     navigator.clipboard.writeText(txt);
     btnCopy.innerHTML="<i data-lucide='check'></i> Copié!";
     setTimeout(function(){
-      btnCopy.innerHTML="<i data-lucide='copy'></i> Copier Retard+Frais";
+      btnCopy.innerHTML="<i data-lucide='copy'></i> Copier "+(_hasRetard?"Retard+Frais":"Frais");
     }, 2000);
   };
   acts.appendChild(btnCopy);
@@ -5122,21 +5189,31 @@ function sRetraction(){
   wrap.appendChild(div("step-sub","Cartes avantage / Abonnement Max"));
   wrap.appendChild(div("step-sub","Droit légal: 14 jours calendaires"));
 
+  var today=new Date().toISOString().split("T")[0];
+
   // Date de signature
   var dateRow=div("input-row");
-  dateRow.appendChild(div("step-sub","Date de signature:"));
-  var today=new Date().toISOString().split("T")[0];
+  dateRow.appendChild(div("step-sub","Date de signature :"));
   var dateInput=inp("date",rd.dateSignature||today);
   dateInput.id="retr-date-sig";
   dateRow.appendChild(dateInput);
   wrap.appendChild(dateRow);
   setTimeout(function(){
     var el=document.getElementById("retr-date-sig");
-    if(el){
-      el.addEventListener("change",function(){
-        S.retractionData={...(S.retractionData||{}),dateSignature:this.value};
-      });
-    }
+    if(el){el.addEventListener("change",function(){S.retractionData={...(S.retractionData||{}),dateSignature:this.value};});}
+  },10);
+
+  // Date de la demande
+  var demRow=div("input-row");
+  demRow.style.marginTop="12px";
+  demRow.appendChild(div("step-sub","Date de la demande :"));
+  var demInput=inp("date",rd.dateDemande||today);
+  demInput.id="retr-date-dem";
+  demRow.appendChild(demInput);
+  wrap.appendChild(demRow);
+  setTimeout(function(){
+    var el=document.getElementById("retr-date-dem");
+    if(el){el.addEventListener("change",function(){S.retractionData={...(S.retractionData||{}),dateDemande:this.value};});}
   },10);
 
   // Bouton calculer
@@ -5146,6 +5223,7 @@ function sRetraction(){
   btn.onclick=function(){
     var currentData=S.retractionData||{};
     if(!currentData.dateSignature){alert("Remplissez la date de signature");return;}
+    if(!currentData.dateDemande){S.retractionData={...(S.retractionData||{}),dateDemande:today};}
     set({step:"result_retraction"});
   };
   wrap.appendChild(btn);
@@ -5156,11 +5234,26 @@ function sResultRetraction(){
   var data=S.retractionData||{};
   var deadline=calcRetractionDeadline(data.dateSignature);
 
+  // Calculs clés
+  var now=new Date();
+  // Utiliser la date de demande saisie si disponible, sinon today
+  var dateDemande=data.dateDemande?new Date(data.dateDemande):now;
+  var joursRestants=Math.ceil((deadline-dateDemande)/(1000*60*60*24));
+  var delaiDepasse=joursRestants<=0;
+  // Date pivot politique: 11/05/2026
+  var datePivot=new Date(2026,4,11);
+  var demandeAvantPivot=dateDemande<datePivot;
+  // Remboursement
+  var rembLabel,rembStyle;
+  if(!delaiDepasse){rembLabel="Intégral ✓ (droit légal)";rembStyle="color:var(--success,#2e7d32);font-weight:700;";}
+  else if(demandeAvantPivot){rembLabel="Intégral ✓ (demande avant 11/05/2026)";rembStyle="color:var(--success,#2e7d32);font-weight:700;";}
+  else{rembLabel="Refus ✗ (délai dépassé)";rembStyle="color:var(--danger,#c62828);font-weight:700;";}
+  // Stocker pour l'historique
+  S._retractionRemb=rembLabel;
+
   var c=div("result-card");
   var header=div("result-header");
   header.appendChild(div("result-mode","DROIT DE RÉTRACTION"));
-  header.appendChild(div("result-amount","14"));
-  header.appendChild(div("result-label","jours calendaires"));
   header.appendChild(div("rt-badge","RT\u00a05312"));
   c.appendChild(header);
 
@@ -5170,30 +5263,40 @@ function sResultRetraction(){
   var deadlineStr=deadline.getDate().toString().padStart(2,"0")+"/"+(deadline.getMonth()+1).toString().padStart(2,"0")+"/"+deadline.getFullYear();
   var signatureStr=dateToFr(data.dateSignature);
 
+  var demandeStr=data.dateDemande?dateToFr(data.dateDemande):dateToFr(now.toISOString().split("T")[0]);
   var items=[
     {label:"Date signature",val:signatureStr},
-    {label:"Date limite",val:deadlineStr},
-    {label:"Jours restants",val:Math.ceil((deadline-new Date())/(1000*60*60*24))+" jours"}
+    {label:"Date limite (14 j)",val:deadlineStr},
+    {label:"Date de la demande",val:demandeStr},
+    {label:"Jours restants",val:delaiDepasse?"<span style='color:var(--danger,#c62828);font-weight:700;'>Délai dépassé</span>":joursRestants+" jour"+(joursRestants>1?"s":""),html:true}
   ];
 
   for(var i=0;i<items.length;i++){
     var item=div("breakdown-item");
     item.appendChild(div("breakdown-label",items[i].label));
-    item.appendChild(div("breakdown-value",items[i].val));
+    var valEl=div("breakdown-value","");
+    if(items[i].html) valEl.innerHTML=items[i].val; else valEl.textContent=items[i].val;
+    item.appendChild(valEl);
     bd.appendChild(item);
   }
 
   var msgItem=div("breakdown-item");
   msgItem.appendChild(div("breakdown-label","Remboursement"));
-  msgItem.appendChild(div("breakdown-value","Integral (droit légal)"));
+  var rembEl=div("breakdown-value","");
+  rembEl.innerHTML="<span style='"+rembStyle+"'>"+rembLabel+"</span>";
+  msgItem.appendChild(rembEl);
   bd.appendChild(msgItem);
 
   c.appendChild(bd);
 
-  var info=div("info-box blue");
-  info.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>À titre informatif</strong>: Consultez les CGV de l'abonnement pour les modalités de demande de rétraction auprès du service client.</div>";
+  var infoClass=delaiDepasse&&!demandeAvantPivot?"info-box red":"info-box blue";
+  var info=div(infoClass);
+  if(!delaiDepasse){info.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>Dans le délai</strong> : Rétractation recevable. Consultez les CGV pour les modalités de dépôt.</div>";}
+  else if(demandeAvantPivot){info.innerHTML="<div class='info-icon'><i data-lucide='alert-circle'></i></div><div><strong>Délai dépassé</strong> — demande avant le 11/05/2026 : remboursement intégral applicable.</div>";}
+  else{info.innerHTML="<div class='info-icon'><i data-lucide='x-circle'></i></div><div><strong>Délai dépassé</strong> — date limite : <strong>"+deadlineStr+"</strong>. Demande après le "+deadlineStr+" : remboursement refusé.</div>";}
   c.appendChild(info);
 
+  var rembTxt=delaiDepasse&&!demandeAvantPivot?"Refus (délai dépassé)":"Intégral (droit légal consommateur)";
   var acts=div("action-row");
   var btnCopy=document.createElement("button");
   btnCopy.className="act-btn primary";
@@ -5202,7 +5305,7 @@ function sResultRetraction(){
     var txt="RÉTRACTION - Cartes avantage / Abonnement Max\n";
     txt+="Date signature: "+signatureStr+"\n";
     txt+="Date limite: "+deadlineStr+"\n";
-    txt+="Remboursement: Intégral (droit légal consommateur)";
+    txt+="Remboursement: "+rembTxt;
     navigator.clipboard.writeText(txt);
     btnCopy.innerHTML="<i data-lucide='check'></i> Copié!";
     setTimeout(function(){btnCopy.innerHTML="<i data-lucide='copy'></i> Copier";},2000);
@@ -5650,6 +5753,26 @@ function render(){
         saveRetardDossier({ml:null,delay:null,retardTotal:0,total:_tf,segs:[],summary:_sfr,frais:_fraisArr,fraisTotal:_tf});
       }
     }
+  }
+  // Auto-save rétractation
+  if(S.step==="result_retraction"&&S.retractionData&&S.retractionData.dateSignature&&!S._retractionSaved){
+    S._retractionSaved=true;
+    var _rd=S.retractionData;
+    var _dl=calcRetractionDeadline(_rd.dateSignature);
+    var _dlStr=_dl.getDate().toString().padStart(2,"0")+"/"+((_dl.getMonth()+1)).toString().padStart(2,"0")+"/"+_dl.getFullYear();
+    var _dem=_rd.dateDemande?dateToFr(_rd.dateDemande):"—";
+    var _remb=S._retractionRemb||"—";
+    saveRetractionDossier({signatureDate:dateToFr(_rd.dateSignature),demandeDate:_dem,deadlineDate:_dlStr,remboursement:_remb,summary:"Rétractation · Signature: "+dateToFr(_rd.dateSignature)+" · "+_remb});
+  }
+  // Auto-save résiliation
+  if(S.step==="result_resiliation"&&S.resiliationData&&S.resiliationData.type&&!S._resiliationSaved){
+    S._resiliationSaved=true;
+    var _rsd=S.resiliationData;
+    var _calc=calcResiliationFees(_rsd.type,_rsd.dateActivation,_rsd.dateResiliation);
+    var _effDate=calcResiliationDate(_rsd.type,_rsd.dateActivation,_rsd.dateResiliation);
+    var _effStr=_effDate?(_effDate.getDate().toString().padStart(2,"0")+"/"+((_effDate.getMonth()+1)).toString().padStart(2,"0")+"/"+_effDate.getFullYear()):"—";
+    var _aboLabel={max_jeune:"Max Jeune",max_senior:"Max Senior",max_actif:"Max Actif",max_actif_plus:"Max Actif+"}[_rsd.type]||_rsd.type;
+    saveResiliationDossier({abonnement:_aboLabel,frais:_calc.frais||0,effectiveDate:_effStr,message:_calc.message,summary:"Résiliation "+_aboLabel+" · "+(_calc.gratuit?"Sans frais":_calc.impossible?"Impossible":_calc.frais+"€")+" · Effet: "+_effStr});
   }
 
   if(S.history.length){
