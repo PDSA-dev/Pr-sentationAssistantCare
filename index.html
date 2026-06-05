@@ -1319,7 +1319,7 @@ body::after {
 
 /* Cursor pointer on interactive elements */
 .cx-dot, .word-chip, .feat-card, .browser-tab,
-.split-half, .amount-card, #s-intro .badge { cursor:default; }
+.split-half, .amount-card, #s-intro .badge { cursor:pointer; }
 
 /* Scene idx - sharper */
 #scene-idx {
@@ -1642,18 +1642,6 @@ body::after {
   opacity: 0.6;
   pointer-events: none;
 }
-
-/* cx-num base reset */
-.cx-num {
-  font-size: 46px;
-  letter-spacing: -2px;
-  line-height: 1;
-  background: none;
-  -webkit-background-clip: unset;
-  background-clip: unset;
-  -webkit-text-fill-color: #fff;
-}
-
 
 /* cx-num base reset - styled by number-badge */
 .cx-num {
@@ -2249,17 +2237,19 @@ body::after {
    RÈGLES D'APPLICATION
 ───────────────────────────────────────────────────────── */
 
-.logo-mark {
+/* Scène 1 seulement : logoIn + logoIdle (transform+opacity, compositor thread)
+   Scène conclusion + stand-by conservent leurs propres animations.
+   glowPulse (box-shadow animé) remplacé par glowBreathe sur ::before → zéro repaint */
+#s-intro .logo-mark {
   animation:
     logoIn   2.2s cubic-bezier(.16,1,.3,1) both     0.80s,
-    logoIdle 18s  ease-in-out              infinite  4.20s,
-    glowPulse 8s  ease-in-out              infinite  4.50s !important;
+    logoIdle 18s  ease-in-out              infinite  4.20s;
   box-shadow:
-    0 0 0 8px  rgba(161,0,107,0.10),
-    0 0 0 20px rgba(161,0,107,0.06),
-    0 22px 44px rgba(0,0,0,0.50),
+    0 0 0 8px  rgba(161,0,107,0.12),
+    0 0 0 20px rgba(161,0,107,0.07),
+    0 22px 44px rgba(0,0,0,0.52),
     inset 0 5px 14px rgba(255,255,255,0.26),
-    inset 0 -5px 10px rgba(0,0,0,0.32) !important;
+    inset 0 -5px 10px rgba(0,0,0,0.32);
 }
 
 #s-intro .scene-label {
@@ -2990,6 +2980,484 @@ body.sb-mode #nav {
   pointer-events:none;
 }
 
+/* ════════════════════════════════════════════════════════════
+   CTA — BOUTON LANCER LA DÉMONSTRATION
+   Optimisé : transform + opacity uniquement → compositor thread
+════════════════════════════════════════════════════════════ */
+
+#btn-launch-demo {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 44px;
+  padding: 22px 56px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: -.2px;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  background: linear-gradient(140deg, #C0267E 0%, var(--prune) 45%, var(--prune-dk) 100%);
+  box-shadow:
+    0 0 0 1px rgba(244,160,204,.22),
+    0 0 48px rgba(161,0,107,.40),
+    0 12px 40px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.20);
+  animation: sbCTAIn .8s cubic-bezier(.34,1.56,.64,1) .6s both;
+  transition:
+    transform .35s var(--spring),
+    box-shadow .35s var(--ease-out);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Shimmer continu */
+#btn-launch-demo::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 50%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,.20) 50%,
+    transparent 100%);
+  transform: translateX(-220%) skewX(-18deg);
+  pointer-events: none;
+  animation: sbShimmer 3.8s 1.8s ease-in-out infinite;
+}
+
+/* Highlight interne haut */
+#btn-launch-demo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,255,255,.16) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+#btn-launch-demo:hover {
+  transform: translateY(-7px) scale(1.035);
+  box-shadow:
+    0 0 0 1px rgba(244,160,204,.35),
+    0 0 80px rgba(161,0,107,.55),
+    0 22px 60px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+#btn-launch-demo:active {
+  transform: scale(.96) translateY(1px);
+  box-shadow:
+    0 0 0 1px rgba(244,160,204,.18),
+    0 0 32px rgba(161,0,107,.30),
+    0 6px 20px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.14);
+  transition-duration: .12s;
+}
+
+#btn-launch-demo svg {
+  flex-shrink: 0;
+  transition: transform .3s var(--spring);
+}
+
+#btn-launch-demo:hover svg {
+  transform: scale(1.18) translateX(3px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UNIFIED FINAL LAYER — consolide TOUS les patches précédents.
+   Ces règles remplacent définitivement les cascades de patches
+   v9 / v10 / v20 / v25 / v26 / v27 / v28 / v29 / v30.
+   Aucun !important utilisé ici — la spécificité suffit.
+════════════════════════════════════════════════════════════════ */
+
+/* ── Cursors interactifs (supprime cursor:default partout) ── */
+.cx-dot,
+.word-chip,
+.feat-card,
+.amount-card,
+.browser-tab,
+#s-intro .badge,
+.split-half,
+#stand-by { cursor: pointer; }
+
+/* ── logo-mark : animations GPU-only (transform + opacity)
+   On retire glowPulse (box-shadow) du stack,
+   le ::before glow-breathe prend en charge la lueur. ── */
+.logo-mark {
+  animation:
+    logoReveal 2.0s cubic-bezier(.16,1,.3,1) both .10s,
+    logoDrift  7s  2.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* s-intro remplace par cinématique pure */
+#s-intro .logo-mark {
+  animation:
+    logoIn   2.2s cubic-bezier(.16,1,.3,1) both     0.80s,
+    logoIdle 18s  ease-in-out              infinite  4.20s;
+}
+
+/* stand-by logo : entrée cinématique propre */
+#sb-logo-core {
+  animation: sbLogoEntry 2.2s cubic-bezier(.16,1,.3,1) both 0.15s;
+}
+
+/* s-demo / s-conclusion : drift + glow via ::before */
+#s-demo .logo-mark,
+#s-conclusion .logo-mark {
+  animation:
+    logoReveal 2.0s cubic-bezier(.16,1,.3,1) both .10s,
+    logoDrift  7s  2.2s ease-in-out infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 10 ROI INFOGRAPHY v31 — Tableau de bord d'impact premium
+   Remplace entièrement les anciennes règles roi-*
+════════════════════════════════════════════════════════════════ */
+
+/* Scene container */
+#s-roi {
+  padding: 62px 44px 44px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Wrapper principal */
+.roi-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 1160px;
+  flex: 1;
+}
+
+/* Card de base */
+.roi-block {
+  background: rgba(20, 15, 25, 0.62);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 14px 18px;
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 28px rgba(0,0,0,.38);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .55s cubic-bezier(.23,1,.32,1), transform .55s cubic-bezier(.23,1,.32,1),
+              box-shadow .3s, border-color .3s;
+}
+.roi-block.roi-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.roi-block:hover {
+  border-color: rgba(161,0,107,.28);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08),
+              0 0 0 1px rgba(161,0,107,.12),
+              0 12px 36px rgba(0,0,0,.48);
+}
+
+/* Titre de section */
+.roi-section-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(244,160,204,.55);
+  margin-bottom: 10px;
+}
+
+/* ── TOP BLOCK : frise de workflow ── */
+.roi-frise {
+  display: flex;
+  gap: 3px;
+  align-items: stretch;
+  height: 42px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 7px;
+}
+.roi-frise-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  transition: width .8s cubic-bezier(.23,1,.32,1);
+  border-radius: 8px;
+}
+.roi-frise-seg--grey  { background: rgba(255,255,255,.08); color: rgba(238,238,248,.65); }
+.roi-frise-seg--dim   { background: rgba(255,255,255,.04); color: rgba(238,238,248,.38); }
+.roi-frise-seg--green {
+  background: linear-gradient(90deg, rgba(16,185,129,.28), rgba(16,185,129,.15));
+  border: 1px solid rgba(16,185,129,.4);
+  color: #10b981;
+  box-shadow: 0 0 18px rgba(16,185,129,.15);
+}
+.roi-top-note {
+  font-size: 10.5px;
+  color: rgba(238,238,248,.38);
+  font-style: italic;
+}
+
+/* ── MID BLOCK : équation visuelle ── */
+.roi-equation {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.roi-equation::-webkit-scrollbar { display: none; }
+.roi-eq-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  text-align: center;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.roi-eq-step.roi-eq-visible { opacity: 1; transform: translateX(0); }
+.roi-eq-num {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -.5px;
+}
+.roi-eq-sub {
+  font-size: 8.5px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: rgba(238,238,248,.5);
+  margin-top: 1px;
+}
+.roi-eq-step--mag .roi-eq-num { color: #e0559a; }
+.roi-eq-step--green {
+  background: rgba(16,185,129,.08);
+  border: 1px solid rgba(16,185,129,.2);
+}
+.roi-eq-step--green .roi-eq-num { color: #10b981; }
+.roi-eq-step--gold {
+  background: rgba(252,211,77,.10);
+  border: 1px solid rgba(252,211,77,.35);
+  box-shadow: 0 0 20px rgba(252,211,77,.12);
+}
+.roi-eq-step--gold .roi-eq-num { color: #FCD34D; font-size: 24px; }
+.roi-eq-op {
+  font-size: 16px;
+  color: rgba(238,238,248,.28);
+  padding: 0 3px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.roi-eq-op.roi-eq-visible { opacity: 1; }
+
+/* ── BOTTOM ROW ── */
+.roi-bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1.55fr;
+  gap: 10px;
+  flex: 1;
+}
+
+/* ── Projection Équipe ── */
+.roi-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.roi-agent-count {
+  font-size: 40px;
+  font-weight: 900;
+  color: #e0559a;
+  letter-spacing: -2px;
+  line-height: 1;
+  transition: color .2s;
+}
+.roi-agent-label {
+  font-size: 11px;
+  color: rgba(238,238,248,.5);
+}
+
+/* Slider custom */
+.roi-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #A1006B 0%, #A1006B var(--pct,100%), rgba(255,255,255,.12) var(--pct,100%));
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+.roi-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #e0559a, #A1006B);
+  border: 2px solid rgba(255,255,255,.25);
+  box-shadow: 0 0 12px rgba(161,0,107,.55);
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.roi-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 0 0 20px rgba(161,0,107,.75);
+}
+.roi-slider::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #e0559a, #A1006B);
+  border: 2px solid rgba(255,255,255,.25);
+  cursor: pointer;
+}
+
+/* Métriques */
+.roi-metrics { display: flex; flex-direction: column; gap: 5px; }
+.roi-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+  transition: border-color .2s;
+}
+.roi-metric:hover { border-color: rgba(255,255,255,.12); }
+.roi-metric-label { font-size: 10.5px; color: rgba(238,238,248,.52); }
+.roi-metric-val {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -.3px;
+  transition: color .2s;
+}
+.roi-metric-val--green { color: #10b981; }
+.roi-metric-val--gold  { color: #FCD34D; }
+.roi-metric-val--blue  { color: #64BEEF; }
+
+/* ── Argument capacité ── */
+.roi-features { display: flex; flex-direction: column; gap: 7px; }
+.roi-feature {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.055);
+  transition: background .25s, border-color .25s;
+}
+.roi-feature:hover {
+  background: rgba(255,255,255,.045);
+  border-color: rgba(255,255,255,.10);
+}
+.roi-feature-icon {
+  width: 30px; height: 30px; min-width: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.roi-feature-icon--green { background: rgba(16,185,129,.14); border: 1px solid rgba(16,185,129,.3); }
+.roi-feature-icon--mag   { background: rgba(161,0,107,.16);  border: 1px solid rgba(244,160,204,.25); }
+.roi-feature-icon--blue  { background: rgba(0,136,206,.10);  border: 1px solid rgba(0,136,206,.25); }
+.roi-feature-title  { font-size: 11px; font-weight: 700; color: rgba(238,238,248,.88); margin-bottom: 2px; }
+.roi-feature-big {
+  font-size: 15px;
+  font-weight: 900;
+  color: #10b981;
+  letter-spacing: -.3px;
+  line-height: 1.25;
+  margin: 2px 0 3px;
+  text-shadow: 0 0 18px rgba(16,185,129,.4);
+}
+.roi-feature-note { font-size: 10px; color: rgba(238,238,248,.4); line-height: 1.45; }
+
+/* ── Encart calcul capacité ── */
+.roi-calc-explain {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-left: 2px solid rgba(161,0,107,0.6);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 4px 0 2px;
+  backdrop-filter: blur(8px);
+}
+.roi-calc-explain-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(244,160,204,0.85);
+  letter-spacing: .3px;
+  margin-bottom: 9px;
+}
+.roi-calc-explain-steps { display: flex; flex-direction: column; gap: 4px; }
+.roi-calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.roi-calc-label {
+  font-size: 10px;
+  color: rgba(238,238,248,.65);
+  line-height: 1.4;
+}
+.roi-calc-label em { font-style: italic; color: rgba(244,160,204,.8); }
+.roi-calc-val {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(238,238,248,.85);
+  white-space: nowrap;
+}
+.roi-calc-row--sub .roi-calc-label {
+  font-size: 9px;
+  color: rgba(238,238,248,.38);
+  padding-left: 6px;
+}
+.roi-calc-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin: 3px 0;
+}
+.roi-calc-row--result .roi-calc-label {
+  font-weight: 600;
+  color: rgba(238,238,248,.85);
+}
+.roi-calc-highlight {
+  color: #34D399;
+  font-size: 11px;
+}
+.roi-calc-highlight strong {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .roi-bottom-row { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -3598,136 +4066,136 @@ body.sb-mode #nav {
   </div>
 </div>
 
-<!-- ══════════════════ SCENE 8 - ROI ══════════════════ -->
+<!-- ══════════════════ SCENE 8 - ROI / IMPACT ══════════════════ -->
 <div class="scene" id="s-roi">
-  <div class="scene-label">Retour sur investissement Base annuelle 2026</div>
+  <div class="scene-label">Impact opérationnel · Tableau de bord ROI 2026</div>
 
-  <!-- ── ROI LAYOUT ── -->
-  <div style="display:flex;flex-direction:column;gap:11px;width:100%;max-width:960px;padding-top:8px;">
+  <div class="roi-wrap">
 
-    <!-- BLOCK 1 Précision du chiffre -->
-    <div id="roi-block1" style="opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;background:var(--glass-1);border:1px solid var(--border-1);border-radius:14px;padding:13px 18px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-transform:uppercase;margin-bottom:9px;">Pourquoi 7 minutes et pas plus</div>
-      <!-- File bar -->
-      <div style="display:flex;align-items:stretch;border-radius:8px;overflow:hidden;height:36px;gap:2px;margin-bottom:8px;">
-        <div id="roi-seg-a" style="width:0;min-width:0;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap;overflow:hidden;transition:width 0.8s cubic-bezier(.23,1,.32,1);border-radius:6px 0 0 6px;">Analyse + rédaction · 8 min</div>
-        <div id="roi-seg-b" style="width:0;min-width:0;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,0.35);white-space:nowrap;overflow:hidden;transition:width 0.8s cubic-bezier(.23,1,.32,1) .5s;">Calcul résiduel · 3 min</div>
-        <div id="roi-seg-c" style="width:0;min-width:0;background:linear-gradient(90deg,rgba(52,211,153,0.28),rgba(52,211,153,0.15));border:1px solid rgba(52,211,153,0.4);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--green);white-space:nowrap;overflow:hidden;transition:width 0.9s cubic-bezier(.23,1,.32,1) 1s;border-radius:0 6px 6px 0;box-shadow:0 0 18px rgba(52,211,153,0.15);">⚡ 7 min récupérées par TGVCare</div>
+    <!-- ── TOP : Pourquoi 7 minutes et pas plus ── -->
+    <div class="roi-block" id="roi-b1">
+      <div class="roi-section-title">Pourquoi 7 minutes et pas plus</div>
+      <div class="roi-frise">
+        <div class="roi-frise-seg roi-frise-seg--grey"  id="roi-seg-a">Analyse + rédaction · 8 min</div>
+        <div class="roi-frise-seg roi-frise-seg--dim"   id="roi-seg-b">Calcul résiduel · 3 min</div>
+        <div class="roi-frise-seg roi-frise-seg--green" id="roi-seg-c">⚡ 7 min récupérées par TGVCare</div>
       </div>
-      <div style="font-size:11px;color:var(--txt2);font-style:italic;padding-left:2px;">Seul le calcul BD30/G30 est automatisé pas la rédaction, pas le jugement.</div>
+      <div class="roi-top-note">Seul le calcul BD30/G30 est automatisé — pas la rédaction, pas le jugement.</div>
     </div>
 
-    <!-- BLOCK 2 Calcul animé step by step -->
-    <div id="roi-block2" style="opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;background:var(--glass-1);border:1px solid var(--border-1);border-radius:14px;padding:13px 18px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-transform:uppercase;margin-bottom:11px;">Calcul pas à pas</div>
-      <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;overflow:hidden;">
-
-        <div class="roi-step" style="text-align:center;padding:0 8px;opacity:0;transform:translateX(-10px);transition:opacity .45s ease,transform .45s ease;">
-          <div style="font-size:22px;font-weight:900;color:#F4A0CC;line-height:1.1;">50</div>
-          <div style="font-size:9px;color:var(--txt2);line-height:1.3;">dossiers<br>/sem.</div>
-        </div>
-        <div class="roi-op" style="font-size:16px;color:var(--txt2);opacity:0;transition:opacity .3s ease;padding:0 2px;">×</div>
-        <div class="roi-step" style="text-align:center;padding:0 8px;opacity:0;transform:translateX(-10px);transition:opacity .45s ease,transform .45s ease;">
-          <div style="font-size:22px;font-weight:900;color:#F4A0CC;line-height:1.1;">30%</div>
-          <div style="font-size:9px;color:var(--txt2);line-height:1.3;">complexes</div>
-        </div>
-        <div class="roi-op" style="font-size:16px;color:var(--txt2);opacity:0;transition:opacity .3s ease;padding:0 2px;">=</div>
-        <div class="roi-step" style="text-align:center;padding:0 8px;opacity:0;transform:translateX(-10px);transition:opacity .45s ease,transform .45s ease;">
-          <div style="font-size:22px;font-weight:900;color:#F4A0CC;line-height:1.1;">15</div>
-          <div style="font-size:9px;color:var(--txt2);line-height:1.3;">dossiers<br>complexes/sem.</div>
-        </div>
-        <div class="roi-op" style="font-size:16px;color:var(--txt2);opacity:0;transition:opacity .3s ease;padding:0 2px;">×</div>
-        <div class="roi-step" style="text-align:center;padding:0 8px;opacity:0;transform:translateX(-10px);transition:opacity .45s ease,transform .45s ease;">
-          <div style="font-size:22px;font-weight:900;color:#F4A0CC;line-height:1.1;">7 min</div>
-          <div style="font-size:9px;color:var(--txt2);line-height:1.3;">gagnés<br>/dossier</div>
-        </div>
-        <div class="roi-op" style="font-size:16px;color:var(--txt2);opacity:0;transition:opacity .3s ease;padding:0 2px;">×</div>
-        <div class="roi-step" style="text-align:center;padding:0 8px;opacity:0;transform:translateX(-10px);transition:opacity .45s ease,transform .45s ease;">
-          <div style="font-size:22px;font-weight:900;color:#F4A0CC;line-height:1.1;">47</div>
-          <div style="font-size:9px;color:var(--txt2);line-height:1.3;">semaines<br>/an</div>
-        </div>
-        <div class="roi-op" style="font-size:16px;color:var(--txt2);opacity:0;transition:opacity .3s ease;padding:0 2px;">=</div>
-        <div class="roi-step" style="text-align:center;padding:0 8px;opacity:0;transform:translateX(-10px);transition:opacity .45s ease,transform .45s ease;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);border-radius:8px;">
-          <div style="font-size:22px;font-weight:900;color:var(--green);line-height:1.1;">82 h</div>
-          <div style="font-size:9px;color:var(--txt2);line-height:1.3;">récupérées<br>/an/agent</div>
-        </div>
-        <div class="roi-op" style="font-size:16px;color:var(--txt2);opacity:0;transition:opacity .3s ease;padding:0 2px;">×</div>
-        <div class="roi-step" style="text-align:center;padding:0 8px;opacity:0;transform:translateX(-10px);transition:opacity .45s ease,transform .45s ease;">
-          <div style="font-size:22px;font-weight:900;color:var(--green);line-height:1.1;">18,24 €</div>
-          <div style="font-size:9px;color:var(--txt2);line-height:1.3;">taux horaire<br>brut</div>
-        </div>
-        <div class="roi-op" style="font-size:16px;color:var(--txt2);opacity:0;transition:opacity .3s ease;padding:0 2px;">=</div>
-        <div class="roi-step" style="text-align:center;padding:8px 16px;opacity:0;transform:translateX(-10px) scale(.94);transition:opacity .5s ease,transform .5s cubic-bezier(.34,1.56,.64,1);background:rgba(252,211,77,0.10);border:1px solid rgba(252,211,77,0.35);border-radius:10px;box-shadow:0 0 20px rgba(252,211,77,0.10);">
-          <div style="font-size:26px;font-weight:900;color:var(--amber);line-height:1.1;">1 500 €</div>
-          <div style="font-size:9px;color:var(--txt2);line-height:1.3;">valeur brute<br>/agent/an</div>
-        </div>
-
+    <!-- ── MID : Calcul pas à pas ── -->
+    <div class="roi-block" id="roi-b2">
+      <div class="roi-section-title">Calcul pas à pas</div>
+      <div class="roi-equation">
+        <div class="roi-eq-step roi-eq-step--mag"><span class="roi-eq-num">50</span><span class="roi-eq-sub">dossiers/sem.</span></div>
+        <span class="roi-eq-op">×</span>
+        <div class="roi-eq-step roi-eq-step--mag"><span class="roi-eq-num">30%</span><span class="roi-eq-sub">complexes</span></div>
+        <span class="roi-eq-op">=</span>
+        <div class="roi-eq-step roi-eq-step--mag"><span class="roi-eq-num">15</span><span class="roi-eq-sub">dossiers cx/sem.</span></div>
+        <span class="roi-eq-op">×</span>
+        <div class="roi-eq-step roi-eq-step--mag"><span class="roi-eq-num">7 min</span><span class="roi-eq-sub">gagnées/dossier</span></div>
+        <span class="roi-eq-op">×</span>
+        <div class="roi-eq-step roi-eq-step--mag"><span class="roi-eq-num">45</span><span class="roi-eq-sub">semaines/an</span></div>
+        <span class="roi-eq-op">=</span>
+        <div class="roi-eq-step roi-eq-step--green"><span class="roi-eq-num">79 h</span><span class="roi-eq-sub">récupérées/an/agent</span></div>
+        <span class="roi-eq-op">×</span>
+        <div class="roi-eq-step roi-eq-step--green"><span class="roi-eq-num">18,24 €</span><span class="roi-eq-sub">taux horaire brut</span></div>
+        <span class="roi-eq-op">=</span>
+        <div class="roi-eq-step roi-eq-step--gold"><span class="roi-eq-num" id="roi-gold-num">1 441 €</span><span class="roi-eq-sub">valeur brute/agent/an</span></div>
       </div>
     </div>
 
-    <!-- BLOCK 3 Scale + Real argument -->
-    <div style="display:flex;gap:11px;">
+    <!-- ── BOTTOM ROW ── -->
+    <div class="roi-bottom-row">
 
-      <!-- Scale card avec counter -->
-      <div id="roi-block3a" style="flex:1;opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;background:rgba(161,0,107,0.10);border:1px solid rgba(161,0,107,0.28);border-radius:14px;padding:13px 16px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(244,160,204,.7);text-transform:uppercase;margin-bottom:8px;">Projection équipe</div>
-        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">
-          <div style="font-size:13px;color:var(--txt2);">1</div>
-          <div style="font-size:11px;color:var(--txt2);">→</div>
-          <div id="roi-agent-count" style="font-size:40px;font-weight:900;color:#F4A0CC;line-height:1;">1</div>
-          <div style="font-size:14px;font-weight:600;color:var(--txt2);">agents</div>
+      <!-- Projection Équipe -->
+      <div class="roi-block" id="roi-b3">
+        <div class="roi-section-title">Projection Équipe</div>
+        <div class="roi-slider-header">
+          <span class="roi-agent-label">Agents</span>
+          <span class="roi-agent-count" id="roi-agent-disp">50</span>
         </div>
-        <div style="display:flex;flex-direction:column;gap:4px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(52,211,153,0.07);border:1px solid rgba(52,211,153,0.18);border-radius:7px;padding:5px 10px;">
-            <span style="font-size:11px;color:var(--txt2);">Heures récupérées/an</span>
-            <span style="font-size:14px;font-weight:800;color:var(--green);"><span id="roi-hours">82</span> h</span>
+        <input type="range" class="roi-slider" id="roi-slider" min="1" max="50" value="50" aria-label="Nombre d'agents">
+        <div class="roi-metrics">
+          <div class="roi-metric">
+            <span class="roi-metric-label">Heures récupérées / an</span>
+            <span class="roi-metric-val roi-metric-val--green" id="roi-m-hours">3 950 h</span>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(252,211,77,0.07);border:1px solid rgba(252,211,77,0.18);border-radius:7px;padding:5px 10px;">
-            <span style="font-size:11px;color:var(--txt2);">Valeur brute/an</span>
-            <span style="font-size:14px;font-weight:800;color:var(--amber);"><span id="roi-value">1 500</span> €</span>
+          <div class="roi-metric">
+            <span class="roi-metric-label">Valeur brute / an</span>
+            <span class="roi-metric-val roi-metric-val--gold" id="roi-m-value">72 050 €</span>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(52,211,153,0.10);border:1px solid rgba(52,211,153,0.28);border-radius:7px;padding:5px 10px;">
-            <span style="font-size:11px;color:var(--txt2);">Dossiers supplémentaires/an</span>
-            <span style="font-size:14px;font-weight:800;color:var(--green);">+<span id="roi-dossiers">188</span></span>
+          <div class="roi-metric">
+            <span class="roi-metric-label">Dossiers supplémentaires / an</span>
+            <span class="roi-metric-val roi-metric-val--green" id="roi-m-dos">+22 950</span>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,136,206,0.06);border:1px solid rgba(0,136,206,0.18);border-radius:7px;padding:5px 10px;">
-            <span style="font-size:11px;color:var(--txt2);">Coût de déploiement</span>
-            <span style="font-size:14px;font-weight:800;color:#64BEEF;">0 €</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Real argument -->
-      <div id="roi-block3b" style="flex:1.8;opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;background:var(--glass-1);border:1px solid var(--border-1);border-radius:14px;padding:13px 16px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-transform:uppercase;margin-bottom:9px;">Le vrai argument capacité + conformité</div>
-        <div style="display:flex;flex-direction:column;gap:7px;">
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:28px;height:28px;min-width:28px;background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">⚡</div>
-            <div>
-              <div style="font-size:12px;font-weight:700;color:var(--txt);">Capacité de traitement accrue</div>
-              <div style="font-size:13px;font-weight:800;color:var(--green);margin-top:2px;">+188 dossiers supplémentaires par an et par agent</div>
-              <div style="font-size:11px;color:var(--txt2);margin-top:1px;">à volume d'heures constant sans effectif supplémentaire</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:28px;height:28px;min-width:28px;background:rgba(161,0,107,0.15);border:1px solid rgba(161,0,107,0.35);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🎯</div>
-            <div>
-              <div style="font-size:12px;font-weight:700;color:var(--txt);">Conformité garantie sur les cas à risque</div>
-              <div style="font-size:11px;color:var(--txt2);">BD30 Prime · OUIGO+TGV · Max forfait · TER 100% exactement les cas où le risque d'erreur et les enjeux de remboursement sont les plus élevés</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:28px;height:28px;min-width:28px;background:rgba(0,136,206,0.10);border:1px solid rgba(0,136,206,0.28);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">📐</div>
-            <div>
-              <div style="font-size:12px;font-weight:700;color:var(--txt);">Alignement réglementaire automatique</div>
-              <div style="font-size:11px;color:var(--txt2);">Référentiel Normes AV 27/04/2026 · 17 codes RT couverts · zéro interprétation manuelle</div>
-            </div>
+          <div class="roi-metric">
+            <span class="roi-metric-label">Coût de déploiement</span>
+            <span class="roi-metric-val roi-metric-val--blue">0 €</span>
           </div>
         </div>
       </div>
 
-    </div><!-- /bottom row -->
-  </div><!-- /roi layout -->
+      <!-- Le vrai argument -->
+      <div class="roi-block" id="roi-b4">
+        <div class="roi-section-title">Le vrai argument capacité + conformité</div>
+        <div class="roi-features">
+          <div class="roi-feature">
+            <div class="roi-feature-icon roi-feature-icon--green">⚡</div>
+            <div>
+              <div class="roi-feature-title">Capacité de traitement accrue</div>
+              <div class="roi-feature-big" id="roi-feat-big">+459 dossiers supplémentaires/an/agent</div>
+              <div class="roi-feature-note">à volume d'heures constant, sans effectif supplémentaire</div>
+            </div>
+          </div>
+          <!-- Encart calcul capacité -->
+          <div class="roi-calc-explain">
+            <div class="roi-calc-explain-title">💡 Comment ce chiffre est calculé</div>
+            <div class="roi-calc-explain-steps">
+              <div class="roi-calc-row">
+                <span class="roi-calc-label">Temps libéré / agent / an</span>
+                <span class="roi-calc-val">79 h = 4 725 min</span>
+              </div>
+              <div class="roi-calc-row roi-calc-row--sub">
+                <span class="roi-calc-label">↳ 15 dossiers complexes/sem × 7 min × 45 sem</span>
+                <span class="roi-calc-val"></span>
+              </div>
+              <div class="roi-calc-divider"></div>
+              <div class="roi-calc-row">
+                <span class="roi-calc-label">Temps moyen / dossier <em>avec</em> l'outil</span>
+                <span class="roi-calc-val">10,3 min</span>
+              </div>
+              <div class="roi-calc-row roi-calc-row--sub">
+                <span class="roi-calc-label">↳ 70% simples × 10 min &nbsp;+&nbsp; 30% complexes × 11 min</span>
+                <span class="roi-calc-val"></span>
+              </div>
+              <div class="roi-calc-divider"></div>
+              <div class="roi-calc-row roi-calc-row--result">
+                <span class="roi-calc-label">Dossiers supplémentaires / agent / an</span>
+                <span class="roi-calc-val roi-calc-highlight">4 725 ÷ 10,3 = <strong>459</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="roi-feature">
+            <div class="roi-feature-icon roi-feature-icon--mag">🎯</div>
+            <div>
+              <div class="roi-feature-title">Conformité garantie sur les cas à risque</div>
+              <div class="roi-feature-note">BD30 Prime · OUIGO+TGV · Max forfait · TER 100% — exactement les cas à enjeu élevé</div>
+            </div>
+          </div>
+          <div class="roi-feature">
+            <div class="roi-feature-icon roi-feature-icon--blue">📐</div>
+            <div>
+              <div class="roi-feature-title">Alignement réglementaire automatique</div>
+              <div class="roi-feature-note">Référentiel AV 27/04/2026 · 17 codes RT couverts · zéro interprétation manuelle</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /roi-bottom-row -->
+  </div><!-- /roi-wrap -->
 </div>
 
 <!-- ══════════════════ SCENE 9 - CONCLUSION ══════════════════ -->
@@ -3767,31 +4235,9 @@ body.sb-mode #nav {
   <button
     id="btn-launch-demo"
     onclick="window.open('BD30Assistant.html','_blank')"
-    style="
-      margin-top: 44px;
-      padding: 22px 52px;
-      font-size: 18px;
-      font-weight: 700;
-      font-family: inherit;
-      border: none;
-      border-radius: 24px;
-      background: linear-gradient(135deg, var(--prune) 0%, var(--prune-dk) 100%);
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 0 48px var(--prune-glow), 0 12px 40px rgba(161,0,107,0.30);
-      letter-spacing: -0.3px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      animation: fadeInUp .6s cubic-bezier(.34,1.56,.64,1) .6s both;
-      transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
-    "
-    onmouseover="this.style.transform='translateY(-6px) scale(1.03)';this.style.boxShadow='0 0 64px var(--prune-glow), 0 20px 56px rgba(161,0,107,.38)'"
-    onmouseout="this.style.transform='';this.style.boxShadow='0 0 48px var(--prune-glow), 0 12px 40px rgba(161,0,107,.30)'"
-    onmousedown="this.style.transform='scale(.96)'"
-    onmouseup="this.style.transform='translateY(-6px) scale(1.03)'"
+    aria-label="Lancer la démonstration de l'application"
   >
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <polygon points="5 3 19 12 5 21 5 3"/>
     </svg>
     Lancer la démonstration
@@ -3894,66 +4340,119 @@ function onEnter(idx){
   if(idx===9) fireRoiAnimation();
 }
 
-/* ─ ROI slide animation ─ */
+/* ─ ROI Infography animation v31 ─ */
 var roiCounterRaf=null;
 function fireRoiAnimation(){
-  /* 1 Block reveal */
-  ['roi-block1','roi-block2','roi-block3a','roi-block3b'].forEach(function(id,i){
+  /* ─ reset blocks ─ */
+  ['roi-b1','roi-b2','roi-b3','roi-b4'].forEach(function(id){
     var el=document.getElementById(id);
     if(!el)return;
-    el.style.opacity='0'; el.style.transform='translateY(14px)';
-    setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},150+i*220);
+    el.classList.remove('roi-visible');
+    el.style.transition='none';
+    el.style.opacity='0';
+    el.style.transform='translateY(14px)';
+  });
+  /* reset frise */
+  ['roi-seg-a','roi-seg-b','roi-seg-c'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){ el.style.transition='none'; el.style.width='0'; }
+  });
+  /* reset equation — on retire uniquement la classe, le CSS gère opacity:0 */
+  document.querySelectorAll('#s-roi .roi-eq-step, #s-roi .roi-eq-op').forEach(function(el){
+    el.classList.remove('roi-eq-visible');
+    el.style.opacity='';   /* efface tout style inline résiduel */
+  });
+  /* reset slider display */
+  var slider=document.getElementById('roi-slider');
+  if(slider){ slider.value=50; }
+  roiUpdateMetrics(50);
+
+  /* ─ 1. Blocs en cascade ─ */
+  ['roi-b1','roi-b2','roi-b3','roi-b4'].forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(!el)return;
+    setTimeout(function(){
+      el.style.transition='opacity .55s cubic-bezier(.23,1,.32,1), transform .55s cubic-bezier(.23,1,.32,1)';
+      void el.offsetHeight;
+      el.style.opacity='';
+      el.style.transform='';
+      el.classList.add('roi-visible');
+    }, 80+i*180);
   });
 
-  /* 2 File breakdown bar */
+  /* ─ 2. Frise (top) ─ */
   setTimeout(function(){
     var targets={a:'44.4%',b:'16.7%',c:'38.9%'};
     ['a','b','c'].forEach(function(k,i){
       setTimeout(function(){
         var el=document.getElementById('roi-seg-'+k);
-        if(el)el.style.width=targets[k];
-      },i*420);
+        if(!el)return;
+        el.style.transition='width .8s cubic-bezier(.23,1,.32,1)';
+        el.style.width=targets[k];
+      }, i*360);
     });
-  },300);
+  }, 280);
 
-  /* 3 Calc chain step-by-step reveal */
+  /* ─ 3. Équation step-by-step ─ */
   setTimeout(function(){
-    var steps=document.querySelectorAll('#s-roi .roi-step');
-    var ops=document.querySelectorAll('#s-roi .roi-op');
-    steps.forEach(function(el,i){
-      el.style.opacity='0'; el.style.transform='translateX(-10px)';
-      setTimeout(function(){el.style.opacity='1';el.style.transform='translateX(0)';},i*260);
+    var items=document.querySelectorAll('#s-roi .roi-eq-step, #s-roi .roi-eq-op');
+    items.forEach(function(el,i){
+      setTimeout(function(){
+        el.style.opacity='';          /* s'assure qu'aucun inline ne bloque */
+        void el.offsetWidth;          /* reflow : force le navigateur à lire opacity:0 du CSS */
+        el.classList.add('roi-eq-visible');
+      }, i*130);
     });
-    ops.forEach(function(el,i){
-      el.style.opacity='0';
-      setTimeout(function(){el.style.opacity='1';},130+i*260);
-    });
-  },600);
+  }, 520);
 
-  /* 4 Agent counter 1 → 50 */
-  if(roiCounterRaf)cancelAnimationFrame(roiCounterRaf);
+  /* ─ 4. Counter gold 0→1500 ─ */
+  if(roiCounterRaf) cancelAnimationFrame(roiCounterRaf);
   setTimeout(function(){
-    var cEl=document.getElementById('roi-agent-count');
-    var hEl=document.getElementById('roi-hours');
-    var vEl=document.getElementById('roi-value');
-    var dEl=document.getElementById('roi-dossiers');
-    if(!cEl)return;
-    var startTs=null,dur=3200,from=1,to=50;
-    function fmt(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
-    function tick(ts){
-      if(!startTs)startTs=ts;
-      var p=Math.min((ts-startTs)/dur,1);
+    var el=document.getElementById('roi-gold-num');
+    if(!el)return;
+    var dur=1200, st=Date.now();
+    function fmt(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
+    (function tick(){
+      var p=Math.min((Date.now()-st)/dur,1);
       var ease=1-Math.pow(1-p,3);
-      var n=Math.round(from+(to-from)*ease);
-      cEl.textContent=n;
-      if(hEl)hEl.textContent=fmt(82*n);
-      if(vEl)vEl.textContent=fmt(1500*n);
-      if(dEl)dEl.textContent=fmt(188*n);
-      if(p<1){roiCounterRaf=requestAnimationFrame(tick);}
-    }
-    roiCounterRaf=requestAnimationFrame(tick);
-  },1400);
+      el.textContent=fmt(1441*ease)+' €';
+      if(p<1){ roiCounterRaf=requestAnimationFrame(tick); }
+      else { el.textContent='1 441 €'; }
+    })();
+  }, 1600);
+
+  /* ─ 5. Slider init ─ */
+  setTimeout(function(){
+    var slider=document.getElementById('roi-slider');
+    if(!slider)return;
+    roiUpdateSliderTrack(slider);
+    slider.addEventListener('input', function(){
+      roiUpdateMetrics(parseInt(this.value,10));
+      roiUpdateSliderTrack(this);
+    });
+  }, 700);
 }
+
+function roiUpdateSliderTrack(slider){
+  var pct=((slider.value-slider.min)/(slider.max-slider.min)*100).toFixed(1)+'%';
+  slider.style.setProperty('--pct', pct);
+}
+
+function fmt3(n){
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'\u202f');
+}
+
+function roiUpdateMetrics(agents){
+  var dAgent=document.getElementById('roi-agent-disp');
+  var dHours=document.getElementById('roi-m-hours');
+  var dValue=document.getElementById('roi-m-value');
+  var dDos  =document.getElementById('roi-m-dos');
+  if(dAgent) dAgent.textContent=agents;
+  if(dHours) dHours.textContent=fmt3(agents*79)+' h';
+  if(dValue) dValue.textContent=fmt3(agents*1441)+' €';
+  if(dDos)   dDos.textContent='+'+fmt3(agents*459);
+}
+
 
 function schedNext(){
   clearTimeout(timer);
