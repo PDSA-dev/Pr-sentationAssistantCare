@@ -3206,6 +3206,11 @@ body.sb-mode #nav {
   color: #10b981;
   box-shadow: 0 0 18px rgba(16,185,129,.15);
 }
+.roi-frise-seg--red {
+  background: rgba(226,75,74,.18);
+  border: 1px solid rgba(226,75,74,.35);
+  color: #f87171;
+}
 .roi-top-note {
   font-size: 10.5px;
   color: rgba(238,238,248,.38);
@@ -4072,15 +4077,24 @@ body.sb-mode #nav {
 
   <div class="roi-wrap">
 
-    <!-- ── TOP : Pourquoi 7 minutes et pas plus ── -->
+    <!-- ── TOP : Workflow + projection DMT ── -->
     <div class="roi-block" id="roi-b1">
-      <div class="roi-section-title">Pourquoi 7 minutes et pas plus</div>
+      <div class="roi-section-title">Décomposition du temps par dossier complexe</div>
       <div class="roi-frise">
         <div class="roi-frise-seg roi-frise-seg--grey"  id="roi-seg-a">Analyse + rédaction · 8 min</div>
         <div class="roi-frise-seg roi-frise-seg--dim"   id="roi-seg-b">Calcul résiduel · 3 min</div>
         <div class="roi-frise-seg roi-frise-seg--green" id="roi-seg-c">⚡ 7 min récupérées par TGVCare</div>
       </div>
-      <div class="roi-top-note">Seul le calcul BD30/G30 est automatisé — pas la rédaction, pas le jugement.</div>
+      <div class="roi-top-note" style="margin-bottom:8px;">Seul le calcul BD30/G30 est automatisé — pas la rédaction, pas le jugement.</div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(244,160,204,.45);margin-bottom:5px;">Projection DMT globale — estimation terrain</div>
+      <div class="roi-frise" style="height:32px;margin-bottom:5px;">
+        <div class="roi-frise-seg roi-frise-seg--red"   id="roi-seg-d">16,1 min — sans outil</div>
+        <div class="roi-frise-seg roi-frise-seg--green" id="roi-seg-e">14,0 min — avec outil  (−13,1 %)</div>
+      </div>
+      <div class="roi-top-note" style="font-style:normal;display:flex;align-items:center;gap:5px;">
+        <span style="opacity:.5;">⚠</span>
+        <span>Projection basée sur l'analyse terrain (30 % de dossiers complexes, gain estimé à 7 min). Les chiffres réels dépendront du taux d'adoption et des volumes constatés.</span>
+      </div>
     </div>
 
     <!-- ── MID : Calcul pas à pas ── -->
@@ -4127,7 +4141,7 @@ body.sb-mode #nav {
           </div>
           <div class="roi-metric">
             <span class="roi-metric-label">Dossiers supplémentaires / an</span>
-            <span class="roi-metric-val roi-metric-val--green" id="roi-m-dos">+22 950</span>
+            <span class="roi-metric-val roi-metric-val--green" id="roi-m-dos">+12 600</span>
           </div>
           <div class="roi-metric">
             <span class="roi-metric-label">Coût de déploiement</span>
@@ -4144,7 +4158,7 @@ body.sb-mode #nav {
             <div class="roi-feature-icon roi-feature-icon--green">⚡</div>
             <div>
               <div class="roi-feature-title">Capacité de traitement accrue</div>
-              <div class="roi-feature-big" id="roi-feat-big">+459 dossiers supplémentaires/an/agent</div>
+              <div class="roi-feature-big" id="roi-feat-big">+252 dossiers supplémentaires/an/agent</div>
               <div class="roi-feature-note">à volume d'heures constant, sans effectif supplémentaire</div>
             </div>
           </div>
@@ -4163,16 +4177,16 @@ body.sb-mode #nav {
               <div class="roi-calc-divider"></div>
               <div class="roi-calc-row">
                 <span class="roi-calc-label">Temps moyen / dossier <em>avec</em> l'outil</span>
-                <span class="roi-calc-val">10,3 min</span>
+                <span class="roi-calc-val">14,0 min</span>
               </div>
               <div class="roi-calc-row roi-calc-row--sub">
-                <span class="roi-calc-label">↳ 70% simples × 10 min &nbsp;+&nbsp; 30% complexes × 11 min</span>
+                <span class="roi-calc-label">↳ DMT actuelle 16,1 min → projetée 14,0 min (−13,1%)</span>
                 <span class="roi-calc-val"></span>
               </div>
               <div class="roi-calc-divider"></div>
               <div class="roi-calc-row roi-calc-row--result">
                 <span class="roi-calc-label">Dossiers supplémentaires / agent / an</span>
-                <span class="roi-calc-val roi-calc-highlight">4 725 ÷ 10,3 = <strong>459</strong></span>
+                <span class="roi-calc-val roi-calc-highlight">4 725 ÷ 18,75 = <strong>252</strong></span>
               </div>
             </div>
           </div>
@@ -4353,7 +4367,7 @@ function fireRoiAnimation(){
     el.style.transform='translateY(14px)';
   });
   /* reset frise */
-  ['roi-seg-a','roi-seg-b','roi-seg-c'].forEach(function(id){
+  ['roi-seg-a','roi-seg-b','roi-seg-c','roi-seg-d','roi-seg-e'].forEach(function(id){
     var el=document.getElementById(id);
     if(el){ el.style.transition='none'; el.style.width='0'; }
   });
@@ -4391,6 +4405,15 @@ function fireRoiAnimation(){
         el.style.width=targets[k];
       }, i*360);
     });
+    /* Frise DMT — légèrement décalée */
+    setTimeout(function(){
+      var el=document.getElementById('roi-seg-d');
+      if(el){ el.style.transition='width .9s cubic-bezier(.23,1,.32,1)'; el.style.width='53.8%'; }
+    }, 600);
+    setTimeout(function(){
+      var el=document.getElementById('roi-seg-e');
+      if(el){ el.style.transition='width .9s cubic-bezier(.23,1,.32,1)'; el.style.width='46.2%'; }
+    }, 900);
   }, 280);
 
   /* ─ 3. Équation step-by-step ─ */
@@ -4450,7 +4473,7 @@ function roiUpdateMetrics(agents){
   if(dAgent) dAgent.textContent=agents;
   if(dHours) dHours.textContent=fmt3(agents*79)+' h';
   if(dValue) dValue.textContent=fmt3(agents*1441)+' €';
-  if(dDos)   dDos.textContent='+'+fmt3(agents*459);
+  if(dDos)   dDos.textContent='+'+fmt3(agents*252);
 }
 
 
