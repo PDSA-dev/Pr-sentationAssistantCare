@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="theme-color" content="#A1006B"/>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23A1006B' width='180' height='180'/><text x='50%' y='50%' font-size='60' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='middle'>TGV</text></svg>"/>
-<title>TGVCare Assistant: BD30/G30</title>
+<title>TGVCare Assistant — BD30/G30</title>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.307.0/dist/umd/lucide.min.js"></script>
 <script>
 setTimeout(function() {
@@ -36,9 +36,9 @@ setTimeout(function() {
   --red: #DC2626;
 
   /* Backgrounds */
-  --bg: #F5F4F8;
+  --bg: #F5F3F0;
   --surface: #FFFFFF;
-  --surface2: #F8F6FC;
+  --surface2: #F8F6F3;
 
   /* Glass & Transparency */
   --glass: rgba(255, 255, 255, 0.82);
@@ -85,37 +85,6 @@ setTimeout(function() {
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.64);
   --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.72);
   --shadow-xxl: 0 32px 80px rgba(0, 0, 0, 0.80);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/* LIGHT MODE — HEADER SOMBRE (signature visuelle cohérente avec le dark) */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-
-[data-theme="light"] .hdr {
-  background: #1A1025;
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(26, 16, 37, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-[data-theme="light"] .hdr-title {
-  color: #F5F4F8;
-}
-
-[data-theme="light"] .hdr-sub {
-  color: #C8177A;
-}
-
-[data-theme="light"] .hdr .icon-btn {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.65);
-  box-shadow: none;
-}
-
-[data-theme="light"] .hdr .icon-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #C8177A;
-  box-shadow: 0 0 20px rgba(200, 23, 122, 0.3);
 }
 
 * {
@@ -314,9 +283,6 @@ body {
   color: var(--tx-muted);
   margin-bottom: 22px;
   line-height: 1.6;
-}
-.input-row .step-sub {
-  margin-bottom: 4px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -661,7 +627,7 @@ body {
 .input-row {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 14px;
 }
 
 .inp {
@@ -1257,7 +1223,7 @@ table td {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* ✦ PREMIUM DESIGN LAYER: Enhanced UI Overrides                            */
+/* ✦ PREMIUM DESIGN LAYER — Enhanced UI Overrides                            */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Easing & radius tokens */
@@ -1439,14 +1405,6 @@ body::after {
 }
 [data-theme="dark"] .opt:hover { background: rgba(255,255,255,0.09); }
 .opt:active { transform: scale(0.97); transition-duration: 0.08s; }
-.opt:focus-visible {
-  outline: none;
-  border-color: var(--prune);
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 0 0 3px var(--prune-glow), var(--shadow-md);
-  transform: translateY(-3px) scale(1.006);
-}
-[data-theme="dark"] .opt:focus-visible { background: rgba(255,255,255,0.09); }
 
 .opt-icon { border-radius: 12px; width: 42px; height: 42px; transition: transform 0.25s var(--ease-spring); }
 .opt:hover .opt-icon { transform: scale(1.12) rotate(-4deg); }
@@ -1650,13 +1608,13 @@ body::after {
   transition: opacity 0.4s ease;
 }
 
-/* 2. Proper enter animation: ease-out-expo + blur rise */
+/* 2. Proper enter animation — slide directionnel (avance: depuis la droite) */
 @keyframes pm-enter {
-  from { opacity: 0; transform: translateY(12px) scale(0.986); filter: blur(3px); }
+  from { opacity: 0; transform: translateX(32px) scale(0.986); filter: blur(3px); }
   to   { opacity: 1; transform: none; filter: none; }
 }
 
-/* Replace bounce entrances with pm-enter (cascade wins: this block is last) */
+/* Replace bounce entrances with pm-enter (cascade wins — this block is last) */
 .step-card, .result-card { animation: pm-enter 0.36s var(--pm-expo) both; }
 .result-header            { animation: pm-enter 0.36s var(--pm-expo) both; }
 .result-amount            { animation: pm-enter 0.36s var(--pm-expo) 0.08s both; }
@@ -1668,7 +1626,7 @@ body::after {
 }
 .hdr { animation: pm-hdr 0.22s var(--pm-expo) both; }
 
-/* 3. Card shimmer sweep on hover (::after is free: ::before is the top sheen) */
+/* 3. Card shimmer sweep on hover (::after is free — ::before is the top sheen) */
 .step-card::after {
   content: '';
   position: absolute;
@@ -1731,7 +1689,7 @@ body::after  { animation: pm-orb-b 27s ease-in-out infinite !important; }
 /* 7. Smooth scrolling */
 html { scroll-behavior: smooth; }
 
-/* 8. Reduced motion: hard override */
+/* 8. Reduced motion — hard override */
 @media (prefers-reduced-motion: reduce) {
   #pm-glow { display: none !important; }
   body::before, body::after { animation: none !important; }
@@ -1746,7 +1704,7 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* INTRO SCENE: #s-intro                                                     */
+/* INTRO SCENE — #s-intro                                                     */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 #s-intro {
@@ -1867,7 +1825,7 @@ html { scroll-behavior: smooth; }
   );
 }
 
-/* ── Second halo (::after): plus fin, sens inverse ── */
+/* ── Second halo (::after) — plus fin, sens inverse ── */
 .logo-halo::after {
   content: '';
   position: absolute;
@@ -1973,120 +1931,325 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* ✦ MOTION LAYER v3 — Stagger · Depth · Ambient · Shimmer                   */
+/* ✦ UPGRADE LAYER — transitions directionnelles, skeleton, ripple, toast…     */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── 1. STAGGER automatique sur les options (CSS pur, nth-child) ── */
-.opts .opt { opacity: 0; transform: translateY(10px) scale(0.985); animation: opt-enter 0.38s var(--pm-expo) both; }
-.opts .opt:nth-child(1) { animation-delay: 0.04s; }
-.opts .opt:nth-child(2) { animation-delay: 0.10s; }
-.opts .opt:nth-child(3) { animation-delay: 0.16s; }
-.opts .opt:nth-child(4) { animation-delay: 0.22s; }
-.opts .opt:nth-child(5) { animation-delay: 0.28s; }
-.opts .opt:nth-child(6) { animation-delay: 0.34s; }
-.opts .opt:nth-child(n+7) { animation-delay: 0.38s; }
-
-@keyframes opt-enter {
-  from { opacity: 0; transform: translateY(10px) scale(0.985); }
-  to   { opacity: 1; transform: none; }
+/* 6.2 — Transition directionnelle entre étapes */
+@keyframes pm-enter-back {
+  from { opacity: 0; transform: translateX(-32px) scale(0.986); filter: blur(3px); }
+  to   { opacity: 1; transform: none; filter: none; }
 }
+#app.nav-back .step-card,
+#app.nav-back .result-card,
+#app.nav-back .result-header,
+#app.nav-back .result-amount { animation-name: pm-enter-back; }
 
-/* ── 2. HOVER physique renforcé ── */
-.opt:hover {
-  transform: translateY(-5px) scale(1.008) !important;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.10), 0 0 0 1px var(--border-accent), 0 6px 20px var(--prune-glow) !important;
-}
-.opt:hover .opt-icon {
-  transform: scale(1.18) rotate(-6deg) !important;
-  box-shadow: 0 6px 20px var(--prune-glow);
-}
-.opt:active { transform: scale(0.96) translateY(0) !important; }
-
-/* ── 3. DEPTH system : 3 niveaux d'élévation colorée ── */
-:root {
-  --elev-0: none;
-  --elev-1: 0 2px 8px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
-  --elev-2: 0 8px 24px rgba(0,0,0,0.09), 0 3px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.02);
-  --elev-3: 0 16px 48px rgba(0,0,0,0.13), 0 6px 16px rgba(0,0,0,0.08), 0 0 32px var(--prune-glow);
-  --elev-float: 0 24px 64px rgba(0,0,0,0.16), 0 8px 24px rgba(0,0,0,0.10), 0 0 48px var(--prune-glow);
-}
-
-/* Ombres colorées sur boutons action */
-.act-btn.success { box-shadow: 0 4px 18px rgba(130,190,0,0.35), 0 2px 8px rgba(130,190,0,0.20), inset 0 1px 0 rgba(255,255,255,0.18) !important; }
-.act-btn.success:hover { box-shadow: 0 10px 32px rgba(130,190,0,0.45), 0 4px 14px rgba(130,190,0,0.28), inset 0 1px 0 rgba(255,255,255,0.18) !important; }
-.act-btn.danger  { box-shadow: 0 4px 18px rgba(220,38,38,0.30), 0 2px 8px rgba(220,38,38,0.18), inset 0 1px 0 rgba(255,255,255,0.14) !important; }
-.act-btn.danger:hover  { box-shadow: 0 10px 32px rgba(220,38,38,0.42), 0 4px 14px rgba(220,38,38,0.26), inset 0 1px 0 rgba(255,255,255,0.14) !important; }
-
-/* Card en élévation 3 au hover */
-.step-card:hover { box-shadow: var(--elev-3), inset 0 1px 0 rgba(255,255,255,0.72) !important; }
-[data-theme="dark"] .step-card:hover { box-shadow: var(--elev-3), inset 0 1px 0 rgba(255,255,255,0.05) !important; }
-
-/* ── 4. PROGRESS BAR shimmer branché ── */
-.progress-fill {
-  background: linear-gradient(90deg, var(--prune) 0%, #E91E8C 40%, #F4A0CC 55%, #E91E8C 70%, var(--prune) 100%) !important;
-  background-size: 300% 100% !important;
-  animation: pm-shimmer 2.4s linear infinite !important;
-}
-
-/* ── 5. 3ème ORBE AMBIENT — centre, couleur bleue froide ── */
-#pm-orb3 {
-  position: fixed;
-  top: 50%; left: 50%;
-  width: 500px; height: 500px;
-  margin: -250px 0 0 -250px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,136,206,0.055) 0%, transparent 65%);
-  filter: blur(80px);
+.step-exit {
+  opacity: 0 !important;
+  transform: translateX(-20px) !important;
+  transition: opacity 200ms ease, transform 200ms ease !important;
   pointer-events: none;
-  z-index: 0;
-  will-change: transform;
-  animation: orb3-float 32s ease-in-out infinite;
 }
-[data-theme="dark"] #pm-orb3 { background: radial-gradient(circle, rgba(0,136,206,0.09) 0%, transparent 65%); }
+.step-exit.step-exit-back { transform: translateX(20px) !important; }
 
-@keyframes orb3-float {
-  0%,100% { transform: translate(0, 0) scale(1); }
-  30%      { transform: translate(60px, -40px) scale(1.07); }
-  65%      { transform: translate(-50px, 55px) scale(0.93); }
+/* 6.3 — Shimmer skeleton */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 12px;
 }
 
-/* ── 6. HALOS INTERNES sur result-header ── */
-.result-header::after {
-  content: '';
+/* 6.4 — Glow contextuel selon le montant */
+.result-card.result-glow-green {
+  border-color: rgba(130, 190, 0, 0.35);
+  box-shadow: 0 0 56px rgba(130, 190, 0, 0.18), var(--shadow-lg);
+}
+.result-card.result-glow-amber {
+  border-color: rgba(224, 82, 6, 0.30);
+  box-shadow: 0 0 56px rgba(224, 82, 6, 0.15), var(--shadow-lg);
+}
+
+/* 6.5 — Ripple matériel sur .opt */
+.opt { overflow: hidden; }
+.ripple {
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(255,255,255,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 60% at 80% 80%, rgba(255,255,255,0.06) 0%, transparent 60%);
+  border-radius: 50%;
+  background: var(--prune-glow);
+  transform: scale(0);
+  animation: ripple-anim 500ms linear;
   pointer-events: none;
 }
-
-/* ── 7. INNER REFLECTION sur les cards ── */
-.step-card, .result-card {
-  background-image: radial-gradient(ellipse 80% 30% at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 60%) !important;
-}
-[data-theme="dark"] .step-card,
-[data-theme="dark"] .result-card {
-  background-image: radial-gradient(ellipse 80% 30% at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 60%) !important;
+@keyframes ripple-anim {
+  to { transform: scale(4); opacity: 0; }
 }
 
-/* ── 8. Smooth will-change sur éléments interactifs ── */
-.opt, .btn-confirm, .act-btn, .icon-btn, .hist-item { will-change: transform; }
+/* 6.6 — Barre de progression : spring, glow pulsant, badge % flottant */
+.progress-track {
+  overflow: visible;
+  position: relative;
+  margin-top: 26px;
+}
+.progress-fill {
+  border-radius: 99px;
+  transition: width 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 12px var(--prune-glow);
+  animation: progress-pulse 2.2s ease-in-out infinite;
+}
+@keyframes progress-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--prune-glow); }
+  50%      { box-shadow: 0 0 16px var(--prune-glow); }
+}
+.progress-badge {
+  position: absolute;
+  top: -22px;
+  transform: translateX(-50%);
+  background: var(--prune);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  box-shadow: 0 2px 10px var(--prune-glow);
+  transition: left 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  white-space: nowrap;
+}
 
-/* ── Reduced motion: désactiver tout le layer v3 ── */
+/* 6.7 — Toast global */
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--tx); color: var(--bg);
+  padding: 12px 24px; border-radius: 99px;
+  font-size: 13px; font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 9999; pointer-events: none; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* 6.8 — Transition douce lors du toggle dark mode */
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 300ms ease, border-color 300ms ease, color 200ms ease, box-shadow 300ms ease !important;
+}
+
+/* 6.9 — Gradient text sur les montants totaux */
+.amount-highlight {
+  background: linear-gradient(135deg, var(--prune) 0%, #E0529C 50%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 6.10 — Badge points fidélité SNCF */
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.3); }
+  55%  { transform: scale(1.08); }
+  75%  { transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes star-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.2); }
+}
+.points-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tx);
+  background: rgba(255, 200, 0, 0.10);
+  border: 1.5px solid gold;
+  box-shadow: 0 0 12px rgba(255, 200, 0, 0.4);
+  animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.points-badge .pb-star {
+  display: inline-block;
+  animation: star-pulse 1.1s ease-in-out 2;
+}
+
+/* Feedback visuel renforcé sur la copie presse-papiers */
+@keyframes copy-flash {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+.act-btn.copied {
+  animation: copy-flash 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: linear-gradient(150deg, var(--green), #6B9F00) !important;
+  color: #fff !important;
+}
+
+/* Sélecteur de date Jour / Mois / Année (remplace le calendrier natif,
+   dont la sélection mois/année n'est pas disponible sur tous les navigateurs) */
+.date-select-row {
+  display: flex;
+  gap: 8px;
+}
+.date-select-row .date-select {
+  flex: 1;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 600;
+}
+.date-select-row .date-select:nth-child(2) {
+  flex: 1.7;
+  text-align: left;
+}
+
+/* Libellé collé à son champ dans les formulaires (le gap du flex suffit) */
+.input-row .step-sub { margin-bottom: 0; }
+
+/* ── Form groups : label solidaire de son champ (flux normal, pas de chevauchement) ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: static;
+  margin-bottom: 14px;
+}
+.form-label {
+  display: flex;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #595959;
+  line-height: 1.4;
+  margin: 0;
+}
+[data-theme="dark"] .form-label { color: var(--tx-muted); }
+
+/* WCAG — contraste renforcé des textes informatifs en mode clair */
+[data-theme="light"] .step-sub { color: #595959; }
+
+/* ── État sélectionné explicite des options (abonnements…) ── */
+.opt.opt-selected {
+  border-color: var(--prune) !important;
+  background: var(--prune-lt) !important;
+  box-shadow: 0 0 0 1px var(--prune), 0 4px 20px var(--prune-glow) !important;
+}
+[data-theme="dark"] .opt.opt-selected { background: rgba(212, 104, 142, 0.12) !important; }
+.opt-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--prune);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px var(--prune-glow);
+  animation: bounceIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.opt-check svg { width: 13px; height: 13px; stroke-width: 3; }
+
+/* ── Tooltips d'aide métier — icône (i) ── */
+.tip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--prune);
+  color: var(--prune);
+  font-size: 10px; font-weight: 700; font-style: normal;
+  line-height: 1;
+  margin-left: 6px;
+  cursor: help;
+  flex-shrink: 0;
+  vertical-align: middle;
+  user-select: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.tip:hover, .tip:focus-visible {
+  background: var(--prune);
+  color: #fff;
+  transform: scale(1.12);
+  outline: none;
+}
+
+/* ── Boîte tooltip — glassmorphism (élément global fixe : jamais rognée par overflow) ── */
+#tip-box {
+  position: fixed;
+  z-index: 100;
+  max-width: 260px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(122, 0, 77, 0.15);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.10);
+  color: var(--tx);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: none;
+}
+#tip-box.show { opacity: 1; transform: translateY(0); }
+[data-theme="dark"] #tip-box {
+  background: rgba(33, 33, 42, 0.92);
+  border-color: rgba(212, 104, 142, 0.25);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Micro-interactions supplémentaires sur le bouton Calculer / Valider */
+.btn-confirm:hover { filter: brightness(1.06); }
+.btn-confirm:active { filter: brightness(0.94); }
+
+/* ── Scroll automatique vers le résultat ──
+   Marge de défilement : hauteur du header sticky (~80px) + 24px de respiration,
+   pour que la carte ne se colle pas au bord supérieur et conserve ses ombres portées */
+.result-card { scroll-margin-top: 104px; }
+
+/* ── Badges de statut dans l'historique des dossiers ── */
+.hist-badge {
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.hist-badge.resiliation {
+  background: rgba(224, 82, 6, 0.16);
+  color: #7C3A00;
+  border: 1px solid rgba(224, 82, 6, 0.35);
+}
+[data-theme="dark"] .hist-badge.resiliation {
+  background: rgba(224, 82, 6, 0.20);
+  color: #FFB380;
+}
+.hist-badge.retraction {
+  background: rgba(100, 116, 160, 0.14);
+  color: #3D4A6B;
+  border: 1px solid rgba(100, 116, 160, 0.35);
+}
+[data-theme="dark"] .hist-badge.retraction {
+  background: rgba(100, 116, 160, 0.22);
+  color: #B8C4E8;
+}
+
+/* Reduced motion — neutraliser les nouvelles animations */
 @media (prefers-reduced-motion: reduce) {
-  .opts .opt { animation: none !important; opacity: 1 !important; transform: none !important; }
-  .progress-fill { animation: none !important; background-size: 100% 100% !important; }
-  #pm-orb3 { animation: none !important; }
-  .opt, .btn-confirm, .act-btn, .icon-btn, .hist-item { will-change: auto !important; }
+  .skeleton, .ripple, .points-badge, .points-badge .pb-star, .progress-fill { animation: none !important; }
+  .step-exit, .progress-fill, .progress-badge, .toast { transition: none !important; }
 }
 </style>
 </head>
 <body>
 
-<div id="pm-orb3" aria-hidden="true"></div>
 <div id="app"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
 'use strict';
@@ -2111,35 +2274,62 @@ var CARRIERS=[
 ];
 
 var TARIFS=[
-  {id:"standard",             label:"Loisir / Avantage",         desc:"Billet payant: indemnisation en % du prix", mode:"Virement"},
+  {id:"standard",             label:"Loisir / Avantage",         desc:"Billet payant — indemnisation en % du prix", mode:"Virement"},
   {id:"carte_liberte_billet", label:"Carte Liberté",             desc:"Plancher forfaitaire 5 € min / passager à partir de 30 min de retard", mode:"Virement"},
-  {id:"max_loisirs",          label:"Abonnés Max & Forfaits",    desc:"Billet à 0 €: montant fixe BAD", mode:"BAD"},
+  {id:"max_loisirs",          label:"Abonnés Max & Forfaits",    desc:"Billet à 0 € — montant fixe BAD", mode:"BAD"},
   {id:"prime_billet", label:"Billet Prime", desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers", mode:"Prime"},
 ];
 
-// Tarifs résolus via l'étape déposant: non affichés dans la liste UI mais nécessaires au calcul et au lookup
+// Tarifs résolus via l'étape déposant — non affichés dans la liste UI mais nécessaires au calcul et au lookup
 var TARIFS_PRIME_HIDDEN=[
-  {id:"prime_titulaire",       label:"Prime: Titulaire (FID)",    desc:"Titulaire carte Prime: points fidélité", mode:"Points"},
-  {id:"prime_gvt_transitoire", label:"Prime: GVT Transitoire",   desc:"Grand Voyageur Transitoire sortant du programme: BAD seul", mode:"BAD"},
-  {id:"prime_fid_tiers",       label:"Prime: FID + Tiers",       desc:"FID avec Prime pour un tiers: pts Prime + BAD tiers", mode:"Points + BAD"},
-  {id:"prime_gvt_tiers",       label:"Prime: GVT + Tiers",       desc:"GVT avec Prime + tiers: BAD GVT + BAD tiers", mode:"BAD"},
-  {id:"prime_tiers_seul",      label:"Prime: Tiers seul",        desc:"Billet Prime GV/GVLC acheté pour un tiers: BAD fixe selon délai", mode:"BAD"},
+  {id:"prime_titulaire",       label:"Prime — Titulaire (FID)",    desc:"Titulaire carte Prime — points fidélité", mode:"Points"},
+  {id:"prime_gvt_transitoire", label:"Prime — GVT Transitoire",   desc:"Grand Voyageur Transitoire sortant du programme — BAD seul", mode:"BAD"},
+  {id:"prime_fid_tiers",       label:"Prime — FID + Tiers",       desc:"FID avec Prime pour un tiers — pts Prime + BAD tiers", mode:"Points + BAD"},
+  {id:"prime_gvt_tiers",       label:"Prime — GVT + Tiers",       desc:"GVT avec Prime + tiers — BAD GVT + BAD tiers", mode:"BAD"},
+  {id:"prime_tiers_seul",      label:"Prime — Tiers seul",        desc:"Billet Prime GV/GVLC acheté pour un tiers — BAD fixe selon délai", mode:"BAD"},
 ];
 
-var TARIFS_OUIGO=[{id:"standard",label:"Standard OUIGO",desc:"Billet payant OUIGO: indemnisation en %", mode:"Virement"}];
+var TARIFS_OUIGO=[{id:"standard",label:"Standard OUIGO",desc:"Billet payant OUIGO — indemnisation en %", mode:"Virement"}];
 var TARIFS_TER=[
-  {id:"standard",label:"Standard",    desc:"Billet payant: indemnisation en % du prix", mode:"Virement"},
+  {id:"standard",label:"Standard",    desc:"Billet payant — indemnisation en % du prix", mode:"Virement"},
   {id:"groupe",  label:"Tarif Groupe",desc:"Un seul prix pour l'ensemble des voyageurs", mode:"Virement"},
 ];
 
 function getTarifsForCarrier(cid,nbPass){
+  // Robustesse : forcer nbPass en entier (NaN => traité comme non fourni)
+  var n=parseInt(nbPass,10);
+  if(isNaN(n))n=undefined;
   if(cid==="ouigo")return TARIFS_OUIGO;
   if(cid==="ter"||cid==="ter_zou"||cid==="ter_krono"){
-    if(nbPass!==undefined&&nbPass<3)return TARIFS_TER.filter(function(t){return t.id!=="groupe";});
+    if(n!==undefined&&n<3)return TARIFS_TER.filter(function(t){return t.id!=="groupe";});
     return TARIFS_TER;
   }
   return TARIFS;
 }
+
+// Entrée accordéon "Billet Prime" — partagée par les 3 écrans tarif (confirmFn(id,label) varie)
+function buildPrimeAccordionItem(confirmFn){
+  return{
+    icon:"<i data-lucide='star'></i>",
+    label:"Billet Prime",
+    desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers",
+    children:[
+      {_sep:"Titulaire — le voyageur est le titulaire"},
+      {icon:"<i data-lucide='contact'></i>",label:"Prime — Titulaire (FID)",desc:"Titulaire carte Prime — indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmFn("prime_titulaire","Prime — Titulaire (FID)");}},
+      {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime — GVT Transitoire",desc:"Sortant du programme fidélité — BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmFn("prime_gvt_transitoire","Prime — GVT Transitoire");}},
+      {_sep:"Tiers — billet acheté pour un autre voyageur"},
+      {icon:"<i data-lucide='contact'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmFn("prime_fid_tiers","Prime — FID + Tiers");}},
+      {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmFn("prime_gvt_tiers","Prime — GVT + Tiers");}},
+      {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmFn("prime_tiers_seul","Prime — Tiers seul");}}
+    ]
+  };
+}
+
+// Procédure déposant Prime — texte partagé par sPrimeDeposant et sPrimeDeposantUnique
+var PRIME_PROC_HTML="<div class='info-icon'><i data-lucide='clipboard-list'></i></div><div><strong>Procédure selon le déposant :</strong><br>"
+  +"<span style='display:block;margin-top:6px;'>👤 <strong>Titulaire FID dépose</strong> — Traitement en file FID AV Voyage · Note interne : <em>« billet prime pour tiers »</em></span>"
+  +"<span style='display:block;margin-top:4px;'>🔄 <strong>Tiers dépose seul</strong> — Transférer en file <strong>Fid AV Voyage Senior Oscar / GVLC</strong> · Note interne : <em>« billet prime pour tiers »</em></span>"
+  +"</div>";
 
 var RS={
   tgv_dom:       [[30,59,25],[60,119,25],[120,179,50],[180,239,75],[240,Infinity,75]],
@@ -2173,32 +2363,20 @@ function getRBADAmount(delay){
 }
 
 function isBilletDirectOUIGOTGV(segments){
-  // Détecte Billet Direct avec OUIGO + TGV/Intercités (avec ou sans TER)
-  // Référentiel Normes Voyage Back pp.63-67 : inclut le cas TGV+OUIGO+TER (RT 6970)
-  var hasOUIGO=false, hasTGVOrIC=false, hasAutre=false;
+  // Détecte Billet Direct avec OUIGO + TGV/Intercités
+  // Peu importe le nombre de passagers/tarifs différents créant plusieurs segments
+  var carriers=new Set();
+  var hasOUIGO=false, hasTGVOrIC=false;
 
   for(var i=0;i<segments.length;i++){
     var c=segments[i].carrier;
+    carriers.add(c);
     if(c==="ouigo")hasOUIGO=true;
-    else if(c==="tgv_dom"||c==="tgv_int"||c==="intercites")hasTGVOrIC=true;
-    else if(c==="ter"||c==="ter_zou"||c==="ter_krono"){}// TER autorisé dans le Billet Direct tri-segment
-    else hasAutre=true; // autre transporteur inconnu = hors périmètre
+    if(c==="tgv_dom"||c==="tgv_int"||c==="intercites")hasTGVOrIC=true;
   }
 
-  // Billet Direct: OUIGO + TGV/IC (TER optionnel), pas d'autre transporteur
-  return hasOUIGO && hasTGVOrIC && !hasAutre;
-}
-
-function isBilletDirectWithTER(segments){
-  // Détecte spécifiquement le cas Billet Direct TGV+OUIGO+TER (3 composantes)
-  var hasOUIGO=false, hasTGVOrIC=false, hasTER=false;
-  for(var i=0;i<segments.length;i++){
-    var c=segments[i].carrier;
-    if(c==="ouigo")hasOUIGO=true;
-    else if(c==="tgv_dom"||c==="tgv_int"||c==="intercites")hasTGVOrIC=true;
-    else if(c==="ter"||c==="ter_zou"||c==="ter_krono")hasTER=true;
-  }
-  return hasOUIGO && hasTGVOrIC && hasTER;
+  // Billet Direct: OUIGO + TGV/IC comme SEULS transporteurs (pas d'autres)
+  return hasOUIGO && hasTGVOrIC && carriers.size===2;
 }
 
 function getBilletDirectRate(carrier,delay){
@@ -2222,15 +2400,15 @@ function getBilletDirectRate(carrier,delay){
 }
 
 var FRAIS_TYPES=[
-  {id:"restauration",           label:"Restauration",                        icon:"<i data-lucide='utensils'></i>",unit:"voyageur",max:15, note:"Dès 60 min: sur justificatif"},
+  {id:"restauration",           label:"Restauration",                        icon:"<i data-lucide='utensils'></i>",unit:"voyageur",max:15, note:"Dès 60 min — sur justificatif"},
   {id:"transport",              label:"Acheminement (autocar / taxi hôtel)", icon:"<i data-lucide='bus'></i>",unit:"voyageur",max:30, note:"UNIQUEMENT si aucune solution dans les 100 min"},
-  {id:"taxi_nuit",              label:"Taxi nuit 23h–6h (≥ 60 min)",        icon:"<i data-lucide='moon'></i>",unit:"course",  max:50, note:"Arrivée entre 23h et 6h: dès 60 min de retard"},
-  {id:"taxi_optimum",           label:"Taxi nuit Optimum+ (≥ 15 min)",      icon:"<i data-lucide='star'></i>",unit:"course",  max:100,note:"Clients Optimum+: arrivée 23h–6h: dès 15 min"},
-  {id:"hotel_province",         label:"Hébergement Province (Tous tarifs)", icon:"<i data-lucide='bed'></i>",unit:"passager",max:110,note:"Si poursuite impossible: hors grandes villes"},
+  {id:"taxi_nuit",              label:"Taxi nuit 23h–6h (≥ 60 min)",        icon:"<i data-lucide='moon'></i>",unit:"course",  max:50, note:"Arrivée entre 23h et 6h — dès 60 min de retard"},
+  {id:"taxi_optimum",           label:"Taxi nuit Optimum+ (≥ 15 min)",      icon:"<i data-lucide='star'></i>",unit:"course",  max:100,note:"Clients Optimum+ — arrivée 23h–6h — dès 15 min"},
+  {id:"hotel_province",         label:"Hébergement Province (Tous tarifs)", icon:"<i data-lucide='bed'></i>",unit:"passager",max:110,note:"Si poursuite impossible — hors grandes villes"},
   {id:"hotel_grande",           label:"Hébergement Grande ville (Tous)",    icon:"<i data-lucide='building-2'></i>",unit:"passager",max:150,note:"Paris, Lyon, Marseille, Bordeaux, Lille, Nantes…"},
-  {id:"hotel_province_optimum", label:"Hébergement Province (Optimum+)",    icon:"<i data-lucide='star'></i>",unit:"passager",max:300,note:"Autres villes: Optimum+"},
-  {id:"hotel_grande_optimum",   label:"Hébergement Grande ville (Optimum+)",icon:"<i data-lucide='star'></i>",unit:"passager",max:300,note:"Paris, Lyon, Marseille…: Optimum+"},
-  {id:"rachat_billets",         label:"Rachat billets / frais d'échange",   icon:"<i data-lucide='ticket'></i>",unit:"dossier", max:null,note:"Remboursement du surcoût: sur justificatif"},
+  {id:"hotel_province_optimum", label:"Hébergement Province (Optimum+)",    icon:"<i data-lucide='star'></i>",unit:"passager",max:300,note:"Autres villes — Optimum+"},
+  {id:"hotel_grande_optimum",   label:"Hébergement Grande ville (Optimum+)",icon:"<i data-lucide='star'></i>",unit:"passager",max:300,note:"Paris, Lyon, Marseille… — Optimum+"},
+  {id:"rachat_billets",         label:"Rachat billets / frais d'échange",   icon:"<i data-lucide='ticket'></i>",unit:"dossier", max:null,note:"Remboursement du surcoût — sur justificatif"},
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2333,51 +2511,223 @@ function cleanPaste(text) {
   return text.trim();
 }
 
-// 🔧 UTILITAIRE: Attacher cleanPaste au paste event
+// 🔧 UTILITAIRE: Attacher cleanPaste au paste event (une seule fois par input)
 function attachCleanPaste(inputElement) {
-  if (!inputElement) return;
+  if (!inputElement || inputElement._cleanPaste) return;
+  inputElement._cleanPaste = true;
   inputElement.addEventListener("paste", function(e) {
     e.preventDefault();
     var pasted = (e.clipboardData || window.clipboardData).getData("text");
-    var cleaned = cleanPaste(pasted);
-    inputElement.value = cleaned;
-    // Trigger change event for reactivity
-    inputElement.dispatchEvent(new Event("change"));
+    inputElement.value = cleanPaste(pasted);
+    // Déclencher input ET change pour la réactivité (certains champs écoutent "input")
+    inputElement.dispatchEvent(new Event("input", { bubbles: true }));
+    inputElement.dispatchEvent(new Event("change", { bubbles: true }));
   });
 }
 
-// Hook: Connecter cleanPaste à tous les inputs (appelé depuis afterRender)
+// Hook: Connecter cleanPaste à tous les inputs (idempotent grâce au flag _cleanPaste)
 function setupCleanPasteHooks() {
-  var inputs = document.querySelectorAll("input[type='text'], input[type='number'], textarea");
-  inputs.forEach(function(inp) {
-    if (inp._pasteHooked) return;
-    inp._pasteHooked = true;
-    inp.addEventListener("paste", function(e) {
+  document.querySelectorAll("input[type='text'], input[type='number'], textarea").forEach(attachCleanPaste);
+}
+
+// 🔔 Toast global — copie, sauvegarde, suppression de dossier
+var _toastTimer = null;
+function showToast(message, duration) {
+  var t = document.getElementById("toast");
+  if (!t) return;
+  t.textContent = message;
+  t.classList.add("show");
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(function() { t.classList.remove("show"); }, duration || 2000);
+}
+
+// 📋 Copie presse-papiers centralisée (feedback bouton + toast)
+function copyToClipboard(text, btnEl) {
+  function feedback() {
+    showToast("Copié dans le presse-papiers");
+    if (btnEl) {
+      var prev = btnEl.innerHTML;
+      btnEl.classList.add("copied");
+      btnEl.innerHTML = "<i data-lucide='check'></i> Copié!";
+      if (window.lucide) try { lucide.createIcons(); } catch(e) {}
+      setTimeout(function() {
+        btnEl.classList.remove("copied");
+        btnEl.innerHTML = prev;
+        if (window.lucide) try { lucide.createIcons(); } catch(e) {}
+      }, 1500);
+    }
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(feedback).catch(function() { prompt("Copie manuelle :", text); });
+  } else {
+    prompt("Copie manuelle :", text);
+  }
+}
+
+// 🔢 Compteur animé sur les montants (requestAnimationFrame — non bloquant)
+function animateCountUp(el, targetValue, duration) {
+  duration = duration || 800;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var raw = el.textContent.trim();
+  var m = raw.match(/^([\d\s,.]+)/);
+  var suffix = m ? raw.slice(m[0].length) : "";
+  var dec = raw.indexOf(".") >= 0 || String(targetValue).indexOf(".") >= 0 ? 2 : 0;
+  el.dataset.pmCount = "1";
+  var t0 = null;
+  function frame(ts) {
+    if (!t0) t0 = ts;
+    var p = Math.min((ts - t0) / duration, 1);
+    var eased = 1 - Math.pow(1 - p, 3); // ease-out
+    el.textContent = (targetValue * eased).toFixed(dec) + suffix;
+    if (p < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+// 💧 Ripple matériel sur les boutons .opt (attaché après chaque render)
+function setupRipples() {
+  document.querySelectorAll(".opt").forEach(function(btn) {
+    if (btn._ripple) return;
+    btn._ripple = true;
+    function spawn(e) {
+      var rect = btn.getBoundingClientRect();
+      var cx = e.touches && e.touches.length ? e.touches[0].clientX : e.clientX;
+      var cy = e.touches && e.touches.length ? e.touches[0].clientY : e.clientY;
+      var size = Math.max(rect.width, rect.height);
+      var r = document.createElement("span");
+      r.className = "ripple";
+      r.style.width = r.style.height = size + "px";
+      r.style.left = (cx - rect.left - size / 2) + "px";
+      r.style.top = (cy - rect.top - size / 2) + "px";
+      btn.appendChild(r);
+      setTimeout(function() { if (r.parentNode) r.parentNode.removeChild(r); }, 500);
+    }
+    btn.addEventListener("mousedown", spawn);
+    btn.addEventListener("touchstart", spawn, { passive: true });
+  });
+}
+
+// 📅 Sélecteur de date Jour / Mois / Année — fiable sur tous les navigateurs
+// (le calendrier natif d'input[type=date] ne permet pas toujours de choisir mois/année).
+// La valeur ISO (YYYY-MM-DD) est exposée via element.dataset.value et via onChange(iso).
+var DATE_MONTHS=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+function makeDateSelect(id,isoValue,onChange){
+  var parts=(isoValue||"").split("-");
+  var now=new Date();
+  var y=parseInt(parts[0],10)||now.getFullYear();
+  var m=(parseInt(parts[1],10)||now.getMonth()+1)-1;
+  var d=parseInt(parts[2],10)||now.getDate();
+
+  var row=div("date-select-row");
+  row.id=id;
+
+  function mkSel(aria){
+    var s=document.createElement("select");
+    s.className="inp date-select";
+    s.setAttribute("aria-label",aria);
+    return s;
+  }
+  var selD=mkSel("Jour"),selM=mkSel("Mois"),selY=mkSel("Année");
+
+  var yMin=now.getFullYear()-8,yMax=now.getFullYear()+1;
+  for(var yy=yMax;yy>=yMin;yy--){
+    var oy=document.createElement("option");oy.value=yy;oy.textContent=yy;selY.appendChild(oy);
+  }
+  DATE_MONTHS.forEach(function(lbl,i){
+    var om=document.createElement("option");om.value=i+1;om.textContent=lbl;selM.appendChild(om);
+  });
+
+  function daysIn(yy,mm){return new Date(yy,mm,0).getDate();}
+  function fillDays(){
+    var max=daysIn(parseInt(selY.value,10),parseInt(selM.value,10));
+    var cur=parseInt(selD.value,10)||d;
+    selD.innerHTML="";
+    for(var dd=1;dd<=max;dd++){
+      var od=document.createElement("option");od.value=dd;od.textContent=("0"+dd).slice(-2);selD.appendChild(od);
+    }
+    selD.value=Math.min(cur,max);
+  }
+  function emit(){
+    var iso=selY.value+"-"+("0"+selM.value).slice(-2)+"-"+("0"+selD.value).slice(-2);
+    row.dataset.value=iso;
+    if(onChange)onChange(iso);
+  }
+
+  selY.value=Math.min(Math.max(y,yMin),yMax);
+  selM.value=m+1;
+  fillDays();
+  selD.value=Math.min(d,parseInt(selD.options[selD.options.length-1].value,10));
+  emit(); // initialise dataset.value et l'état avec la valeur par défaut
+
+  selD.addEventListener("change",emit);
+  selM.addEventListener("change",function(){fillDays();emit();});
+  selY.addEventListener("change",function(){fillDays();emit();});
+
+  row.appendChild(selD);row.appendChild(selM);row.appendChild(selY);
+  return row;
+}
+
+// 💡 Tooltips d'aide métier — boîte globale fixe positionnée au-dessus de l'icône (i).
+// Élément unique en position:fixed : jamais rogné par l'overflow:hidden des boutons .opt.
+function setupTips() {
+  var box = document.getElementById("tip-box");
+  if (!box) {
+    box = document.createElement("div");
+    box.id = "tip-box";
+    box.setAttribute("role", "tooltip");
+    document.body.appendChild(box);
+  }
+  // Masquer tout tooltip résiduel à chaque render (l'icône survolée peut avoir disparu)
+  box._showing = false;
+  box.classList.remove("show");
+  function show(el) {
+    var txt = el.getAttribute("data-tip");
+    if (!txt) return;
+    box.textContent = txt;
+    // mesurer puis positionner au-dessus de l'icône (en dessous si pas la place)
+    var r = el.getBoundingClientRect();
+    var bw = box.offsetWidth, bh = box.offsetHeight;
+    var left = Math.min(Math.max(8, r.left + r.width / 2 - bw / 2), window.innerWidth - bw - 8);
+    var top = r.top - bh - 8;
+    if (top < 8) top = r.bottom + 8;
+    box.style.left = left + "px";
+    box.style.top = top + "px";
+    box._showing = true;
+    requestAnimationFrame(function() { if (box._showing) box.classList.add("show"); });
+  }
+  function hide() { box._showing = false; box.classList.remove("show"); }
+  // Tout élément porteur de data-tip (icônes .tip, badges de statut…)
+  document.querySelectorAll("[data-tip]").forEach(function(el) {
+    if (el._tip) return;
+    el._tip = true;
+    el.tabIndex = 0;
+    el.addEventListener("mouseenter", function() { show(el); });
+    el.addEventListener("mouseleave", hide);
+    el.addEventListener("focus", function() { show(el); });
+    el.addEventListener("blur", hide);
+    // Tap mobile : afficher/masquer sans déclencher l'option parente
+    el.addEventListener("click", function(e) {
+      e.stopPropagation();
       e.preventDefault();
-      var raw = (e.clipboardData || window.clipboardData).getData("text");
-      var cleaned = cleanPaste(raw);
-
-      // input[type=number] ne supporte pas selectionStart/End (lève une exception)
-      // → remplacement direct de la valeur entière
-      if (inp.type === "number") {
-        inp.value = cleaned;
-      } else {
-        // Insertion à la position curseur : préserver le texte avant/après la sélection
-        var start = inp.selectionStart != null ? inp.selectionStart : inp.value.length;
-        var end   = inp.selectionEnd   != null ? inp.selectionEnd   : inp.value.length;
-        var before = inp.value.slice(0, start);
-        var after  = inp.value.slice(end);
-        inp.value = before + cleaned + after;
-        // Replacer le curseur juste après le texte inséré
-        var newPos = start + cleaned.length;
-        inp.setSelectionRange(newPos, newPos);
-      }
-
-      inp.dispatchEvent(new Event("input",  { bubbles: true }));
-      inp.dispatchEvent(new Event("change", { bubbles: true }));
+      if (box.classList.contains("show")) hide(); else show(el);
     });
   });
 }
+
+// Direction de navigation — pilote les transitions directionnelles (avance / retour)
+window._navDir = "fwd";
+
+// Appeler après chaque render (synchrone : le DOM vient d'être injecté)
+var originalRender = render;
+render = function() {
+  var appEl = document.getElementById("app");
+  if (appEl) appEl.classList.toggle("nav-back", window._navDir === "back");
+  originalRender();
+  setupCleanPasteHooks();
+  setupRipples();
+  setupTips();
+  window._navDir = "fwd";
+};
 
 var S={
   step:"menu",flow:null,history:[],dark:false,
@@ -2393,9 +2743,17 @@ var S={
   retractionData:{},
 };
 
+var _renderQueued=false;
 function set(patch){
   for(var k in patch)S[k]=patch[k];
-  render();
+  // Debounce léger : plusieurs set() rapprochés => un seul render
+  // (supprime aussi les renders réentrants quand une fonction d'étape appelle set() pendant le rendu)
+  if(_renderQueued)return;
+  _renderQueued=true;
+  requestAnimationFrame(function(){
+    _renderQueued=false;
+    render();
+  });
 }
 
 function pushH(icon,q,a){
@@ -2425,6 +2783,8 @@ function goBack(){
 }
 
 function editHistAt(idx){
+  // Navigation arrière : transition directionnelle inverse
+  window._navDir="back";
   // Enlever l'élément qu'on édite pour le remplacer (pas le dupliquer)
   S.history=S.history.slice(0,idx);
 
@@ -2459,9 +2819,9 @@ function editHistAt(idx){
       var priceVal=parseFloat(h.a); // "50.00 €" or "0.00 € (tarif spécial)"
       newBuildingSegPassengers[pidx].price=isNaN(priceVal)?0:priceVal;
     }
-    // Reconstruire les frais depuis la history
+    // Reconstruire les frais depuis la history (indexOf : gère le suffixe " [DIGIPEC]")
     for(var ft=0;ft<FRAIS_TYPES.length;ft++){
-      if(h.q===FRAIS_TYPES[ft].label){
+      if(h.q.indexOf(FRAIS_TYPES[ft].label)===0){
         // Extraire le montant depuis le displayStr (ex: "25.00€ (total)" ou "15.00€ × 2 = 30.00€")
         var fraisVal=parseFloat(h.a);
         if(!isNaN(fraisVal)){
@@ -2473,11 +2833,30 @@ function editHistAt(idx){
   }
 
   // Nettoyer les segments : garder seulement les segments AVANT le dernier "Transporteur"
-  // Cela évite de dupliquer les segments en cours de modification
+  // Cela évite de dupliquer les segments en cours de modification.
+  // Un transporteur multi-passagers crée PLUSIEURS segments partageant le même groupId :
+  // on compte donc les groupes, pas les segments.
   var newSegments=S.segments.slice();
   if(transporteurCount>0){
-    // On garde (transporteurCount-1) segments, on supprime le reste
-    newSegments=newSegments.slice(0,Math.max(0,transporteurCount-1));
+    var keepGroups=Math.max(0,transporteurCount-1);
+    var seenGroups=[];
+    var keptSegs=[];
+    for(var si=0;si<newSegments.length;si++){
+      var gid=newSegments[si].groupId||newSegments[si].id;
+      if(seenGroups.indexOf(gid)<0){
+        if(seenGroups.length>=keepGroups)break;
+        seenGroups.push(gid);
+      }
+      keptSegs.push(newSegments[si]);
+    }
+    newSegments=keptSegs;
+  }
+
+  // Invalider l'indemnisation exceptionnelle si ses segments ne sont plus présents
+  if(S.exceptionalIndemnity){
+    var _exIdsEd=S.exceptionalIndemnity.segmentIds||[S.exceptionalIndemnity.segmentId];
+    var _exAllPresent=_exIdsEd.every(function(id){return newSegments.some(function(sg){return sg.id===id;});});
+    if(!_exAllPresent)S.exceptionalIndemnity=null;
   }
 
   // Déterminer le step correct
@@ -2492,12 +2871,10 @@ function editHistAt(idx){
     }
   }
 
-  // Vérifier si on édite un frais
-  var isFraisEdit=false;
+  // Vérifier si on édite un frais (indexOf : gère le suffixe " [DIGIPEC]")
   for(var ft=0;ft<FRAIS_TYPES.length;ft++){
-    if(lastQ===FRAIS_TYPES[ft].label){
-      isFraisEdit=true;
-      set({step:"frais_montant",buildingSeg:{fraisType:FRAIS_TYPES[ft].id,fraisMax:FRAIS_TYPES[ft].max},fraisList:newFraisList});
+    if(lastQ.indexOf(FRAIS_TYPES[ft].label)===0){
+      set({step:"frais_montant",nbPass:restoredNbPass,buildingSeg:{fraisType:FRAIS_TYPES[ft].id,fraisMax:FRAIS_TYPES[ft].max},fraisList:newFraisList});
       return;
     }
   }
@@ -2519,14 +2896,25 @@ function editHistAt(idx){
     }else{
       set({step:"add_segment",nbPass:restoredNbPass,buildingSegPassengers:newBuildingSegPassengers,buildingSeg:newBuildingSeg,segments:newSegments,fraisList:newFraisList});
     }
+  }else if(lastQ==="Frais"){
+    set({step:"frais_type",nbPass:restoredNbPass,fraisList:newFraisList});
+  }else if(lastQ==="Tarif"){
+    // Question "tarif identique ?" (flux multi-passagers)
+    set({step:"tarif_identique",nbPass:restoredNbPass,selectedTarifUnique:null,buildingSegPassengers:[],buildingSeg:newBuildingSeg,segments:newSegments,fraisList:newFraisList});
+  }else if(lastQ.indexOf("Tarif (x")===0){
+    // Tarif unique pour N passagers
+    set({step:"tarif_unique",nbPass:restoredNbPass,selectedTarifUnique:null,buildingSegPassengers:[],buildingSeg:newBuildingSeg,segments:newSegments,fraisList:newFraisList});
   }else{
-    set({nbPass:restoredNbPass,buildingSegPassengers:newBuildingSegPassengers,buildingSeg:newBuildingSeg,segments:newSegments,fraisList:newFraisList});
-    render();
+    var fallbackPatch={nbPass:restoredNbPass,buildingSegPassengers:newBuildingSegPassengers,buildingSeg:newBuildingSeg,segments:newSegments,fraisList:newFraisList};
+    // Flux dates : le retour depuis un résultat ramène au formulaire correspondant
+    if(S.step==="result_retraction")fallbackPatch.step="retraction";
+    else if(S.step==="result_resiliation")fallbackPatch.step="resiliation";
+    set(fallbackPatch);
   }
 }
 
 function reset(){
-  set({step:"menu",flow:null,history:[],delay:0,nbPass:0,segments:[],buildingSeg:{},currentPassenger:0,buildingSegPassengers:[],fraisList:[],uniformTariff:false,selectedTarifUnique:null,ouigoDelay:0,exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null,exceptionalMaxAmt:null});
+  set({step:"menu",flow:null,history:[],delay:0,nbPass:0,segments:[],buildingSeg:{},currentPassenger:0,buildingSegPassengers:[],fraisList:[],uniformTariff:false,selectedTarifUnique:null,ouigoDelay:0,exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null,exceptionalMaxAmt:null,retardDossierId:null,specialDossierId:null,resiliationData:{},retractionData:{}});
 }
 
 function mkDosDate(){
@@ -2541,9 +2929,26 @@ function saveDossier(summary){
     localStorage.setItem("bd30-dossiers",JSON.stringify(d));
   }catch(e){}
 }
-function saveRetardDossier(data){
+function saveRetardDossier(data,existingId){
   try{
     var d=JSON.parse(localStorage.getItem("bd30-dossiers")||"[]");
+    // Si le dossier en cours existe déjà (recalcul après retour arrière), le mettre à jour au lieu d'en créer un doublon
+    if(existingId){
+      for(var i=0;i<d.length;i++){
+        if(d[i].id===existingId){
+          d[i].date=mkDosDate();
+          d[i].ml=data.ml;
+          d[i].delay=data.delay;
+          d[i].retardTotal=data.retardTotal;
+          d[i].segs=data.segs||[];
+          d[i].summary=data.summary;
+          d[i].total=(data.retardTotal||0)+(d[i].fraisTotal||0);
+          localStorage.setItem("bd30-dossiers",JSON.stringify(d));
+          return existingId;
+        }
+      }
+      // dossier supprimé entre-temps : on retombe sur la création
+    }
     var entry={id:Date.now(),date:mkDosDate(),ml:data.ml,delay:data.delay,retardTotal:data.retardTotal,total:data.total,segs:data.segs||[],frais:data.frais||[],fraisTotal:data.fraisTotal||0,summary:data.summary};
     d.unshift(entry);
     if(d.length>50)d=d.slice(0,50);
@@ -2551,6 +2956,31 @@ function saveRetardDossier(data){
     return entry.id;
   }catch(e){return null;}
 }
+// Dossiers Résiliation / Rétractation — entrée typée dans l'historique.
+// existingId : recalcul du même dossier (retour arrière) => mise à jour, pas de doublon.
+function saveSpecialDossier(type,summary,extra,existingId){
+  try{
+    var d=JSON.parse(localStorage.getItem("bd30-dossiers")||"[]");
+    if(existingId){
+      for(var i=0;i<d.length;i++){
+        if(d[i].id===existingId){
+          d[i].date=mkDosDate();
+          d[i].summary=summary;
+          if(extra)for(var k in extra)d[i][k]=extra[k];
+          localStorage.setItem("bd30-dossiers",JSON.stringify(d));
+          return existingId;
+        }
+      }
+    }
+    var entry={id:Date.now(),date:mkDosDate(),type:type,summary:summary};
+    if(extra)for(var k2 in extra)entry[k2]=extra[k2];
+    d.unshift(entry);
+    if(d.length>50)d=d.slice(0,50);
+    localStorage.setItem("bd30-dossiers",JSON.stringify(d));
+    return entry.id;
+  }catch(e){return null;}
+}
+
 function updateDossierFrais(dossierId,fraisArr,fraisTotal){
   if(!dossierId)return;
   try{
@@ -2566,29 +2996,12 @@ function updateDossierFrais(dossierId,fraisArr,fraisTotal){
     localStorage.setItem("bd30-dossiers",JSON.stringify(d));
   }catch(e){}
 }
-function saveRetractionDossier(data){
-  try{
-    var d=JSON.parse(localStorage.getItem("bd30-dossiers")||"[]");
-    var entry={id:Date.now(),date:mkDosDate(),type:"retraction",signatureDate:data.signatureDate,demandeDate:data.demandeDate,deadlineDate:data.deadlineDate,remboursement:data.remboursement,summary:data.summary};
-    d.unshift(entry);
-    if(d.length>50)d=d.slice(0,50);
-    localStorage.setItem("bd30-dossiers",JSON.stringify(d));
-  }catch(e){}
-}
-function saveResiliationDossier(data){
-  try{
-    var d=JSON.parse(localStorage.getItem("bd30-dossiers")||"[]");
-    var entry={id:Date.now(),date:mkDosDate(),type:"resiliation",abonnement:data.abonnement,frais:data.frais,effectiveDate:data.effectiveDate,message:data.message,summary:data.summary};
-    d.unshift(entry);
-    if(d.length>50)d=d.slice(0,50);
-    localStorage.setItem("bd30-dossiers",JSON.stringify(d));
-  }catch(e){}
-}
 function deleteDossierById(id){
   try{
     var d=JSON.parse(localStorage.getItem("bd30-dossiers")||"[]");
     d=d.filter(function(x){return x.id!==id;});
     localStorage.setItem("bd30-dossiers",JSON.stringify(d));
+    showToast("Dossier supprimé");
     render();
   }catch(e){}
 }
@@ -2608,49 +3021,55 @@ function sDossierHistory(){
     var bd=div("result-breakdown");
     bd.appendChild(div("breakdown-title","<i data-lucide='clock'></i>Dossiers récents"));
     dossiers.forEach(function(dos){
-      // Rétractation entry
-      if(dos.type==="retraction"){
-        var card=document.createElement("div");
-        card.style.cssText="border:1px solid var(--border);border-left:3px solid #7B2D8B;border-radius:8px;padding:12px;background:var(--surface);margin-bottom:10px;";
-        var hRow=document.createElement("div");hRow.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:8px;";
-        var badge=document.createElement("span");badge.style.cssText="background:#7B2D8B;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:800;";badge.textContent="RÉTRACTION";
-        hRow.appendChild(badge);
-        var ds=document.createElement("span");ds.style.cssText="font-size:11px;color:var(--tx-muted);flex:1;";ds.textContent=dos.date;hRow.appendChild(ds);
-        var delBtn=document.createElement("button");delBtn.style.cssText="background:none;border:none;cursor:pointer;color:var(--tx-muted);padding:2px 4px;";delBtn.innerHTML="<i data-lucide='x'></i>";
-        (function(id){delBtn.onclick=function(){if(window.confirm("Supprimer ce dossier ?"))deleteDossierById(id);};})(dos.id);
-        hRow.appendChild(delBtn);card.appendChild(hRow);
-        var rows=[["Signature",dos.signatureDate],["Demande",dos.demandeDate],["Date limite",dos.deadlineDate],["Remboursement",dos.remboursement]];
-        rows.forEach(function(r){
-          var rEl=document.createElement("div");rEl.style.cssText="display:flex;font-size:11px;gap:6px;margin-bottom:3px;";
-          var l=document.createElement("span");l.style.cssText="color:var(--tx-muted);width:90px;flex-shrink:0;";l.textContent=r[0]+" :";
-          var v=document.createElement("span");v.style.cssText="color:var(--tx);font-weight:600;";v.textContent=r[1]||"—";
-          rEl.appendChild(l);rEl.appendChild(v);card.appendChild(rEl);
-        });
-        bd.appendChild(card);
-        return;
-      }
-      // Résiliation entry
-      if(dos.type==="resiliation"){
-        var card=document.createElement("div");
-        card.style.cssText="border:1px solid var(--border);border-left:3px solid #1a6e1a;border-radius:8px;padding:12px;background:var(--surface);margin-bottom:10px;";
-        var hRow=document.createElement("div");hRow.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:8px;";
-        var badge=document.createElement("span");badge.style.cssText="background:#1a6e1a;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:800;";badge.textContent="RÉSILIATION";
-        hRow.appendChild(badge);
-        var aboSpan=document.createElement("span");aboSpan.style.cssText="font-size:11px;font-weight:600;color:var(--tx);";aboSpan.textContent=dos.abonnement||"";hRow.appendChild(aboSpan);
-        var ds=document.createElement("span");ds.style.cssText="font-size:11px;color:var(--tx-muted);flex:1;text-align:right;";ds.textContent=dos.date;hRow.appendChild(ds);
-        var delBtn=document.createElement("button");delBtn.style.cssText="background:none;border:none;cursor:pointer;color:var(--tx-muted);padding:2px 4px;";delBtn.innerHTML="<i data-lucide='x'></i>";
-        (function(id){delBtn.onclick=function(){if(window.confirm("Supprimer ce dossier ?"))deleteDossierById(id);};})(dos.id);
-        hRow.appendChild(delBtn);card.appendChild(hRow);
-        var fraisStr=dos.frais>0?dos.frais.toFixed(2)+"€":"Gratuit / Impossible";
-        var rows2=[["Frais",fraisStr],["Date d'effet",dos.effectiveDate],["Note",dos.message]];
-        rows2.forEach(function(r){
-          if(!r[1])return;
-          var rEl=document.createElement("div");rEl.style.cssText="display:flex;font-size:11px;gap:6px;margin-bottom:3px;align-items:flex-start;";
-          var l=document.createElement("span");l.style.cssText="color:var(--tx-muted);width:80px;flex-shrink:0;";l.textContent=r[0]+" :";
-          var v=document.createElement("span");v.style.cssText="color:var(--tx);font-weight:600;flex:1;";v.textContent=r[1];
-          rEl.appendChild(l);rEl.appendChild(v);card.appendChild(rEl);
-        });
-        bd.appendChild(card);
+      // Dossiers Résiliation / Rétractation — carte dédiée avec badge de statut
+      if(dos.type==="retraction"||dos.type==="resiliation"){
+        var isRetr=dos.type==="retraction";
+        var spAccent=isRetr?"#64748B":"var(--amber)";
+        var spCard=document.createElement("div");
+        spCard.style.cssText="border:1px solid var(--border);border-left:3px solid "+spAccent+";border-radius:8px;padding:12px;background:var(--surface);margin-bottom:10px;";
+        var spRow=document.createElement("div");
+        spRow.style.cssText="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px;";
+        var spBadge=document.createElement("span");
+        spBadge.className="hist-badge "+(isRetr?"retraction":"resiliation");
+        spBadge.textContent=isRetr?"RÉTRACTATION":"RÉSILIATION";
+        if(isRetr){
+          // Règle métier rappelée au survol du statut
+          spBadge.setAttribute("data-tip","Date d'achat de la carte ou de l'abonnement (signature du contrat)");
+          spBadge.style.cursor="help";
+        }
+        spRow.appendChild(spBadge);
+        var spDate=document.createElement("span");
+        spDate.style.cssText="font-size:11px;color:var(--tx-muted);";
+        spDate.textContent=dos.date;
+        spRow.appendChild(spDate);
+        var spSpacer=document.createElement("div");spSpacer.style.flex="1";
+        spRow.appendChild(spSpacer);
+        var spRight=document.createElement("span");
+        spRight.style.cssText="font-size:12px;font-weight:700;color:"+spAccent+";white-space:nowrap;";
+        if(isRetr)spRight.textContent=dos.depasse?"Délai dépassé":"Limite "+(dos.deadline||"—");
+        else spRight.textContent=dos.frais||"—";
+        spRow.appendChild(spRight);
+        var spDel=document.createElement("button");
+        spDel.style.cssText="background:none;border:none;cursor:pointer;color:var(--tx-muted);padding:2px 4px;font-size:14px;line-height:1;";
+        spDel.setAttribute("aria-label","Supprimer le dossier");
+        spDel.innerHTML="<i data-lucide='x'></i>";
+        (function(id){spDel.onclick=function(){if(window.confirm("Supprimer ce dossier ?"))deleteDossierById(id);};})(dos.id);
+        spRow.appendChild(spDel);
+        spCard.appendChild(spRow);
+        var spSum=document.createElement("div");
+        spSum.style.cssText="font-size:11px;color:var(--tx);line-height:1.55;word-break:break-word;";
+        spSum.textContent=dos.summary||"";
+        spCard.appendChild(spSum);
+        var spCopyRow=document.createElement("div");
+        spCopyRow.style.cssText="display:flex;justify-content:flex-end;margin-top:10px;";
+        var spCp=document.createElement("button");
+        spCp.className="act-btn success";
+        spCp.style.cssText="padding:6px 12px;font-size:11px;";
+        spCp.innerHTML="<i data-lucide='copy'></i> Copier";
+        (function(d,btn){btn.onclick=function(){copyToClipboard(d.summary||"",btn);};})(dos,spCp);
+        spCopyRow.appendChild(spCp);
+        spCard.appendChild(spCopyRow);
+        bd.appendChild(spCard);
         return;
       }
       // Rich entry (has segs field) vs legacy string entry
@@ -2687,6 +3106,7 @@ function sDossierHistory(){
         hRow.appendChild(totalSpan);
         var delBtn=document.createElement("button");
         delBtn.style.cssText="background:none;border:none;cursor:pointer;color:var(--tx-muted);padding:2px 4px;font-size:14px;line-height:1;";
+        delBtn.setAttribute("aria-label","Supprimer le dossier");
         delBtn.innerHTML="<i data-lucide='x'></i>";
         (function(id){delBtn.onclick=function(){if(window.confirm("Supprimer ce dossier ?"))deleteDossierById(id);};})(dos.id);
         hRow.appendChild(delBtn);
@@ -2767,8 +3187,7 @@ function sDossierHistory(){
             if(d.frais&&d.frais.length){
               txt+=" | Frais: "+d.frais.map(function(f){return f.label+" "+f.amt.toFixed(2)+"€";}).join(" + ");
             }
-            if(navigator.clipboard)navigator.clipboard.writeText(txt).then(function(){btn.innerHTML="<i data-lucide='check'></i> Copié!";if(window.lucide)lucide.createIcons();setTimeout(function(){btn.innerHTML="<i data-lucide='copy'></i> Copier";if(window.lucide)lucide.createIcons();},1500);}).catch(function(){prompt("",txt);});
-            else prompt("",txt);
+            copyToClipboard(txt,btn);
           };
         })(dos,btnCp);
         copyRow.appendChild(btnCp);
@@ -2781,10 +3200,10 @@ function sDossierHistory(){
         btnCp.className="act-btn success";
         btnCp.style.cssText="padding:6px 10px;font-size:11px;flex-shrink:0;";
         btnCp.innerHTML="<i data-lucide='copy'></i>";
+        btnCp.setAttribute("aria-label","Copier le dossier");
         (function(d,btn){
           btn.onclick=function(){
-            if(navigator.clipboard)navigator.clipboard.writeText(d.summary).then(function(){btn.innerHTML="<i data-lucide='check'></i>";if(window.lucide)lucide.createIcons();setTimeout(function(){btn.innerHTML="<i data-lucide='copy'></i>";if(window.lucide)lucide.createIcons();},1500);}).catch(function(){prompt("",d.summary);});
-            else prompt("",d.summary);
+            copyToClipboard(d.summary,btn);
           };
         })(dos,btnCp);
         item.innerHTML="<div style='flex:1;min-width:0;'><div style='font-size:10px;color:var(--tx-muted);'>"+dos.date+"</div><div style='font-size:12px;color:var(--tx);margin-top:3px;word-break:break-word;'>"+dos.summary+"</div></div>";
@@ -2797,7 +3216,7 @@ function sDossierHistory(){
   var acts=div("action-row");
   if(dossiers.length){
     var btnClear=document.createElement("button");btnClear.className="act-btn danger";btnClear.innerHTML="<i data-lucide='trash-2'></i> Effacer tout";
-    btnClear.onclick=function(){if(window.confirm("Effacer tout l'historique ?")){{localStorage.removeItem("bd30-dossiers");render();}}};
+    btnClear.onclick=function(){if(window.confirm("Effacer tout l'historique ?")){try{localStorage.removeItem("bd30-dossiers");}catch(e){}showToast("Historique effacé");render();}};
     acts.appendChild(btnClear);
   }
   var btnHome=document.createElement("button");btnHome.className="act-btn secondary";btnHome.innerHTML="<i data-lucide='home'></i> Accueil";btnHome.onclick=confirmReset;
@@ -2850,8 +3269,9 @@ function renderOpts(items){
   items.forEach(function(item){
     if(item._sep){wrap.appendChild(div("opts-group-label",item._sep));return;}
     var btn=document.createElement("button");
-    btn.className="opt"+(item.danger?" danger":"");
-    btn.innerHTML=(item.icon?"<span class='opt-icon'>"+item.icon+"</span>":"")+"<div class='opt-content'><div class='opt-label'>"+item.label+"</div>"+(item.desc?"<div class='opt-desc'>"+item.desc+"</div>":"")+"</div>"+(item.badge?"<span class='opt-badge'>"+item.badge+"</span>":"");
+    btn.className="opt"+(item.danger?" danger":"")+(item.selected?" opt-selected":"");
+    if(item.selected)btn.setAttribute("aria-pressed","true");
+    btn.innerHTML=(item.icon?"<span class='opt-icon'>"+item.icon+"</span>":"")+"<div class='opt-content'><div class='opt-label'>"+item.label+"</div>"+(item.desc?"<div class='opt-desc'>"+item.desc+"</div>":"")+"</div>"+(item.selected?"<span class='opt-check'><i data-lucide='check'></i></span>":"")+(item.badge?"<span class='opt-badge'>"+item.badge+"</span>":"");
     btn.onclick=item.cb;
     wrap.appendChild(btn);
   });
@@ -2944,13 +3364,15 @@ function card(q,sub,content){
 function inp(type,ph){
   var i=document.createElement("input");
   i.type=type;i.className="inp";if(ph)i.placeholder=ph;
+  // 📱 Clavier numérique sur mobile pour les champs nombre
+  if(type==="number")i.inputMode="decimal";
   // ✨ Attacher nettoyage automatique paste à TOUS les inputs
   attachCleanPaste(i);
   return i;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-//  FLUX RETARD: ORDRE CORRECT
+//  FLUX RETARD — ORDRE CORRECT
 // ═══════════════════════════════════════════════════════════════════════════
 
 function sIntro(){
@@ -2978,7 +3400,7 @@ function sIntro(){
 
   var sub = document.createElement('div');
   sub.className = 'intro-sub';
-  sub.textContent = 'BD30 / G30: Conformité SNCF';
+  sub.textContent = 'BD30 / G30 — Conformité SNCF';
   scene.appendChild(sub);
 
   var loader = document.createElement('div');
@@ -2991,22 +3413,21 @@ function sIntro(){
   /* Marque le halo visible (pour activer ::after) après l'apparition */
   setTimeout(function(){ halo.classList.add('visible'); }, 2200);
 
-  /* Auto-dismiss vers sMenu après 3.2s */
+  /* Auto-dismiss vers sMenu après 3.6s */
   setTimeout(function(){
     scene.classList.add('outro');
-    scene.addEventListener('animationend', function onOut(){
-      scene.removeEventListener('animationend', onOut);
-      scene.remove();
-    });
-  }, 3200);
+    setTimeout(function(){
+      if(scene.parentNode) scene.parentNode.removeChild(scene);
+    }, 580);
+  }, 3600);
 
   return scene;
 }
 
 function sMenu(){
   return card("Que souhaitez-vous calculer ?","Choisissez le type de demande",renderOpts([
-    {icon:"<i data-lucide='train-front'></i>",label:"Retard & Indemnisation",desc:"Calcul BD30/G30: compensation retard",cb:function(){set({step:"delay",flow:"retard",segments:[],nbPass:0,delay:0,currentPassenger:0,buildingSegPassengers:[],buildingSeg:{},exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null,exceptionalMaxAmt:null});}},
-    {icon:"<i data-lucide='receipt'></i>",label:"Frais Annexes",desc:"Taxi, restauration, hôtel…",cb:function(){set({step:"frais_type",flow:"frais",fraisList:[],nbPass:1});}},
+    {icon:"<i data-lucide='train-front'></i>",label:"Retard & Indemnisation",desc:"Calcul BD30/G30 — compensation retard",cb:function(){set({step:"delay",flow:"retard",segments:[],nbPass:0,delay:0,currentPassenger:0,buildingSegPassengers:[],buildingSeg:{},exceptionalIndemnity:null,selectedTGVForException:null,exceptionalPrimeEuros:null,exceptionalMaxAmt:null,ouigoDelay:0,uniformTariff:false,selectedTarifUnique:null,fraisList:[],retardDossierId:null});}},
+    {icon:"<i data-lucide='receipt'></i>",label:"Frais Annexes",desc:"Taxi, restauration, hôtel…",cb:function(){set({step:"frais_type",flow:"frais",fraisList:[]});}},
     {icon:"<i data-lucide='calendar-days'></i>",label:"Rétractation & Résiliation",desc:"Délais légaux et conditions",cb:function(){set({step:"dates_type",flow:"dates"});}},
     {icon:"<i data-lucide='book-open'></i>",label:"Barèmes & Règles",desc:"Consulter les tarifs et conditions",cb:function(){set({step:"bareme"});}},
   ]));
@@ -3076,9 +3497,9 @@ function sDelay(){
 
   // Bloc saisie directe minutes (avant le résultat)
   var manualBox=div("delay-manual-box");
-  manualBox.appendChild(div("delay-manual-label","ou saisir directement le retard :"));
+  manualBox.appendChild(div("delay-manual-label","— ou saisir directement le retard —"));
   var manualRow=div("delay-manual-row");
-  var mi=document.createElement("input");mi.id="delay-min-inp";mi.type="number";mi.className="delay-min-input";mi.min=0;mi.max=1440;mi.placeholder="0";mi.value=localDelay||"";mi.addEventListener("input",function(e){localDelay=parseInt(e.target.value)||0;updateDisplay();});attachCleanPaste(mi);manualRow.appendChild(mi);
+  var mi=document.createElement("input");mi.id="delay-min-inp";mi.type="number";mi.inputMode="numeric";mi.className="delay-min-input";mi.min=0;mi.max=1440;mi.placeholder="0";mi.value=localDelay||"";mi.addEventListener("input",function(e){localDelay=parseInt(e.target.value)||0;updateDisplay();});attachCleanPaste(mi);manualRow.appendChild(mi);
   manualRow.appendChild(div("delay-min-unit","min"));
   manualBox.appendChild(manualRow);
   wrap.appendChild(manualBox);
@@ -3264,7 +3685,7 @@ function sTerZouSelection(){
     if(isTrsi) {
       // TRSI coché = non-éligible, pas de tarif
       var seg={id:Date.now()+"",carrier:"ter_zou",elig:false};
-      pushH("<i data-lucide='train'></i>","Transporteur","TER ZOU: TRSI (Transdev) [EXCLU]");
+      pushH("<i data-lucide='train'></i>","Transporteur","TER ZOU — TRSI (Transdev) [EXCLU]");
       set({segments:S.segments.concat([seg]),buildingSeg:{},buildingSegPassengers:[],currentPassenger:0,step:"add_segment"});
     } else {
       // TRSI décoché = éligible, tarif requis
@@ -3324,20 +3745,7 @@ function sTarifUnique(){
 
   var items=tarifs.map(function(t){
     if(t.id==="prime_billet"){
-      return{
-        icon:"<i data-lucide='star'></i>",
-        label:"Billet Prime",
-        desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers",
-        children:[
-          {_sep:"Titulaire: le voyageur est le titulaire"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Prime: Titulaire (FID)",desc:"Titulaire carte Prime: indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarifUnique("prime_titulaire","Prime: Titulaire (FID)");}},
-          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime: GVT Transitoire",desc:"Sortant du programme fidélité: BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarifUnique("prime_gvt_transitoire","Prime: GVT Transitoire");}},
-          {_sep:"Tiers: billet acheté pour un autre voyageur"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarifUnique("prime_fid_tiers","Prime: FID + Tiers");}},
-          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarifUnique("prime_gvt_tiers","Prime: GVT + Tiers");}},
-          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarifUnique("prime_tiers_seul","Prime: Tiers seul");}}
-        ]
-      };
+      return buildPrimeAccordionItem(confirmPrimeTarifUnique);
     }
     return{label:t.label,desc:t.desc,cb:function(){
       pushH("<i data-lucide='ticket'></i>","Tarif (x"+S.nbPass+")",t.label);
@@ -3402,7 +3810,7 @@ function sTarifPassenger(idx){
     return;
   }
 
-  var q="Passager "+(idx+1)+" / "+S.nbPass+": Type de billet ?";
+  var q="Passager "+(idx+1)+" / "+S.nbPass+" — Type de billet ?";
   var desc=null;
   if(S.nbPass>1)desc="Sélectionnez le tarif pour le passager "+(idx+1);
 
@@ -3419,20 +3827,7 @@ function sTarifPassenger(idx){
 
   var items=tarifs.map(function(t){
     if(t.id==="prime_billet"){
-      return{
-        icon:"<i data-lucide='star'></i>",
-        label:"Billet Prime",
-        desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers",
-        children:[
-          {_sep:"Titulaire: le voyageur est le titulaire"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Prime: Titulaire (FID)",desc:"Titulaire carte Prime: indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarif("prime_titulaire","Prime: Titulaire (FID)");}},
-          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime: GVT Transitoire",desc:"Sortant du programme fidélité: BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarif("prime_gvt_transitoire","Prime: GVT Transitoire");}},
-          {_sep:"Tiers: billet acheté pour un autre voyageur"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarif("prime_fid_tiers","Prime: FID + Tiers");}},
-          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarif("prime_gvt_tiers","Prime: GVT + Tiers");}},
-          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarif("prime_tiers_seul","Prime: Tiers seul");}}
-        ]
-      };
+      return buildPrimeAccordionItem(confirmPrimeTarif);
     }
     return{label:t.label,desc:t.desc,cb:function(){
       pushH("<i data-lucide='ticket'></i>","Tarif P"+(idx+1),t.label);
@@ -3460,9 +3855,9 @@ function sPricePassenger(idx){
 
   var wrap=div("input-row");
   if(isGroupeTarif){
-    wrap.appendChild(div("step-sub","Tarif Groupe: Prix total pour tous les passagers (€) :"));
+    wrap.appendChild(div("step-sub","Tarif Groupe — Prix total pour tous les passagers (€) :"));
   }else{
-    wrap.appendChild(div("step-sub","Passager "+(idx+1)+": Prix du billet (€) :"));
+    wrap.appendChild(div("step-sub","Passager "+(idx+1)+" — Prix du billet (€) :"));
   }
   var i=inp("number","Ex : 45.50");i.min=0;i.step="0.01";
   wrap.appendChild(i);
@@ -3489,22 +3884,19 @@ function sPricePassenger(idx){
     }
   };
   wrap.appendChild(btn);
-  var cardTitle=isGroupeTarif?"Tarif Groupe: Prix total":"Passager "+(idx+1)+": Prix du billet";
+  var cardTitle=isGroupeTarif?"Tarif Groupe — Prix total":"Passager "+(idx+1)+" — Prix du billet";
   return card(cardTitle,null,wrap);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-//  PRIME DÉPOSANT: Qui dépose la réclamation pour un billet Prime tiers ?
+//  PRIME DÉPOSANT — Qui dépose la réclamation pour un billet Prime tiers ?
 // ═══════════════════════════════════════════════════════════════════════════
 
 function sPrimeDeposant(idx){
   // Indicateur de procédure
   var proc=div("info-box amber");
   proc.style.marginBottom="18px";
-  proc.innerHTML="<div class='info-icon'><i data-lucide='clipboard-list'></i></div><div><strong>Procédure selon le déposant :</strong><br>"
-    +"<span style='display:block;margin-top:6px;'>👤 <strong>Titulaire FID dépose</strong>: Traitement en file FID AV Voyage · Note interne : <em>« billet prime pour tiers »</em></span>"
-    +"<span style='display:block;margin-top:4px;'>🔄 <strong>Tiers dépose seul</strong>: Transférer en file <strong>Fid AV Voyage Senior Oscar / GVLC</strong> · Note interne : <em>« billet prime pour tiers »</em></span>"
-  +"</div>";
+  proc.innerHTML=PRIME_PROC_HTML;
 
   function confirmTarif(tarifId,tarifLabel){
     pushH("<i data-lucide='ticket'></i>","Tarif P"+(idx+1),tarifLabel);
@@ -3519,18 +3911,18 @@ function sPrimeDeposant(idx){
 
   var opts=renderOpts([
     {
-      icon:"<i data-lucide='id-card'></i>",
+      icon:"<i data-lucide='contact'></i>",
       label:"Le titulaire Prime (FID) dépose",
-      desc:"Client fidélisé carte Prime: indemnisation : pts Prime + BAD tiers",
+      desc:"Client fidélisé carte Prime — indemnisation : pts Prime + BAD tiers",
       badge:"<span style='color:#0066CC;font-weight:800;'>Pts + BAD</span>",
-      cb:function(){confirmTarif("prime_fid_tiers","Prime: FID + Tiers");}
+      cb:function(){confirmTarif("prime_fid_tiers","Prime — FID + Tiers");}
     },
     {
       icon:"<i data-lucide='user'></i>",
       label:"Le tiers dépose seul",
-      desc:"Client loisir / non fidélisé: BAD fixe selon délai · Transfert file GVLC requis",
+      desc:"Client loisir / non fidélisé — BAD fixe selon délai · Transfert file GVLC requis",
       badge:"<span style='color:#A1006B;font-weight:800;'>BAD · GVLC</span>",
-      cb:function(){confirmTarif("prime_tiers_seul","Prime: Tiers seul");}
+      cb:function(){confirmTarif("prime_tiers_seul","Prime — Tiers seul");}
     }
   ]);
 
@@ -3543,10 +3935,7 @@ function sPrimeDeposant(idx){
 function sPrimeDeposantUnique(){
   var proc=div("info-box amber");
   proc.style.marginBottom="18px";
-  proc.innerHTML="<div class='info-icon'><i data-lucide='clipboard-list'></i></div><div><strong>Procédure selon le déposant :</strong><br>"
-    +"<span style='display:block;margin-top:6px;'>👤 <strong>Titulaire FID dépose</strong>: Traitement en file FID AV Voyage · Note interne : <em>« billet prime pour tiers »</em></span>"
-    +"<span style='display:block;margin-top:4px;'>🔄 <strong>Tiers dépose seul</strong>: Transférer en file <strong>Fid AV Voyage Senior Oscar / GVLC</strong> · Note interne : <em>« billet prime pour tiers »</em></span>"
-  +"</div>";
+  proc.innerHTML=PRIME_PROC_HTML;
 
   function confirmTarifUnique(tarifId,tarifLabel){
     pushH("<i data-lucide='ticket'></i>","Tarif (x"+S.nbPass+")",tarifLabel);
@@ -3557,25 +3946,25 @@ function sPrimeDeposantUnique(){
 
   var opts=renderOpts([
     {
-      icon:"<i data-lucide='id-card'></i>",
+      icon:"<i data-lucide='contact'></i>",
       label:"Le titulaire Prime (FID) dépose",
-      desc:"Client fidélisé carte Prime: indemnisation : pts Prime + BAD tiers",
+      desc:"Client fidélisé carte Prime — indemnisation : pts Prime + BAD tiers",
       badge:"<span style='color:#0066CC;font-weight:800;'>Pts + BAD</span>",
-      cb:function(){confirmTarifUnique("prime_fid_tiers","Prime: FID + Tiers");}
+      cb:function(){confirmTarifUnique("prime_fid_tiers","Prime — FID + Tiers");}
     },
     {
       icon:"<i data-lucide='user'></i>",
       label:"Le tiers dépose seul",
-      desc:"Client loisir / non fidélisé: BAD fixe selon délai · Transfert file GVLC requis",
+      desc:"Client loisir / non fidélisé — BAD fixe selon délai · Transfert file GVLC requis",
       badge:"<span style='color:#A1006B;font-weight:800;'>BAD · GVLC</span>",
-      cb:function(){confirmTarifUnique("prime_tiers_seul","Prime: Tiers seul");}
+      cb:function(){confirmTarifUnique("prime_tiers_seul","Prime — Tiers seul");}
     }
   ]);
 
   var wrap=div("");
   wrap.appendChild(proc);
   wrap.appendChild(opts);
-  return card("Qui dépose la réclamation ?","Billet Prime: "+S.nbPass+" passagers identiques",wrap);
+  return card("Qui dépose la réclamation ?","Billet Prime — "+S.nbPass+" passagers identiques",wrap);
 }
 
 function sTarif(){
@@ -3589,20 +3978,7 @@ function sTarif(){
 
   var items=tarifs.map(function(t){
     if(t.id==="prime_billet"){
-      return{
-        icon:"<i data-lucide='star'></i>",
-        label:"Billet Prime",
-        desc:"Titulaire FID · GVT Transitoire · Billet pour un tiers",
-        children:[
-          {_sep:"Titulaire: le voyageur est le titulaire"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Prime: Titulaire (FID)",desc:"Titulaire carte Prime: indemnisation en points fidélité",badge:"<span style='color:#0088CE;font-weight:800;'>Pts FID</span>",cb:function(){confirmPrimeTarifSingle("prime_titulaire","Prime: Titulaire (FID)");}},
-          {icon:"<i data-lucide='arrow-right-to-line'></i>",label:"Prime: GVT Transitoire",desc:"Sortant du programme fidélité: BAD seul, pas de points",badge:"<span style='color:#007A84;font-weight:800;'>BAD seul</span>",cb:function(){confirmPrimeTarifSingle("prime_gvt_transitoire","Prime: GVT Transitoire");}},
-          {_sep:"Tiers: billet acheté pour un autre voyageur"},
-          {icon:"<i data-lucide='id-card'></i>",label:"Titulaire FID dépose",desc:"Ind. pts FID + BAD tiers · File FID AV Voyage",badge:"<span style='color:#5B2D8E;font-weight:800;'>Pts + BAD</span>",cb:function(){confirmPrimeTarifSingle("prime_fid_tiers","Prime: FID + Tiers");}},
-          {icon:"<i data-lucide='shield'></i>",label:"Titulaire GVT dépose",desc:"Double ind. BAD GVT + BAD tiers",badge:"<span style='color:#6E1E78;font-weight:800;'>BAD × 2</span>",cb:function(){confirmPrimeTarifSingle("prime_gvt_tiers","Prime: GVT + Tiers");}},
-          {icon:"<i data-lucide='user'></i>",label:"Tiers dépose seul",desc:"BAD fixe selon délai · Transfert file GVLC requis",badge:"<span style='color:#E05206;font-weight:800;'>BAD · GVLC</span>",cb:function(){confirmPrimeTarifSingle("prime_tiers_seul","Prime: Tiers seul");}}
-        ]
-      };
+      return buildPrimeAccordionItem(confirmPrimeTarifSingle);
     }
     return{label:t.label,desc:t.desc,cb:function(){
       pushH("<i data-lucide='ticket'></i>","Tarif",t.label);
@@ -3652,7 +4028,7 @@ function sAddSegmentOrCalculate(){
       elig:true
     });
   }else{
-    // Cas normal: un passager par entrée: tous partagent le même groupId
+    // Cas normal: un passager par entrée — tous partagent le même groupId
     S.buildingSegPassengers.forEach(function(pass,idx){
       newSegs.push({
         id:Date.now()+"_p"+idx,
@@ -3668,17 +4044,15 @@ function sAddSegmentOrCalculate(){
   var segCount=newSegs.length;
   var desc=segCount+" segment"+(segCount>1?"s":"");
 
-  // CORRECTION 1: Blocage TER + OUIGO (hors périmètre CARE)
+  // CORRECTION 1 — Blocage TER + OUIGO (hors périmètre CARE)
   var hasOUIGO_block=newSegs.some(function(s){return s.carrier==="ouigo";});
   var hasTER_block=newSegs.some(function(s){return s.carrier==="ter"||s.carrier==="ter_zou"||s.carrier==="ter_krono";});
   var hasTGVIC_block=newSegs.some(function(s){return s.carrier==="tgv_dom"||s.carrier==="tgv_int"||s.carrier==="intercites";});
 
-  // TER + OUIGO SANS TGV/IC = hors périmètre CARE (Référentiel AV p.40)
-  // TER + OUIGO AVEC TGV/IC = Billet Direct tri-segment, couvert (RT 6970)
   if(hasOUIGO_block && hasTER_block && !hasTGVIC_block){
     var c=div("result-card");
     var warn=div("info-box amber");
-    warn.innerHTML="<div class='info-icon'><i data-lucide='alert-triangle'></i></div><div><strong>Transfert requis: TER + OUIGO (sans TGV)</strong><br>Cette combinaison TER + OUIGO sans TGV/Intercités ne releve pas du perimetre CARE. La demande doit etre transferee manuellement dans la file : <em>Demandes BD30 manuelles TER-OUIGO</em>.<br><em>Note : si un segment TGV/Intercités est present, ce cas est traite comme Billet Direct (RT 6970).</em></div>";
+    warn.innerHTML="<div class='info-icon'><i data-lucide='alert-triangle'></i></div><div><strong>Transfert requis — TER + OUIGO</strong><br>Cette combinaison TER + OUIGO ne releve pas du perimetre CARE. La demande doit etre transferee manuellement dans la file : <em>Demandes BD30 manuelles TER-OUIGO</em>.</div>";
     c.appendChild(warn);
     var acts=div("action-row");
     var btnHome=document.createElement("button");btnHome.className="act-btn secondary";btnHome.innerHTML="<i data-lucide='home'></i> Accueil";btnHome.onclick=confirmReset;
@@ -3709,7 +4083,7 @@ function sAddSegmentOrCalculate(){
     (canAddExceptional?{icon:"<i data-lucide='star'></i>",label:"Ajouter une indemnisation exceptionnelle",desc:"Appliquer une compensation exceptionnelle sur un segment TGV INOUI / Intercités",cb:function(){
       set({segments:newSegs,step:"exceptional_indemnity"});
     }}:null),
-    (canCalculate?{icon:"<i data-lucide='check-circle-2'></i>",label:"Calculer le résultat",desc:desc+" remplis: Afficher la compensation",cb:function(){
+    (canCalculate?{icon:"<i data-lucide='check-circle-2'></i>",label:"Calculer le résultat",desc:desc+" remplis — Afficher la compensation",cb:function(){
       if(isBilletDirectOUIGOTGV(newSegs)&&!S.ouigoDelay){
         set({segments:newSegs,step:"ouigo_retard_segment"});
       }else{
@@ -3730,7 +4104,7 @@ function sAddSegmentOrCalculate(){
 function sAddSegment(){
   var segCount=S.segments.length+1;
   var passageLeft=Math.max(0,S.nbPass-segCount);
-  var desc=segCount+" segment"+(segCount>1?"s":"")+": "+(passageLeft>0?passageLeft+" passager(s) restant(s)":"tous les passagers remplis");
+  var desc=segCount+" segment"+(segCount>1?"s":"")+" — "+(passageLeft>0?passageLeft+" passager(s) restant(s)":"tous les passagers remplis");
 
   var opts=renderOpts([
     (passageLeft>0?{icon:"<i data-lucide='plus'></i>",label:"Ajouter un passager",desc:"Entrer tarif et prix pour le prochain passager",cb:function(){
@@ -3768,7 +4142,7 @@ function sExceptionalIndemnity(){
       var opts=renderOpts(groups.map(function(g,idx){
         var totalPrice=g.segs.reduce(function(sum,s){return sum+s.price;},0);
         var nbv=g.segs.length;
-        var label="Trajet "+(idx+1)+": "+getCarrierLabel(g.segs[0].carrier)+" ("+nbv+" voyageur"+(nbv>1?"s":"")+")";
+        var label="Trajet "+(idx+1)+" — "+getCarrierLabel(g.segs[0].carrier)+" ("+nbv+" voyageur"+(nbv>1?"s":"")+")";
         return{icon:"<i data-lucide='train'></i>",label:label,desc:totalPrice.toFixed(2)+" € total",cb:function(){
           set({selectedTGVForException:g.gid});
         }};
@@ -3789,18 +4163,12 @@ function sExceptionalIndemnity(){
   var nbVoy=selectedGroup.length;
   var carrierLabel=getCarrierLabel(selectedGroup[0].carrier);
 
-  // Détecter si le groupe contient au moins un Prime
-  var primeSegs=selectedGroup.filter(function(s){return PRIME_TARIFS.indexOf(s.tarif)>=0;});
-  var stdSegs=selectedGroup.filter(function(s){return PRIME_TARIFS.indexOf(s.tarif)<0;});
-  var isPrimeGroup=primeSegs.length>0;
-  var isMixedGroup=primeSegs.length>0&&stdSegs.length>0;
+  // Détecter si le groupe est de type Prime
+  var isPrimeGroup=selectedGroup.every(function(s){return PRIME_TARIFS.indexOf(s.tarif)>=0;});
 
-  // ── CAS PRIME (pur ou mixte) ───────────────────────────────────────────────
+  // ── CAS PRIME ─────────────────────────────────────────────────────────────
   if(isPrimeGroup){
-    var firstTarif=primeSegs[0].tarif;
-    var nbPrime=primeSegs.length;
-    var nbStd=stdSegs.length;
-    var stdTotalPrice=stdSegs.reduce(function(sum,s){return sum+s.price;},0);
+    var firstTarif=selectedGroup[0].tarif;
 
     // Étape 2b : saisie points + euros du billet Prime par voyageur
     // On utilise un objet {pts, euros} stocké dans exceptionalPrimeEuros
@@ -3810,11 +4178,10 @@ function sExceptionalIndemnity(){
 
       var infoBox=div("info-box amber");
       infoBox.style.marginBottom="16px";
-      var mixedNote=isMixedGroup?"<br><span style=’font-size:11px;color:var(--prune);font-weight:600;’>Groupe mixte: saisir les données du billet Prime uniquement ("+nbPrime+" voy. Prime). Les "+nbStd+" passager(s) standard seront calculés au même % sur leur prix billet.</span>":"";
-      infoBox.innerHTML="<div class=’info-icon’><i data-lucide=’star’></i></div><div>"
-        +"<strong>Billet Prime: compensation exceptionnelle</strong>"+(nbPrime>1?" ("+nbPrime+" voy. Prime)":"")+"<br>"
-        +"<span style=’font-size:12px;color:var(--tx-muted);’>Le % s’applique directement sur les points et euros du billet (page 19 Normes Voyage Back): le barème G30 ne s’applique pas.</span>"
-        +mixedNote+"</div>";
+      infoBox.innerHTML="<div class='info-icon'><i data-lucide='star'></i></div><div>"
+        +"<strong>Billet Prime — compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageurs)":"")+"<br>"
+        +"<span style='font-size:12px;color:var(--tx-muted);'>Le % s’applique directement sur les points et euros du billet (page 19 Normes Voyage Back) — le barème G30 ne s’applique pas.</span>"
+        +"</div>";
       wrap.appendChild(infoBox);
 
       // Champ 1 : points du billet
@@ -3825,7 +4192,7 @@ function sExceptionalIndemnity(){
       var inputRow1=div("");
       inputRow1.style.cssText="display:flex;gap:10px;align-items:center;";
       var inpPts=document.createElement("input");
-      inpPts.type="number";inpPts.min="0";inpPts.step="500";inpPts.value="";inpPts.placeholder="Ex: 3 000";
+      inpPts.type="number";inpPts.inputMode="numeric";inpPts.min="0";inpPts.step="500";inpPts.value="";inpPts.placeholder="Ex: 3 000";
       inpPts.style.cssText="flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface2);color:var(--tx);font-size:15px;";
       inpPts.id="prime-pts-input";
       var ptsLabel=div("");ptsLabel.textContent="pts";
@@ -3858,7 +4225,7 @@ function sExceptionalIndemnity(){
       var inputRow2=div("");
       inputRow2.style.cssText="display:flex;gap:10px;align-items:center;";
       var inpEur=document.createElement("input");
-      inpEur.type="number";inpEur.min="0";inpEur.step="0.01";inpEur.value="";inpEur.placeholder="Ex: 7,50";
+      inpEur.type="number";inpEur.inputMode="decimal";inpEur.min="0";inpEur.step="0.01";inpEur.value="";inpEur.placeholder="Ex: 7,50";
       inpEur.style.cssText="flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface2);color:var(--tx);font-size:15px;";
       inpEur.id="prime-euros-input";
       var eurLabel=div("");eurLabel.textContent="€";
@@ -3897,13 +4264,13 @@ function sExceptionalIndemnity(){
     var eurosPerPax=primeData.eur||0;
 
     function calcPrime(rate){
-      // Points réels du billet Prime × % (pas le barème G30)
+      // Points réels du billet × % (pas le barème G30)
       var ptsResultPerPax=Math.round(ptsPerPax*(rate/100));
-      var ptsTotal=ptsResultPerPax*nbPrime;
-      // Euros billet Prime × %
+      var ptsTotal=ptsResultPerPax*nbVoy;
+      // Euros billet × %
       var eurosResultPerPax=parseFloat((eurosPerPax*(rate/100)).toFixed(2));
-      var eurosTotal=parseFloat((eurosResultPerPax*nbPrime).toFixed(2));
-      // BAD tiers/GVT : barème × %
+      var eurosTotal=parseFloat((eurosResultPerPax*nbVoy).toFixed(2));
+      // BAD tiers/GVT : barème × % (ces montants ne sont pas achetés, ils sont réglementaires)
       var badBase=getRBADAmount(S.delay);
       var badTiersPerPax=0;
       if(firstTarif==="prime_gvt_tiers"){
@@ -3911,20 +4278,17 @@ function sExceptionalIndemnity(){
       }else if(firstTarif==="prime_fid_tiers"||firstTarif==="prime_tiers_seul"||firstTarif==="prime_gvt_transitoire"){
         badTiersPerPax=parseFloat((badBase*(rate/100)).toFixed(2));
       }
-      var badTiersTotal=parseFloat((badTiersPerPax*nbPrime).toFixed(2));
-      // Passagers standard dans le groupe mixte : % sur leur prix billet
-      var stdCompensation=isMixedGroup?parseFloat((stdTotalPrice*(rate/100)).toFixed(2)):0;
-      var totalEuros=parseFloat((eurosTotal+badTiersTotal+stdCompensation).toFixed(2));
-      return{ptsTotal:ptsTotal,ptsPerPax:ptsResultPerPax,eurosTotal:eurosTotal,badTiersTotal:badTiersTotal,stdCompensation:stdCompensation,totalEuros:totalEuros};
+      var badTiersTotal=parseFloat((badTiersPerPax*nbVoy).toFixed(2));
+      var totalEuros=parseFloat((eurosTotal+badTiersTotal).toFixed(2));
+      return{ptsTotal:ptsTotal,ptsPerPax:ptsResultPerPax,eurosTotal:eurosTotal,badTiersTotal:badTiersTotal,totalEuros:totalEuros};
     }
 
     function makeDescPrime(rate){
       var r=calcPrime(rate);
       var parts=[];
-      if(r.ptsTotal>0) parts.push(r.ptsTotal+" pts Prime"+(nbPrime>1?" ("+r.ptsPerPax+"×"+nbPrime+" voy)":""));
+      if(r.ptsTotal>0) parts.push(r.ptsTotal+" pts Prime"+(nbVoy>1?" ("+r.ptsPerPax+"×"+nbVoy+" voy)":""));
       if(r.eurosTotal>0) parts.push(r.eurosTotal.toFixed(2)+"€ BAD (billet)");
       if(r.badTiersTotal>0) parts.push(r.badTiersTotal.toFixed(2)+"€ BAD (tiers/GVT)");
-      if(r.stdCompensation>0) parts.push(r.stdCompensation.toFixed(2)+"€ ("+nbStd+" pass. standard)");
       return parts.length?parts.join(" + "):"Aucune indemnisation";
     }
 
@@ -3934,19 +4298,17 @@ function sExceptionalIndemnity(){
         exceptionalIndemnity:{
           groupId:S.selectedTGVForException,segmentIds:segIds,
           rate:rate,amount:r.totalEuros,
-          totalPrice:eurosPerPax*nbPrime,
+          totalPrice:eurosPerPax*nbVoy,
           primePoints:r.ptsTotal,primeEuros:r.eurosTotal,
           primeBadTiers:r.badTiersTotal,isPrime:true,
-          stdCompensation:r.stdCompensation,nbStd:nbStd,
           primeInputPts:ptsPerPax,primeInputEur:eurosPerPax
         },
         exceptionalPrimeEuros:null,selectedTGVForException:null,step:"result_retard"
       });
     }
 
-    var subtitle="Billet Prime"+(nbPrime>1?": "+nbPrime+" voy. Prime":"")+
-      (isMixedGroup?" + "+nbStd+" standard":"")+
-      " : "+ptsPerPax.toLocaleString("fr-FR")+" pts"+(eurosPerPax>0?" + "+eurosPerPax+"€":"")+"/voy Prime (retard "+S.delay+" min)";
+    var subtitle="Billet Prime"+(nbVoy>1?" — "+nbVoy+" voyageurs":"")+
+      " : "+ptsPerPax.toLocaleString("fr-FR")+" pts"+(eurosPerPax>0?" + "+eurosPerPax+"€":"")+"/voy (retard "+S.delay+" min)";
     return card("% Compensation exceptionnelle (Prime)",subtitle,renderOpts([
       {icon:"<i data-lucide='percent'></i>",label:"100%",desc:makeDescPrime(100),cb:function(){applyPrime(100);}},
       {icon:"<i data-lucide='percent'></i>",label:"150%",desc:makeDescPrime(150),cb:function(){applyPrime(150);}},
@@ -3956,32 +4318,25 @@ function sExceptionalIndemnity(){
   }
 
   // ── CAS MAX / FORFAIT ────────────────────────────────────────────────────
-  var maxSegs=selectedGroup.filter(function(s){return s.tarif==="max_loisirs";});
-  var maxStdSegs=selectedGroup.filter(function(s){return s.tarif!=="max_loisirs";});
-  var isMaxGroup=maxSegs.length>0;
-  var isMaxMixed=maxSegs.length>0&&maxStdSegs.length>0;
-  var nbMax=maxSegs.length;
-  var nbMaxStd=maxStdSegs.length;
-  var maxStdTotalPrice=maxStdSegs.reduce(function(sum,s){return sum+s.price;},0);
+  var isMaxGroup=selectedGroup.every(function(s){return s.tarif==="max_loisirs";});
 
   if(isMaxGroup){
-    // Saisie du montant fixe ANGORA (€/voyageur Max)
+    // Saisie du montant fixe ANGORA (€/voyageur)
     if(!S.exceptionalMaxAmt&&S.exceptionalMaxAmt!==0){
       var wrapMax=div("");
 
       var infoBoxMax=div("info-box amber");
       infoBoxMax.style.marginBottom="16px";
-      var mixedMaxNote=isMaxMixed?"<br><span style='font-size:11px;color:var(--prune);font-weight:600;'>Groupe mixte: "+nbMax+" voy. Max/Forfait + "+nbMaxStd+" standard. Montant ANGORA pour les Max uniquement.</span>":"";
       infoBoxMax.innerHTML="<div class='info-icon'><i data-lucide='zap'></i></div><div>"
-        +"<strong>Abonnés Max / Forfait: compensation exceptionnelle</strong>"+(nbMax>1?" ("+nbMax+" voy. Max)":" ")+"<br>"
-        +"<span style='font-size:12px;color:var(--tx-muted);'>Saisir le montant indiqué dans ANGORA (montant fixe par voyageur Max): remplace le barème G30 (5/10/20 €)</span>"
-        +mixedMaxNote+"</div>";
+        +"<strong>Abonnés Max / Forfait — compensation exceptionnelle</strong>"+(nbVoy>1?" ("+nbVoy+" voyageur"+(nbVoy>1?"s":"")+")":" ")+"<br>"
+        +"<span style='font-size:12px;color:var(--tx-muted);'>Saisir le montant indiqué dans ANGORA (montant fixe par voyageur) — remplace le barème G30 (5/10/20 €)</span>"
+        +"</div>";
       wrapMax.appendChild(infoBoxMax);
 
       var inputRowMax=div("");
       inputRowMax.style.cssText="display:flex;gap:10px;align-items:center;margin-bottom:12px;";
       var inpMax=document.createElement("input");
-      inpMax.type="number";inpMax.min="0";inpMax.step="1";inpMax.value="";inpMax.placeholder="Ex: 30";
+      inpMax.type="number";inpMax.inputMode="numeric";inpMax.min="0";inpMax.step="1";inpMax.value="";inpMax.placeholder="Ex: 30";
       inpMax.style.cssText="flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface2);color:var(--tx);font-size:15px;";
       inpMax.id="max-amt-input";
       var maxLabel=div("");maxLabel.textContent="€ / voyageur";
@@ -4005,9 +4360,9 @@ function sExceptionalIndemnity(){
       var modeNote=div("");
       modeNote.style.cssText="font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:14px;background:var(--surface2);border-left:3px solid var(--prune);color:var(--tx-muted);";
       if(isBD){
-        modeNote.innerHTML="<strong>Billet Direct</strong>: BAD si retard < 60 min &middot; BAD ou Virement Bancaire si ≥ 60 min (RIB requis)";
+        modeNote.innerHTML="<strong>Billet Direct</strong> — BAD si retard < 60 min &middot; BAD ou Virement Bancaire si ≥ 60 min (RIB requis)";
       }else{
-        modeNote.innerHTML="<strong>G30 hors Billet Direct</strong>: Indemnisation <strong>uniquement en BAD</strong> (Normes Voyage Back p. 14)";
+        modeNote.innerHTML="<strong>G30 hors Billet Direct</strong> — Indemnisation <strong>uniquement en BAD</strong> (Normes Voyage Back p. 14)";
       }
       wrapMax.appendChild(modeNote);
 
@@ -4025,16 +4380,14 @@ function sExceptionalIndemnity(){
 
     // Montant saisi → appliquer
     var maxAmtPerPax=S.exceptionalMaxAmt||0;
-    var maxAmtTotal=parseFloat((maxAmtPerPax*nbMax).toFixed(2));
-    // Passagers standard dans le groupe mixte: compensation séparée (à calculer)
-    var maxStdComp=isMaxMixed?parseFloat((maxStdTotalPrice*0).toFixed(2)):0; // Standard non couverts par exceptionnel Max
-    var maxDesc=maxAmtPerPax+"€ BAD"+(nbMax>1?" × "+nbMax+" voy. Max = "+maxAmtTotal.toFixed(2)+"€":"")+(isMaxMixed?" + "+nbMaxStd+" standard (barème G30)":"");
+    var maxAmtTotal=parseFloat((maxAmtPerPax*nbVoy).toFixed(2));
+    var maxDesc=maxAmtPerPax+"€ BAD"+(nbVoy>1?" × "+nbVoy+" voy = "+maxAmtTotal.toFixed(2)+"€":"");
     set({
       exceptionalIndemnity:{
-        groupId:S.selectedTGVForException,segmentIds:maxSegs.map(function(s){return s.id;}),
+        groupId:S.selectedTGVForException,segmentIds:segIds,
         rate:null,amount:maxAmtTotal,
         totalPrice:0,isMax:true,
-        maxAmtPerPax:maxAmtPerPax,nbVoy:nbMax,isMaxMixed:isMaxMixed,nbMaxStd:nbMaxStd
+        maxAmtPerPax:maxAmtPerPax,nbVoy:nbVoy
       },
       exceptionalMaxAmt:null,selectedTGVForException:null,step:"result_retard"
     });
@@ -4054,7 +4407,7 @@ function sExceptionalIndemnity(){
   }
 
   var passLabel=nbVoy>1?" ("+nbVoy+" voyageurs)":"";
-  return card("Indemnisation exceptionnelle","Sélectionne le niveau de compensation: "+carrierLabel+passLabel+" | Total billets: "+totalPrice.toFixed(2)+" € | Compensation actuelle: "+regulatoryAmt.toFixed(2)+" €",renderOpts([
+  return card("Indemnisation exceptionnelle","Sélectionne le niveau de compensation — "+carrierLabel+passLabel+" | Total billets: "+totalPrice.toFixed(2)+" € | Compensation actuelle: "+regulatoryAmt.toFixed(2)+" €",renderOpts([
     {icon:"<i data-lucide='percent'></i>",label:"100% du billet",desc:"Complément pour atteindre 100% du prix total",cb:function(){
       set({exceptionalIndemnity:{groupId:S.selectedTGVForException,segmentIds:segIds,rate:100,amount:calcComplementAmt(100),regulatory:regulatoryAmt,totalPrice:totalPrice,isPrime:false},exceptionalPrimeEuros:null,selectedTGVForException:null,step:"result_retard"});
     }},
@@ -4102,18 +4455,12 @@ function getRTCode_retard(segments){
   if(hasGroupe)return"7321";           // Tarif Groupe
   if(S.exceptionalIndemnity)return"7211"; // Compensation exceptionnelle multi-seg
   if(isBilletDirectOUIGOTGV(segments)){
-    // Billet Direct OUIGO+TGV (avec ou sans TER)
-    // Référentiel Normes AV p.40 + Normes Voyage Back pp.63-67
-    if(isBilletDirectWithTER(segments)){
-      // Cas TGV+OUIGO+TER : RT 6970 dans tous les cas
-      return"6970";
-    }
-    // Cas TGV+OUIGO sans TER : RT selon retard final et retard OUIGO
+    // Billet Direct OUIGO+TGV — RT selon retard final et retard OUIGO (ref. normes AV p.40)
     if(S.delay>=60)return"6489";                              // Retard final ≥ 60 min
     if(S.ouigoDelay>=60&&S.delay<60)return"6373";            // OUIGO proactif ≥ 60, final < 60
     return"5828";                                             // Cas général 30–59 min
   }
-  if(hasTER)return"6970 / 6389";       // TER + TGV/INT (sans OUIGO)
+  if(hasTER)return"6970 / 6389";       // TER + TGV/INT
   return"5828";                         // TGV + TGV (standard BD30)
 }
 
@@ -4158,7 +4505,7 @@ function sResultRetard(){
     var displayAmt="";
     var ouigoProactiveAmt=0; // Montant payé en proactif par OUIGO
 
-    // Tarifs Prime : calcul barème G30: supprimé si compensation exceptionnelle Prime active sur ce segment
+    // Tarifs Prime : calcul barème G30 — supprimé si compensation exceptionnelle Prime active sur ce segment
     var _exIds1=S.exceptionalIndemnity&&S.exceptionalIndemnity.isPrime?(S.exceptionalIndemnity.segmentIds||[S.exceptionalIndemnity.segmentId]):[];
     var _isPrimeExSeg=_exIds1.indexOf(seg.id)>=0;
 
@@ -4167,64 +4514,33 @@ function sResultRetard(){
       amt=0;points=null;displayAmt="Couvert par l'indemnisation exceptionnelle";mode="—";
     }
     else if(seg.tarif==="prime_tiers_seul"){
-      // TGV International : 30-59 min = aucune compensation
-      // Référentiel Normes Voyage Back p.22: Tiers seul sur Int, 30-59 min
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)";
-        mode="—";
-      } else {
-        amt=getRBADAmount(S.delay);
-        displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
-        mode="BAD";
-      }
+      amt=getRBADAmount(S.delay);
+      displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
+      mode="BAD";
     }
     else if(seg.tarif==="prime_titulaire"){
-      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—";
-      } else {
-        var pt=getPointsInfo(S.delay);
-        if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
-        else{displayAmt="Aucune indemnisation";}
-      }
+      var pt=getPointsInfo(S.delay);
+      if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
+      else{displayAmt="Aucune indemnisation";}
     }
     else if(seg.tarif==="prime_fid_tiers"){
-      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
-      } else {
-        var pt=getPointsInfo(S.delay);
-        if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
-        else{displayAmt="0 points";}
-        amt=getRBADAmount(S.delay);
-        displayAmt+=" + "+amt+"€ (Tiers - BAD)";
-        mode="Points + BAD";
-      }
+      var pt=getPointsInfo(S.delay);
+      if(pt){points=pt.points;displayAmt=pt.points+" points Prime";}
+      else{displayAmt="0 points";}
+      amt=getRBADAmount(S.delay);
+      displayAmt+=" + "+amt+"€ (Tiers - BAD)";
+      mode="Points + BAD";
     }
     else if(seg.tarif==="prime_gvt_tiers"){
-      // TGV International : 30-59 min = aucune compensation
-      // Référentiel Normes Voyage Back p.22: GVT + tiers sur Int, 30-59 min
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)";
-        mode="—";
-      } else {
-        var badAmt=getRBADAmount(S.delay);
-        amt=badAmt*2;
-        displayAmt=badAmt+"€ (GVT - BAD) + "+badAmt+"€ (Tiers - BAD)";
-        mode="BAD";
-      }
+      var badAmt=getRBADAmount(S.delay);
+      amt=badAmt*2;
+      displayAmt=badAmt+"€ (GVT - BAD) + "+badAmt+"€ (Tiers - BAD)";
+      mode="BAD";
     }
     else if(seg.tarif==="prime_gvt_transitoire"){
-      // TGV International : 30-59 min = aucune compensation
-      // Référentiel Normes Voyage Back p.22: GVT Transitoire sur Int, 30-59 min
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)";
-        mode="—";
-      } else {
-        amt=getRBADAmount(S.delay);
-        displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
-        mode="BAD";
-      }
+      amt=getRBADAmount(S.delay);
+      displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
+      mode="BAD";
     }
     // Règle générale: < 60 min = BAD seulement
     else if(S.delay<60){
@@ -4258,7 +4574,7 @@ function sResultRetard(){
         displayAmt="Proactif ("+ouigoRate+"%): "+proactiveAmt.toFixed(2)+"€ | Complément CARE ("+complementRate+"%): "+complementAmt.toFixed(2)+"€";
         ouigoProactiveAmt=proactiveAmt;
       }else if(isBilletDirectOUIGO && isOUIGOSegment && S.ouigoDelay && S.ouigoDelay>=S.delay){
-        // OUIGO a déjà compensé autant ou plus que le dû: CARE ne verse rien sur ce segment
+        // OUIGO a déjà compensé autant ou plus que le dû — CARE ne verse rien sur ce segment
         amt=0;
         displayAmt="Déjà compensé par OUIGO (retard OUIGO >= retard final)";
         mode="BAD";
@@ -4311,7 +4627,7 @@ function sResultRetard(){
       var maxDisplay=maxPax.toFixed(2)+"€ BAD/voy"+(maxNbv>1?" × "+maxNbv+" = "+S.exceptionalIndemnity.amount.toFixed(2)+"€":"");
       allDetails.push({
         idx:-1,
-        carrier:exCarrier+" (EXCEPTIONNEL MAX)"+(maxNbv>1?": "+maxNbv+" voy. Max":"")+(S.exceptionalIndemnity.isMaxMixed?" + "+S.exceptionalIndemnity.nbMaxStd+" standard (G30)":""),
+        carrier:exCarrier+" (EXCEPTIONNEL MAX)"+(maxNbv>1?" — "+maxNbv+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
         price:0,rate:null,fix:null,
         mode:"BAD",
@@ -4320,16 +4636,15 @@ function sResultRetard(){
         displayAmt:maxDisplay
       });
     }else if(S.exceptionalIndemnity.isPrime){
-      // Cas Prime (pur ou mixte) : affichage points + euros + pass. standard
+      // Cas Prime : affichage points + euros
       var parts=[];
       if(S.exceptionalIndemnity.primePoints>0) parts.push(S.exceptionalIndemnity.primePoints+" pts Prime");
       if(S.exceptionalIndemnity.primeEuros>0) parts.push(S.exceptionalIndemnity.primeEuros.toFixed(2)+"€ BAD (billet)");
       if(S.exceptionalIndemnity.primeBadTiers>0) parts.push(S.exceptionalIndemnity.primeBadTiers.toFixed(2)+"€ BAD (tiers/GVT)");
-      if(S.exceptionalIndemnity.stdCompensation>0) parts.push(S.exceptionalIndemnity.stdCompensation.toFixed(2)+"€ ("+S.exceptionalIndemnity.nbStd+" pass. standard)");
       var excDisplay=S.exceptionalIndemnity.rate+"% exceptionnel : "+parts.join(" + ");
       allDetails.push({
         idx:-1,
-        carrier:exCarrier+" (EXCEPTIONNEL PRIME)"+(exNbVoy>1?": "+exNbVoy+" voy.":""),
+        carrier:exCarrier+" (EXCEPTIONNEL PRIME)"+(exNbVoy>1?" — "+exNbVoy+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
         price:exTotalPrice,
         rate:S.exceptionalIndemnity.rate,
@@ -4341,7 +4656,7 @@ function sResultRetard(){
       });
     }else if(exTotalPrice>0||exSegsAll.length>0){
       var finalAmt=exTotalPrice*(S.exceptionalIndemnity.rate/100);
-      var exVoyLabel=exNbVoy>1?": "+exNbVoy+" voyageurs":"";
+      var exVoyLabel=exNbVoy>1?" — "+exNbVoy+" voyageurs":"";
       allDetails.push({
         idx:-1,
         carrier:exCarrier+" (COMPLÉMENT)",
@@ -4357,12 +4672,14 @@ function sResultRetard(){
     }
   }
 
-  var c=div("result-card");
+  // 6.4 — Glow contextuel selon le montant total
+  var glowCls=total>=75?" result-glow-green":(total>=30?" result-glow-amber":"");
+  var c=div("result-card"+glowCls);
 
-  // CORRECTION 4: Refus automatique si total > 0 et < 4€ (RT 2388)
+  // CORRECTION 4 — Refus automatique si total > 0 et < 4€ (RT 2388)
   if(total>0 && total<4){
     var hRef=div("result-header");
-    hRef.innerHTML="<div class='result-mode'>REFUS: RT 2388</div><div class='result-amount'>< 4 €</div><div class='result-label'>Compensation inferieure au seuil reglementaire: Aucun versement</div>";
+    hRef.innerHTML="<div class='result-mode'>REFUS — RT 2388</div><div class='result-amount'>< 4 €</div><div class='result-label'>Compensation inferieure au seuil reglementaire — Aucun versement</div>";
     c.appendChild(hRef);
     var actsRef=div("action-row");
     var btnRef=document.createElement("button");btnRef.className="act-btn secondary";btnRef.innerHTML="<i data-lucide='home'></i> Accueil";btnRef.onclick=confirmReset;
@@ -4383,8 +4700,7 @@ function sResultRetard(){
     if(S.ouigoDelay){
       ouigoInfo="<br>• Retard OUIGO : "+S.ouigoDelay+" min (traité en proactif)";
     }
-    var bdTERNote=isBilletDirectWithTER(segments)?"<br>• Segment TER inclus: RT 6970 (Normes Voyage Back pp.63-67)":"";
-    bdBox.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>Billet Direct OUIGO+TGV"+(isBilletDirectWithTER(segments)?"+TER":"")+" :</strong><br>• OUIGO traite en proactif le retard réel de ses trains"+ouigoInfo+"<br>• CARE complète l'indemnisation selon le retard final à destination<br>• Calcul selon le retard global (Référentiel AV p.40)"+bdTERNote+"</div>";
+    bdBox.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>Billet Direct OUIGO+TGV :</strong><br>• OUIGO traite en proactif le retard réel de ses trains"+ouigoInfo+"<br>• CARE complète l'indemnisation selon le retard final à destination<br>• Calcul selon le retard global (Pages 18-19 du référentiel)</div>";
     c.appendChild(bdBox);
   }
 
@@ -4394,7 +4710,7 @@ function sResultRetard(){
   ruleBox.innerHTML="<div class='info-icon'><i data-lucide='"+icon+"'></i></div><div><strong>Règle d'indemnisation :</strong><br>"+compensationRule.text+"</div>";
   c.appendChild(ruleBox);
 
-  // CORRECTION 5: Alerte barème TER si au moins un segment TER présent
+  // CORRECTION 5 — Alerte barème TER si au moins un segment TER présent
   var hasTERSegment=segments.some(function(s){return s.carrier==="ter"||s.carrier==="ter_zou"||s.carrier==="ter_krono";});
   if(hasTERSegment){
     var terBox=div("info-box amber");
@@ -4414,7 +4730,8 @@ function sResultRetard(){
         rateStr=d.rate>0?d.rate+"%":(d.fix?"Forfait":"—");
       }
       var item=div("breakdown-item");
-      item.innerHTML="<div style='flex:1;'><div style='font-weight:600;color:var(--tx);'>"+d.carrier+" ("+d.tarif+")</div><div style='font-size:11px;color:var(--tx-muted);margin-top:2px;'>"+d.price.toFixed(2)+" € · "+rateStr+" · "+d.mode+"</div></div><div style='text-align:right;'><div style='font-weight:700;color:var(--prune);font-size:14px;'>"+d.displayAmt+"</div></div>";
+      var ptsBadge=d.points?"<div><span class='points-badge'><span class='pb-star'>⭐</span>"+d.points+" pts</span></div>":"";
+      item.innerHTML="<div style='flex:1;'><div style='font-weight:600;color:var(--tx);'>"+d.carrier+" ("+d.tarif+")</div><div style='font-size:11px;color:var(--tx-muted);margin-top:2px;'>"+d.price.toFixed(2)+" € · "+rateStr+" · "+d.mode+"</div></div><div style='text-align:right;'><div style='font-weight:700;color:var(--prune);font-size:14px;'>"+d.displayAmt+"</div>"+ptsBadge+"</div>";
       breakdown.appendChild(item);
     });
     c.appendChild(breakdown);
@@ -4423,7 +4740,7 @@ function sResultRetard(){
   // Récapitulatif global
   var summary=div("result-summary");
   summary.appendChild(div("summary-row",
-    "<div class='summary-label'>Total indemnisation</div><div class='summary-value highlight'>"+total.toFixed(2)+" €</div>"
+    "<div class='summary-label'>Total indemnisation</div><div class='summary-value highlight amount-highlight'>"+total.toFixed(2)+" €</div>"
   ));
 
   var modesStr="";
@@ -4434,7 +4751,7 @@ function sResultRetard(){
     "<div class='summary-label'>Mode(s) de remboursement</div><div class='summary-value'>"+modesStr+"</div>"
   ));
 
-  // CORRECTION 3: Rappel choix VB/BAD si retard >= 60 min et au moins un segment en mode VB ou BAD
+  // CORRECTION 3 — Rappel choix VB/BAD si retard >= 60 min et au moins un segment en mode VB ou BAD
   var hasVBorBAD=allDetails.some(function(d){return d.mode==="VB ou BAD";});
   if(S.delay>=60 && hasVBorBAD){
     summary.appendChild(div("summary-row",
@@ -4456,108 +4773,45 @@ function sResultRetard(){
   info.innerHTML="<div class='info-icon'><i data-lucide='info'></i></div><div>Retard : "+delayStr+" | <strong>"+segments.filter(function(s){return s.elig;}).length+"</strong> segment(s) | <strong>"+S.nbPass+"</strong> passager(s)</div>";
   c.appendChild(info);
 
-  // Fonction pour copier le résultat
-  function copyToClipboard(btnEl){
+  // Construit le texte de copie du résultat (la copie passe par l'utilitaire copyToClipboard)
+  function buildRetardCopyText(){
     var modeLabel=segments.length===1?"G30":"BD30";
     var retardLabel=formatMin(S.delay);
 
-    // Tarifs nécessitant le nom pour justification (BAD, points)
-    var TARIFS_AVEC_NOM=["prime_titulaire","prime_fid_tiers","prime_tiers_seul","prime_gvt_tiers","prime_gvt_transitoire"];
-
-    var parts=[];
-
-    // --- Ligne exceptionnelle en premier ---
-    allDetails
-      .filter(function(d){return d.idx===-1;})
-      .forEach(function(d){
-        var ex=S.exceptionalIndemnity;
-        var label=d.carrier; // contient déjà "(EXCEPTIONNEL MAX/PRIME)" et nb voy
-        var part="";
-        if(ex&&ex.isMax){
-          // Max/Forfait : montant fixe BAD par voyageur
-          var maxPax=ex.maxAmtPerPax||0;
-          var maxNbv=ex.nbVoy||1;
-          part=label+": "+maxPax.toFixed(2)+"€ BAD"+(maxNbv>1?" x"+maxNbv+" = "+d.amt.toFixed(2)+"€":"");
-        }else if(ex&&ex.isPrime){
-          // Prime exceptionnel : taux + points + BAD
-          var primeParts=[];
-          if(ex.primePoints>0) primeParts.push(ex.primePoints+"pts");
-          if(ex.primeEuros>0) primeParts.push(ex.primeEuros.toFixed(2)+"€ BAD billet");
-          if(ex.primeBadTiers>0) primeParts.push(ex.primeBadTiers.toFixed(2)+"€ BAD tiers");
-          part=label+": "+ex.rate+"% = "+primeParts.join(" + ");
-        }else{
-          // Complément standard (100/150/200/300%)
-          part=label+": "+d.rate+"% = "+d.amt.toFixed(2)+"€";
-        }
-        parts.push(part);
-      });
-
-    // --- Segments éligibles (hors couverts par exceptionnel) ---
-    allDetails
+    // Format : carrier: tarif prix€ taux% = montant€
+    var _exRate2=S.exceptionalIndemnity?S.exceptionalIndemnity.rate:null;
+    var _exIds2=S.exceptionalIndemnity?(S.exceptionalIndemnity.segmentIds||[S.exceptionalIndemnity.segmentId]):[];
+    var segParts=allDetails
       .filter(function(d){return d.idx!==-1;})
-      .forEach(function(d){
-        // Ignorer segments neutralisés (couverts par exceptionnel, amt=0 sans points)
-        if(!d.points&&d.amt===0) return;
-        var seg=segments[d.idx];
-        var needsName=TARIFS_AVEC_NOM.indexOf(seg?seg.tarif:"")>=0;
-        var label=d.carrier+(needsName?" ("+d.tarif+")":"");
-        var part="";
+      .map(function(d){
+        // Identifier si ce segment bénéficie de l'indemnisation exceptionnelle
+        var dSeg=segments[d.idx];
+        var isEx=_exRate2&&dSeg&&_exIds2.indexOf(dSeg.id)>=0;
+        var part=d.carrier+": "+d.tarif+" "+d.price.toFixed(2)+"€ ";
         if(d.points&&d.amt>0){
-          part=label+": "+d.points+"pts + "+d.amt.toFixed(2)+"€ BAD";
+          part+=d.points+"pts + "+d.amt.toFixed(2)+"€";
         }else if(d.points){
-          part=label+": "+d.points+"pts";
+          part+=d.points+"pts";
         }else if(d.ouigoProactiveAmt>0){
-          part=label+": Proactif OUIGO "+d.ouigoProactiveAmt.toFixed(2)+"€ + Compl. CARE "+d.amt.toFixed(2)+"€";
+          part+="(OUIGO "+S.ouigoDelay+"mn "+d.rate+"%: "+d.ouigoProactiveAmt.toFixed(2)+"€) + CARE "+d.amt.toFixed(2)+"€";
+        }else if(isEx){
+          var exA=(d.price*_exRate2/100);
+          part+=_exRate2+"% = "+exA.toFixed(2)+"€";
         }else if(d.fix){
-          part=label+": Forfait = "+d.amt.toFixed(2)+"€";
+          part+="= "+d.amt.toFixed(2)+"€";
         }else if(d.rate>0){
-          part=label+": "+d.rate+"% = "+d.amt.toFixed(2)+"€";
+          part+=d.rate+"% = "+d.amt.toFixed(2)+"€";
         }else{
-          part=label+": "+d.amt.toFixed(2)+"€";
+          part+="= "+d.amt.toFixed(2)+"€";
         }
-        parts.push(part);
+        return part;
       });
 
-    // --- Segments hors périmètre ---
-    var horsPerim=segments.filter(function(s){return!s.elig;});
-    if(horsPerim.length>0){
-      var hpLabels=horsPerim.map(function(s){return getCarrierLabel(s.carrier);});
-      parts.push("Hors périmètre: "+hpLabels.join(", "));
-    }
-
-    // --- En-tête résumé : indemnisation d'abord ---
-    var hasPoints=allDetails.some(function(d){return d.points;});
-    var headerDesc="";
-    if(hasPoints){
-      // Collecter points et euros BAD
-      var totalPts=0,totalBad=0;
-      allDetails.forEach(function(d){if(d.points)totalPts+=d.points;if(d.amt>0&&!d.points)totalBad+=d.amt;});
-      if(S.exceptionalIndemnity&&S.exceptionalIndemnity.isPrime){
-        if(S.exceptionalIndemnity.primePoints>0)totalPts+=(S.exceptionalIndemnity.primePoints);
-        if(S.exceptionalIndemnity.primeEuros>0)totalBad+=S.exceptionalIndemnity.primeEuros;
-        if(S.exceptionalIndemnity.primeBadTiers>0)totalBad+=S.exceptionalIndemnity.primeBadTiers;
-      }
-      headerDesc=totalPts+"pts"+(totalBad>0?" + "+totalBad.toFixed(2)+"€":"");
-    }else{
-      headerDesc=total.toFixed(2)+"€";
-    }
-    var txt=modeLabel+" : "+headerDesc+" | Retard "+retardLabel+" | "+parts.join(" | ");
-
-    if(navigator.clipboard){
-      navigator.clipboard.writeText(txt).then(function(){
-        if(btnEl){
-          btnEl.innerHTML="<i data-lucide='check'></i> Copié!";
-          if(window.lucide)lucide.createIcons();
-          setTimeout(function(){btnEl.innerHTML="<i data-lucide='copy'></i> Copier";if(window.lucide)lucide.createIcons();},2000);
-        }
-      }).catch(function(){prompt("Copie manuelle :",txt);});
-    }else{
-      prompt("Copie manuelle :",txt);
-    }
+    return modeLabel+" "+total.toFixed(2)+"€ | Retard "+retardLabel+" | "+segParts.join(" | ");
   }
 
   var acts=div("action-row");
-  var btnCopy=document.createElement("button");btnCopy.className="act-btn success";btnCopy.innerHTML="<i data-lucide='copy'></i> Copier";btnCopy.onclick=function(){copyToClipboard(btnCopy);};
+  var btnCopy=document.createElement("button");btnCopy.className="act-btn success";btnCopy.innerHTML="<i data-lucide='copy'></i> Copier";btnCopy.onclick=function(){copyToClipboard(buildRetardCopyText(),btnCopy);};
 
   // Bouton "Ajouter des frais" seulement si G30/BD30 avec TGV/Intercités
   var hasEligibleForFrais=segments.some(function(s){return s.carrier==="tgv_dom"||s.carrier==="tgv_int"||s.carrier==="intercites";});
@@ -4593,6 +4847,7 @@ function sOUIGORetardSegment(){
 
   var delayInput=document.createElement("input");
   delayInput.type="number";
+  delayInput.inputMode="numeric";
   delayInput.id="ouigo-delay-inp";
   delayInput.min="0";
   delayInput.max="1440";
@@ -4625,39 +4880,12 @@ function sOUIGORetardSegment(){
 // ═══════════════════════════════════════════════════════════════════════════
 
 function sFraisType(){
-  var wrap=div("");
-
-  // Sélecteur voyageurs : éditable uniquement en flow frais seul (pas après un calcul retard)
-  var fromRetard=S.segments&&S.segments.length>0;
-  var nbRow=document.createElement("div");
-  nbRow.style.cssText="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;";
-  var nbIcon=document.createElement("span");nbIcon.innerHTML="<i data-lucide='"+(S.nbPass>1?"users":"user")+"'></i>";nbIcon.style.cssText="color:var(--prune);display:flex;align-items:center;";
-  var nbLbl=document.createElement("span");nbLbl.textContent="Voyageurs :";nbLbl.style.cssText="font-size:13px;font-weight:600;color:var(--tx);";
-  nbRow.appendChild(nbIcon);nbRow.appendChild(nbLbl);
-  if(fromRetard){
-    // Lecture seule : nombre fixé par le voyage
-    var nbVal=document.createElement("span");
-    nbVal.textContent=String(Math.max(1,S.nbPass));
-    nbVal.style.cssText="font-size:14px;font-weight:700;color:var(--prune);min-width:24px;text-align:center;";
-    var nbNote=document.createElement("span");nbNote.textContent="(issu du voyage)";
-    nbNote.style.cssText="font-size:11px;color:var(--tx-muted);margin-left:4px;";
-    nbRow.appendChild(nbVal);nbRow.appendChild(nbNote);
-  }else{
-    var nbInp=inp("number",String(Math.max(1,S.nbPass)));
-    nbInp.min=1;nbInp.max=99;nbInp.step=1;
-    nbInp.style.cssText="width:60px;font-size:14px;font-weight:700;text-align:center;";
-    nbInp.oninput=function(){ var v=parseInt(this.value)||1; S.nbPass=Math.max(1,v); };
-    nbRow.appendChild(nbInp);
-  }
-  wrap.appendChild(nbRow);
-
-  wrap.appendChild(renderOpts(FRAIS_TYPES.map(function(f){
+  return card("Type de frais ?",null,renderOpts(FRAIS_TYPES.map(function(f){
     return{icon:f.icon,label:f.label,desc:f.note,badge:f.max!=null?"Max "+f.max+"€":"Sans plafond",cb:function(){
       pushH(f.icon,"Frais",f.label);
       set({buildingSeg:{fraisType:f.id,fraisMax:f.max},step:"frais_montant"});
     }};
   })));
-  return card("Type de frais ?",null,wrap);
 }
 
 function sFraisMontant(){
@@ -4679,7 +4907,7 @@ function sFraisMontant(){
     return cap;
   }
   function buildNote(cap){
-    if(cap==null) return " (sans plafond fixe: remboursement du surcoût sur justificatif)";
+    if(cap==null) return " (sans plafond fixe — remboursement du surcoût sur justificatif)";
     if(frais.unit==="voyageur"||frais.unit==="passager"){
       var mt=cap*Math.max(1,S.nbPass);
       return " (plafond"+(digipecActive?" DIGIPEC":"")+": "+cap+"€/pass × "+Math.max(1,S.nbPass)+" = "+mt+"€ max)";
@@ -4808,52 +5036,27 @@ function sResultFrais(){
     if(_isPrimeExSeg2){
       amt=0;displayAmt="Couvert par l'indemnisation exceptionnelle";mode="—";
     }else if(seg.tarif==="prime_tiers_seul"){
-      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)";
-        mode="—";
-      } else {
-        amt=getRBADAmount(S.delay);
-        displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
-        mode="BAD";
-      }
+      amt=getRBADAmount(S.delay);
+      displayAmt=amt>0?amt+"€ (Tiers - BAD)":"Pas d'indemnisation (< 30 min)";
+      mode="BAD";
     }else if(seg.tarif==="prime_titulaire"){
-      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
-      } else {
-        var pt=getPointsInfo(S.delay);
-        if(pt){displayAmt=pt.points+" points Prime";} else{displayAmt="Aucune indemnisation";}
-        amt=0;
-      }
+      var pt=getPointsInfo(S.delay);
+      if(pt){displayAmt=pt.points+" points Prime";}
+      else{displayAmt="Aucune indemnisation";}
+      amt=0;
     }else if(seg.tarif==="prime_fid_tiers"){
-      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
-      } else {
-        var pt=getPointsInfo(S.delay);
-        displayAmt=(pt?pt.points+" pts Prime":"0 pts")+" + "+getRBADAmount(S.delay)+"€ BAD";
-        amt=getRBADAmount(S.delay);
-      }
+      var pt=getPointsInfo(S.delay);
+      displayAmt=(pt?pt.points+" pts Prime":"0 pts")+" + "+getRBADAmount(S.delay)+"€ BAD";
+      amt=getRBADAmount(S.delay);
     }else if(seg.tarif==="prime_gvt_tiers"){
-      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
-      } else {
-        var badAmt=getRBADAmount(S.delay);
-        amt=badAmt*2;
-        displayAmt=badAmt+"€ (GVT) + "+badAmt+"€ (Tiers) BAD";
-        mode="BAD";
-      }
+      var badAmt=getRBADAmount(S.delay);
+      amt=badAmt*2;
+      displayAmt=badAmt+"€ (GVT) + "+badAmt+"€ (Tiers) BAD";
+      mode="BAD";
     }else if(seg.tarif==="prime_gvt_transitoire"){
-      // TGV International : 30-59 min = aucune compensation (Normes Voyage Back p.22)
-      if(seg.carrier==="tgv_int" && S.delay<60){
-        displayAmt="Aucune compensation (TGV Int.: retard < 60 min)"; mode="—"; amt=0;
-      } else {
-        amt=getRBADAmount(S.delay);
-        displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
-        mode="BAD";
-      }
+      amt=getRBADAmount(S.delay);
+      displayAmt=amt>0?amt+"€ (GVT Transitoire - BAD)":"Pas d'indemnisation (< 30 min)";
+      mode="BAD";
     }else if(S.delay<60){
       mode="BAD";
       amt=segAmt(seg.price,seg.tarif,ri);
@@ -4877,7 +5080,7 @@ function sResultFrais(){
         amt=complementAmt;
         displayAmt="Proactif ("+ouigoRate+"%): "+proactiveAmt.toFixed(2)+"€ | Complément CARE ("+complementRate+"%): "+complementAmt.toFixed(2)+"€";
       }else if(isBilletDirectOUIGO && isOUIGOSegment && S.ouigoDelay && S.ouigoDelay>=S.delay){
-        // OUIGO a déjà compensé autant ou plus: CARE ne verse rien sur ce segment
+        // OUIGO a déjà compensé autant ou plus — CARE ne verse rien sur ce segment
         amt=0;
         displayAmt="Déjà compensé par OUIGO (retard OUIGO >= retard final)";
         mode="BAD";
@@ -4903,7 +5106,7 @@ function sResultFrais(){
       var maxPax2=S.exceptionalIndemnity.maxAmtPerPax||0;
       var maxNbv2=S.exceptionalIndemnity.nbVoy||exNbVoy2||1;
       allDetailsRetard.push({
-        carrier:exCarrier2+" (EXCEPTIONNEL MAX)"+(maxNbv2>1?": "+maxNbv2+" voyageurs":""),
+        carrier:exCarrier2+" (EXCEPTIONNEL MAX)"+(maxNbv2>1?" — "+maxNbv2+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
         price:0,rate:null,
         amt:S.exceptionalIndemnity.amount,
@@ -4915,9 +5118,8 @@ function sResultFrais(){
       if(S.exceptionalIndemnity.primePoints>0) parts2.push(S.exceptionalIndemnity.primePoints+" pts Prime");
       if(S.exceptionalIndemnity.primeEuros>0) parts2.push(S.exceptionalIndemnity.primeEuros.toFixed(2)+"€ BAD (billet)");
       if(S.exceptionalIndemnity.primeBadTiers>0) parts2.push(S.exceptionalIndemnity.primeBadTiers.toFixed(2)+"€ BAD (tiers/GVT)");
-      if(S.exceptionalIndemnity.stdCompensation>0) parts2.push(S.exceptionalIndemnity.stdCompensation.toFixed(2)+"€ ("+S.exceptionalIndemnity.nbStd+" pass. standard)");
       allDetailsRetard.push({
-        carrier:exCarrier2+" (EXCEPTIONNEL PRIME)"+(exNbVoy2>1?": "+exNbVoy2+" voyageurs":""),
+        carrier:exCarrier2+" (EXCEPTIONNEL PRIME)"+(exNbVoy2>1?" — "+exNbVoy2+" voyageurs":""),
         tarif:"Indemnisation exceptionnelle",
         price:exTotalPrice2,
         rate:S.exceptionalIndemnity.rate,
@@ -4927,7 +5129,7 @@ function sResultFrais(){
       });
     }else if(exTotalPrice2>0||exSegs2.length>0){
       var exFinalAmt2=exTotalPrice2*(S.exceptionalIndemnity.rate/100);
-      var exVoyLabel2=exNbVoy2>1?": "+exNbVoy2+" voyageurs":"";
+      var exVoyLabel2=exNbVoy2>1?" — "+exNbVoy2+" voyageurs":"";
       allDetailsRetard.push({
         carrier:exCarrier2+" (COMPLÉMENT)",
         tarif:"Indemnisation exceptionnelle",
@@ -4954,16 +5156,17 @@ function sResultFrais(){
   // Total combiné
   var totalGlobal=indemniteRetard+totalFrais;
 
-  var c=div("result-card");
+  // 6.4 — Glow contextuel selon le montant total
+  var glowClsFrais=totalGlobal>=75?" result-glow-green":(totalGlobal>=30?" result-glow-amber":"");
+  var c=div("result-card"+glowClsFrais);
   var h=div("result-header");
   // RT : si dossier retard+frais → RT du retard ; si frais seuls (sans segments) → RT 2064
   var rtCodeFrais=segments.length>0?getRTCode_retard(segments):"2064";
   h.innerHTML="<div class='result-mode'>Indemnisation complète</div><div class='result-amount'>"+totalGlobal.toFixed(2)+"</div><div class='result-label'>€ TTC</div><div class='rt-badge'>RT\u00a0"+rtCodeFrais+"</div>";
   c.appendChild(h);
 
-  // Indemnité retard (ou points seuls : prime_titulaire)
-  var _hasPointsOnly=allDetailsRetard.some(function(d){return d.mode==="Points"||d.mode==="Points + BAD";});
-  if(indemniteRetard>0 || _hasPointsOnly){
+  // Indemnité retard
+  if(indemniteRetard>0){
     var indemnBreakdown=div("result-breakdown");
     indemnBreakdown.appendChild(div("breakdown-title","<i data-lucide='train'></i>Indemnité retard"));
     allDetailsRetard.forEach(function(d){
@@ -4988,12 +5191,9 @@ function sResultFrais(){
         var nbp=fd.nbPassUsed||1;
         capHtml="<div style='font-size:10px;color:var(--amber);margin-top:3px;'>"+digipecBadge+"Facture "+fd.montant.toFixed(2)+"€ → plafonné "+fd.maxPerPerson+"€/pass × "+nbp+" = "+fd.finalAmt.toFixed(2)+"€</div>";
       }else if(fd.montant!==undefined&&isPerPerson&&fd.nbPassUsed){
-        capHtml="<div style='font-size:10px;color:var(--tx-muted);margin-top:3px;'>"+digipecBadge+"Facture "+fd.montant.toFixed(2)+"€: plafond "+fd.maxPerPerson+"€/pass × "+fd.nbPassUsed+"</div>";
+        capHtml="<div style='font-size:10px;color:var(--tx-muted);margin-top:3px;'>"+digipecBadge+"Facture "+fd.montant.toFixed(2)+"€ — plafond "+fd.maxPerPerson+"€/pass × "+fd.nbPassUsed+"</div>";
       }
-      // Alerte DNV-DNIC : hébergement > 350€ (Référentiel AV p.54)
-      var isHotel=(fd.type.id==="hotel_province"||fd.type.id==="hotel_grande"||fd.type.id==="hotel_province_optimum"||fd.type.id==="hotel_grande_optimum");
-      var dnvAlert=isHotel&&fd.finalAmt>350?"<div style='font-size:10px;color:#991B1B;margin-top:3px;font-weight:700;'>⚠ Frais > 350€: Se rapprocher du pôle AV avant traitement (DNV-DNIC requis)</div>":"";
-      item.innerHTML="<div style='flex:1;'><div style='font-weight:600;color:var(--tx);'>"+fd.type.label+"</div><div style='font-size:11px;color:var(--tx-muted);margin-top:2px;'>"+fd.type.note+"</div>"+capHtml+dnvAlert+"</div><div style='text-align:right;'><div style='font-weight:700;color:var(--prune);font-size:14px;'>"+fd.finalAmt.toFixed(2)+"€</div></div>";
+      item.innerHTML="<div style='flex:1;'><div style='font-weight:600;color:var(--tx);'>"+fd.type.label+"</div><div style='font-size:11px;color:var(--tx-muted);margin-top:2px;'>"+fd.type.note+"</div>"+capHtml+"</div><div style='text-align:right;'><div style='font-weight:700;color:var(--prune);font-size:14px;'>"+fd.finalAmt.toFixed(2)+"€</div></div>";
       fraisBreakdown.appendChild(item);
     });
     c.appendChild(fraisBreakdown);
@@ -5005,123 +5205,96 @@ function sResultFrais(){
   if(totalFrais>0){
     summary.appendChild(div("summary-row","<div class='summary-label'>Frais annexes</div><div class='summary-value'>"+totalFrais.toFixed(2)+" €</div>"));
   }
-  summary.appendChild(div("summary-row","<div class='summary-label highlight'>Total</div><div class='summary-value highlight'>"+totalGlobal.toFixed(2)+" €</div>"));
+  summary.appendChild(div("summary-row","<div class='summary-label highlight'>Total</div><div class='summary-value highlight amount-highlight'>"+totalGlobal.toFixed(2)+" €</div>"));
   c.appendChild(summary);
 
   var acts=div("action-row");
   
-  // 🆕 BOUTON: Copier retard + frais (FORMAT DÉTAILLÉ)
+  // BOUTON: Copier retard + frais (FORMAT DÉTAILLÉ) — utilise allDetailsRetard déjà calculé
   var btnCopy=document.createElement("button");
   btnCopy.className="act-btn primary";
-  var _hasRetard=S.retardDossierId||S.segments.some(function(s){return s.elig;});
-  btnCopy.innerHTML="<i data-lucide='copy'></i> Copier "+(_hasRetard?"Retard+Frais":"Frais");
+  btnCopy.innerHTML="<i data-lucide='copy'></i> Copier Retard+Frais";
   btnCopy.onclick=function(){
-    var modeText = S.segments.length === 1 ? "G30" : "BD30";
+    var modeText = segments.length === 1 ? "G30" : "BD30";
     var retardText = formatMin(S.delay);
-    var isBDcopy = isBilletDirectOUIGOTGV(S.segments);
-    var TARIFS_AVEC_NOM=["prime_titulaire","prime_fid_tiers","prime_tiers_seul","prime_gvt_tiers","prime_gvt_transitoire"];
 
-    var parts = [];
+    // Construire les lignes depuis allDetailsRetard (identique à sResultRetard)
+    // — segments couverts par exceptionnel ont amt=0 et displayAmt="Couvert..." → on les saute
+    // — la ligne synthétique exceptionnel (carrier contient "EXCEPTIONNEL") est ajoutée correctement
+    var exCoveredIds = S.exceptionalIndemnity ?
+      (S.exceptionalIndemnity.segmentIds || [S.exceptionalIndemnity.segmentId]) : [];
 
-    // --- Indemnisation exceptionnelle en premier ---
-    if(S.exceptionalIndemnity){
-      var ex=S.exceptionalIndemnity;
-      var exIds=ex.segmentIds||[ex.segmentId];
-      var exSegs=S.segments.filter(function(s){return exIds.indexOf(s.id)>=0;});
-      var exCarrier=exSegs.length?getCarrierLabel(exSegs[0].carrier):"TGV INOUI";
-      var exNbv=ex.nbVoy||exSegs.length||1;
-      var exLabel=exCarrier+(ex.isMax?" (EXCEPTIONNEL MAX)":ex.isPrime?" (EXCEPTIONNEL PRIME)":" (COMPLÉMENT)")+(exNbv>1?": "+exNbv+" voy":"");
-      var exPart="";
-      if(ex.isMax){
-        var maxPax=ex.maxAmtPerPax||0;
-        exPart=exLabel+": "+maxPax.toFixed(2)+"€ BAD"+(exNbv>1?" x"+exNbv+" = "+ex.amount.toFixed(2)+"€":"");
-      }else if(ex.isPrime){
-        var pParts=[];
-        if(ex.primePoints>0)pParts.push(ex.primePoints+"pts");
-        if(ex.primeEuros>0)pParts.push(ex.primeEuros.toFixed(2)+"€ BAD billet");
-        if(ex.primeBadTiers>0)pParts.push(ex.primeBadTiers.toFixed(2)+"€ BAD tiers");
-        exPart=exLabel+": "+ex.rate+"% = "+pParts.join(" + ");
-      }else{
-        exPart=exLabel+": "+ex.rate+"% = "+ex.amount.toFixed(2)+"€";
-      }
-      parts.push(exPart);
-    }
+    var segLines = [];
 
-    // --- Segments éligibles (hors couverts par exceptionnel) ---
-    var coveredIds=S.exceptionalIndemnity?(S.exceptionalIndemnity.segmentIds||[S.exceptionalIndemnity.segmentId]).filter(function(id){return S.exceptionalIndemnity.isMax||S.exceptionalIndemnity.isPrime;}):[]; // Pour isMax/isPrime les segments sont neutralisés
-    S.segments.forEach(function(seg){
+    // 1) Segments normaux (hors couverts par exceptionnel)
+    segments.forEach(function(seg){
       if(!seg.elig) return;
-      // Ignorer les segments couverts par un exceptionnel isMax ou isPrime
-      if(coveredIds.indexOf(seg.id)>=0) return;
-      var needsName=TARIFS_AVEC_NOM.indexOf(seg.tarif)>=0;
-      var tarifLabel=getTarifObj(seg.tarif).label;
-      var carrierLabel=getCarrierLabel(seg.carrier)+(needsName?" ("+tarifLabel+")":"");
-      var ri={rate:0,fix:null}, amt=0, pts=null;
-      if(seg.tarif==="prime_titulaire"){ var ptI=getPointsInfo(S.delay); pts=ptI?ptI.points:null; }
-      else if(seg.tarif==="prime_fid_tiers"){ var ptI=getPointsInfo(S.delay); pts=ptI?ptI.points:null; amt=getRBADAmount(S.delay); }
-      else if(seg.tarif==="prime_tiers_seul"){ amt=getRBADAmount(S.delay); }
-      else if(seg.tarif==="prime_gvt_tiers"){ amt=getRBADAmount(S.delay)*2; }
-      else if(seg.tarif==="prime_gvt_transitoire"){ amt=getRBADAmount(S.delay); }
-      else{
-        ri=isBDcopy?{rate:getBilletDirectRate(seg.carrier,seg.carrier==="ouigo"&&S.ouigoDelay?S.ouigoDelay:S.delay),fix:null}:getRateInfo(seg.carrier,seg.tarif,S.delay);
-        amt=segAmt(seg.price,seg.tarif,ri);
+      var isCovered = exCoveredIds.indexOf(seg.id) >= 0;
+      if(isCovered) return; // omis : représentés par la ligne synthétique
+      var carrierLabel = getCarrierLabel(seg.carrier);
+      var tarifLabel = getTarifObj(seg.tarif).label;
+      var isBDcopy = isBilletDirectOUIGOTGV(segments);
+      var ri = isBDcopy
+        ? {rate: getBilletDirectRate(seg.carrier, seg.carrier==="ouigo"&&S.ouigoDelay ? S.ouigoDelay : S.delay), fix:null}
+        : getRateInfo(seg.carrier, seg.tarif, S.delay);
+      var amt = segAmt(seg.price, seg.tarif, ri);
+      var line = carrierLabel + ": " + tarifLabel + " " + seg.price.toFixed(2) + "€ ";
+      if(seg.tarif==="prime_titulaire"){
+        var ptI=getPointsInfo(S.delay); line += ptI ? ptI.points+"pts" : "0pts";
+      }else if(seg.tarif==="prime_fid_tiers"){
+        var ptI=getPointsInfo(S.delay); var badA=getRBADAmount(S.delay);
+        line += (ptI?ptI.points+"pts":"0pts") + (badA>0?" + "+badA.toFixed(2)+"€ BAD":"");
+      }else if(seg.tarif==="prime_tiers_seul"){
+        line += "= "+getRBADAmount(S.delay).toFixed(2)+"€ BAD";
+      }else if(seg.tarif==="prime_gvt_tiers"){
+        var b=getRBADAmount(S.delay); line += "= "+(b*2).toFixed(2)+"€ BAD";
+      }else if(seg.tarif==="prime_gvt_transitoire"){
+        line += "= "+getRBADAmount(S.delay).toFixed(2)+"€ BAD";
+      }else if(ri.fix){
+        line += "= "+amt.toFixed(2)+"€";
+      }else{
+        line += ri.rate+"% = "+amt.toFixed(2)+"€";
       }
-      var part="";
-      if(pts&&amt>0){ part=carrierLabel+": "+pts+"pts + "+amt.toFixed(2)+"€ BAD"; }
-      else if(pts){ part=carrierLabel+": "+pts+"pts"; }
-      else if(ri.fix){ part=carrierLabel+": Forfait = "+amt.toFixed(2)+"€"; }
-      else if(ri.rate>0){ part=carrierLabel+": "+ri.rate+"% = "+amt.toFixed(2)+"€"; }
-      else{ part=carrierLabel+": "+amt.toFixed(2)+"€"; }
-      parts.push(part);
+      segLines.push(line);
     });
 
-    // --- Segments hors périmètre ---
-    var horsPerim=S.segments.filter(function(s){return!s.elig;});
-    if(horsPerim.length>0){
-      parts.push("Hors périmètre: "+horsPerim.map(function(s){return getCarrierLabel(s.carrier);}).join(", "));
+    // 2) Ligne synthétique exceptionnel (depuis S.exceptionalIndemnity)
+    if(S.exceptionalIndemnity){
+      var ex = S.exceptionalIndemnity;
+      var exSegs = segments.filter(function(s){ return exCoveredIds.indexOf(s.id)>=0; });
+      var exCarrier = exSegs.length ? getCarrierLabel(exSegs[0].carrier) : "TGV INOUI";
+      var exNbVoy = exSegs.length;
+      var exLine = "";
+      if(ex.isPrime){
+        var parts=[];
+        if(ex.primePoints>0) parts.push(ex.primePoints+"pts Prime");
+        if(ex.primeEuros>0) parts.push(ex.primeEuros.toFixed(2)+"€ BAD billet");
+        if(ex.primeBadTiers>0) parts.push(ex.primeBadTiers.toFixed(2)+"€ BAD tiers");
+        exLine = exCarrier+" (EXCEPTIONNEL PRIME)"+(exNbVoy>1?" "+exNbVoy+" voy":"")+": "+ex.rate+"% = "+parts.join(" + ");
+      }else if(ex.isMax){
+        exLine = exCarrier+" (EXCEPTIONNEL MAX)"+(exNbVoy>1?" "+exNbVoy+" voy":"")+": "+(ex.maxAmtPerPax||0).toFixed(2)+"€ BAD/voy"+(exNbVoy>1?" × "+exNbVoy+" = "+ex.amount.toFixed(2)+"€":"");
+      }else{
+        var exTotP = ex.totalPrice||(exSegs.reduce(function(s,sg){return s+sg.price;},0));
+        exLine = exCarrier+" (COMPLÉMENT)"+(exNbVoy>1?" "+exNbVoy+" voy":"")+": "+ex.rate+"% = "+ex.amount.toFixed(2)+"€";
+      }
+      if(exLine) segLines.push(exLine);
     }
 
-    // --- Frais ---
-    if(totalFrais>0){
-      var fraisParts=[];
+    // Total = indemniteRetard (inclut exceptionnel) + frais
+    var totalCopy = indemniteRetard + totalFrais;
+    var txt = modeText+" "+totalCopy.toFixed(2)+"€ | Retard "+retardText+" | "+segLines.join(" | ");
+
+    if(totalFrais > 0){
+      var fraisComposition = [];
       fraisDetails.forEach(function(fd){
-        var isPerPass=fd.type.unit==="voyageur"||fd.type.unit==="passager";
-        var nbp=fd.nbPassUsed||S.nbPass||1;
-        var rawInput=fd.montant!=null?fd.montant:fd.finalAmt;
-        var cap=fd.maxPerPerson!=null?(isPerPass?fd.maxPerPerson*Math.max(1,nbp):fd.maxPerPerson):null;
-        var isCapped=cap!=null&&rawInput>cap;
-        // Afficher le montant brut saisi, puis [PLAFONNÉ] si dépassement
-        var displayAmt=rawInput%1===0?rawInput.toFixed(0):rawInput.toFixed(2);
-        var suffix=(isPerPass&&nbp>1)?" x"+nbp+"="+fd.finalAmt.toFixed(2)+"€":"";
-        var overCap=isCapped?" [PLAFONNÉ à "+fd.finalAmt.toFixed(2)+"€]":"";
-        var digipecTag=fd.digipec?" [DIGIPEC "+fd.digipecCap+"€/pass]":"";
-        fraisParts.push(fd.type.label+": "+displayAmt+"€"+suffix+overCap+digipecTag);
+        var unit = fd.type.unit==="voyageur"||fd.type.unit==="passager" ? "x"+S.nbPass : "";
+        var base = fd.type.unit==="voyageur"||fd.type.unit==="passager" ? (fd.finalAmt/S.nbPass).toFixed(2) : fd.finalAmt.toFixed(2);
+        fraisComposition.push(fd.type.label.toLowerCase()+(fd.digipec?" [DIGIPEC]":"")+" "+base+unit);
       });
-      parts.push("Frais: "+fraisParts.join(" + "));
+      txt += " | Frais "+totalFrais.toFixed(2)+"€ ("+fraisComposition.join(" + ")+")";
     }
 
-    // --- En-tête résumé ---
-    var hasRetardPts=S.segments.some(function(s){
-      return s.elig&&(s.tarif==="prime_titulaire"||s.tarif==="prime_fid_tiers");
-    });
-    var retardDesc="";
-    if(hasRetardPts){
-      var ptI=getPointsInfo(S.delay);
-      var badI=0;
-      S.segments.forEach(function(s){if(s.elig&&(s.tarif==="prime_fid_tiers"||s.tarif==="prime_gvt_tiers"||s.tarif==="prime_tiers_seul"||s.tarif==="prime_gvt_transitoire"))badI+=getRBADAmount(S.delay)*(s.tarif==="prime_gvt_tiers"?2:1);});
-      retardDesc=(ptI?ptI.points+"pts":"")+(badI>0?" + "+badI.toFixed(2)+"€ BAD":"");
-    }else{
-      retardDesc=indemniteRetard.toFixed(2)+"€";
-    }
-    var modeLabel2=modeText+(totalFrais>0?" + frais":"");
-    var headerSuffix=totalFrais>0?" + "+totalFrais.toFixed(2)+"€ frais":"";
-    var txt = modeLabel2+" : "+retardDesc+headerSuffix+" | Retard "+retardText+" | "+parts.join(" | ");
-
-    navigator.clipboard.writeText(txt);
-    btnCopy.innerHTML="<i data-lucide='check'></i> Copié!";
-    setTimeout(function(){
-      btnCopy.innerHTML="<i data-lucide='copy'></i> Copier "+(_hasRetard?"Retard+Frais":"Frais");
-    }, 2000);
+    copyToClipboard(txt,btnCopy);
   };
   acts.appendChild(btnCopy);
   
@@ -5137,8 +5310,8 @@ function sResultFrais(){
 
 function sDatesType(){
   return card("Rétraction ou Résiliation ?","Choisissez le type de demande",renderOpts([
-    {icon:"<i data-lucide='calendar-days'></i>",label:"Rétraction de carte",desc:"Délai légal: 14 jours calendaires",cb:function(){set({step:"retraction",retractionData:{}});}},
-    {icon:"<i data-lucide='clipboard-list'></i>",label:"Résiliation abonnement Max",desc:"Calcul des frais et date d'effet",cb:function(){set({step:"resiliation",resiliationData:{}});}},
+    {icon:"<i data-lucide='calendar-days'></i>",label:"Rétraction de carte",desc:"Délai légal — 14 jours calendaires",cb:function(){set({step:"retraction",retractionData:{},specialDossierId:null});}},
+    {icon:"<i data-lucide='clipboard-list'></i>",label:"Résiliation abonnement Max",desc:"Calcul des frais et date d'effet",cb:function(){set({step:"resiliation",resiliationData:{},specialDossierId:null});}},
   ]));
 }
 
@@ -5185,45 +5358,28 @@ function calcRetractionDeadline(dateSignatureStr){
 function sRetraction(){
   var rd=S.retractionData||{};
   var wrap=div("step-card");
-  wrap.appendChild(div("step-title","Rétraction"));
-  wrap.appendChild(div("step-sub","Cartes avantage / Abonnement Max"));
-  wrap.appendChild(div("step-sub","Droit légal: 14 jours calendaires"));
+  wrap.appendChild(div("step-q","Rétraction"));
+  wrap.appendChild(div("step-sub","Cartes avantage / Abonnement Max — Droit légal, 14 jours calendaires"));
 
+  // Date de signature — form-group : label solidaire de son sélecteur
   var today=new Date().toISOString().split("T")[0];
-
-  // Date de signature
-  var dateRow=div("input-row");
-  dateRow.appendChild(div("step-sub","Date de signature :"));
-  var dateInput=inp("date",rd.dateSignature||today);
-  dateInput.id="retr-date-sig";
-  dateRow.appendChild(dateInput);
+  var dateRow=div("form-group");
+  dateRow.appendChild(div("form-label","Date de signature : <span class='tip' data-tip='Date d’achat de la carte ou de l’abonnement (signature du contrat)'>i</span>"));
+  dateRow.appendChild(makeDateSelect("retr-date-sig",rd.dateSignature||today,function(iso){
+    S.retractionData={...(S.retractionData||{}),dateSignature:iso};
+  }));
   wrap.appendChild(dateRow);
-  setTimeout(function(){
-    var el=document.getElementById("retr-date-sig");
-    if(el){el.addEventListener("change",function(){S.retractionData={...(S.retractionData||{}),dateSignature:this.value};});}
-  },10);
-
-  // Date de la demande
-  var demRow=div("input-row");
-  demRow.style.marginTop="12px";
-  demRow.appendChild(div("step-sub","Date de la demande :"));
-  var demInput=inp("date",rd.dateDemande||today);
-  demInput.id="retr-date-dem";
-  demRow.appendChild(demInput);
-  wrap.appendChild(demRow);
-  setTimeout(function(){
-    var el=document.getElementById("retr-date-dem");
-    if(el){el.addEventListener("change",function(){S.retractionData={...(S.retractionData||{}),dateDemande:this.value};});}
-  },10);
 
   // Bouton calculer
   var btn=document.createElement("button");
   btn.className="btn-confirm";
   btn.textContent="Calculer →";
   btn.onclick=function(){
+    // Lire la valeur courante du sélecteur (couvre la valeur par défaut jamais modifiée)
+    var el=document.getElementById("retr-date-sig");
+    if(el&&el.dataset&&el.dataset.value)S.retractionData={...(S.retractionData||{}),dateSignature:el.dataset.value};
     var currentData=S.retractionData||{};
     if(!currentData.dateSignature){alert("Remplissez la date de signature");return;}
-    if(!currentData.dateDemande){S.retractionData={...(S.retractionData||{}),dateDemande:today};}
     set({step:"result_retraction"});
   };
   wrap.appendChild(btn);
@@ -5234,26 +5390,18 @@ function sResultRetraction(){
   var data=S.retractionData||{};
   var deadline=calcRetractionDeadline(data.dateSignature);
 
-  // Calculs clés
-  var now=new Date();
-  // Utiliser la date de demande saisie si disponible, sinon today
-  var dateDemande=data.dateDemande?new Date(data.dateDemande):now;
-  var joursRestants=Math.ceil((deadline-dateDemande)/(1000*60*60*24));
-  var delaiDepasse=joursRestants<=0;
-  // Date pivot politique: 11/05/2026
-  var datePivot=new Date(2026,4,11);
-  var demandeAvantPivot=dateDemande<datePivot;
-  // Remboursement
-  var rembLabel,rembStyle;
-  if(!delaiDepasse){rembLabel="Intégral ✓ (droit légal)";rembStyle="color:var(--success,#2e7d32);font-weight:700;";}
-  else if(demandeAvantPivot){rembLabel="Intégral ✓ (demande avant 11/05/2026)";rembStyle="color:var(--success,#2e7d32);font-weight:700;";}
-  else{rembLabel="Refus ✗ (délai dépassé)";rembStyle="color:var(--danger,#c62828);font-weight:700;";}
-  // Stocker pour l'historique
-  S._retractionRemb=rembLabel;
+  // Jours restants calculés à minuit (évite les décalages liés à l'heure courante)
+  var _now=new Date();
+  var _nowMid=new Date(_now.getFullYear(),_now.getMonth(),_now.getDate());
+  var _deadMid=new Date(deadline.getFullYear(),deadline.getMonth(),deadline.getDate());
+  var daysLeft=Math.round((_deadMid-_nowMid)/(1000*60*60*24));
+  var isExpired=daysLeft<0;
 
   var c=div("result-card");
   var header=div("result-header");
   header.appendChild(div("result-mode","DROIT DE RÉTRACTION"));
+  header.appendChild(div("result-amount","14"));
+  header.appendChild(div("result-label",isExpired?"jours calendaires — délai dépassé":"jours calendaires"));
   header.appendChild(div("rt-badge","RT\u00a05312"));
   c.appendChild(header);
 
@@ -5263,40 +5411,45 @@ function sResultRetraction(){
   var deadlineStr=deadline.getDate().toString().padStart(2,"0")+"/"+(deadline.getMonth()+1).toString().padStart(2,"0")+"/"+deadline.getFullYear();
   var signatureStr=dateToFr(data.dateSignature);
 
-  var demandeStr=data.dateDemande?dateToFr(data.dateDemande):dateToFr(now.toISOString().split("T")[0]);
+  var joursRestantsVal;
+  if(isExpired){
+    joursRestantsVal="<span style='color:var(--red);font-weight:800;'>Dépassé depuis "+Math.abs(daysLeft)+" jour"+(Math.abs(daysLeft)>1?"s":"")+"</span>";
+  }else if(daysLeft===0){
+    joursRestantsVal="<span style='color:var(--amber);font-weight:800;'>Dernier jour aujourd'hui</span>";
+  }else{
+    joursRestantsVal=daysLeft+" jour"+(daysLeft>1?"s":"");
+  }
+
   var items=[
     {label:"Date signature",val:signatureStr},
-    {label:"Date limite (14 j)",val:deadlineStr},
-    {label:"Date de la demande",val:demandeStr},
-    {label:"Jours restants",val:delaiDepasse?"<span style='color:var(--danger,#c62828);font-weight:700;'>Délai dépassé</span>":joursRestants+" jour"+(joursRestants>1?"s":""),html:true}
+    {label:"Date limite",val:deadlineStr},
+    {label:"Jours restants",val:joursRestantsVal}
   ];
 
   for(var i=0;i<items.length;i++){
     var item=div("breakdown-item");
     item.appendChild(div("breakdown-label",items[i].label));
-    var valEl=div("breakdown-value","");
-    if(items[i].html) valEl.innerHTML=items[i].val; else valEl.textContent=items[i].val;
-    item.appendChild(valEl);
+    item.appendChild(div("breakdown-value",items[i].val));
     bd.appendChild(item);
   }
 
   var msgItem=div("breakdown-item");
   msgItem.appendChild(div("breakdown-label","Remboursement"));
-  var rembEl=div("breakdown-value","");
-  rembEl.innerHTML="<span style='"+rembStyle+"'>"+rembLabel+"</span>";
-  msgItem.appendChild(rembEl);
+  msgItem.appendChild(div("breakdown-value",isExpired?"<span style='color:var(--red);font-weight:700;'>Sous réserve — demande avant le "+deadlineStr+"</span>":"Integral (droit légal)"));
   bd.appendChild(msgItem);
 
   c.appendChild(bd);
 
-  var infoClass=delaiDepasse&&!demandeAvantPivot?"info-box red":"info-box blue";
-  var info=div(infoClass);
-  if(!delaiDepasse){info.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>Dans le délai</strong> : Rétractation recevable. Consultez les CGV pour les modalités de dépôt.</div>";}
-  else if(demandeAvantPivot){info.innerHTML="<div class='info-icon'><i data-lucide='alert-circle'></i></div><div><strong>Délai dépassé</strong> — demande avant le 11/05/2026 : remboursement intégral applicable.</div>";}
-  else{info.innerHTML="<div class='info-icon'><i data-lucide='x-circle'></i></div><div><strong>Délai dépassé</strong> — date limite : <strong>"+deadlineStr+"</strong>. Demande après le "+deadlineStr+" : remboursement refusé.</div>";}
+  var info;
+  if(isExpired){
+    info=div("info-box amber");
+    info.innerHTML="<div class='info-icon'><i data-lucide='alert-triangle'></i></div><div><strong>Délai de rétractation dépassé</strong> — La demande n'est éligible que si elle a été <strong>effectuée avant le "+deadlineStr+"</strong>. Vérifier la date de dépôt de la demande du client (mail, courrier, formulaire) avant tout remboursement.</div>";
+  }else{
+    info=div("info-box blue");
+    info.innerHTML="<div class='info-icon'><i data-lucide='check-circle'></i></div><div><strong>À titre informatif</strong> — Consultez les CGV de l'abonnement pour les modalités de demande de rétraction auprès du service client.</div>";
+  }
   c.appendChild(info);
 
-  var rembTxt=delaiDepasse&&!demandeAvantPivot?"Refus (délai dépassé)":"Intégral (droit légal consommateur)";
   var acts=div("action-row");
   var btnCopy=document.createElement("button");
   btnCopy.className="act-btn primary";
@@ -5305,10 +5458,14 @@ function sResultRetraction(){
     var txt="RÉTRACTION - Cartes avantage / Abonnement Max\n";
     txt+="Date signature: "+signatureStr+"\n";
     txt+="Date limite: "+deadlineStr+"\n";
-    txt+="Remboursement: "+rembTxt;
-    navigator.clipboard.writeText(txt);
-    btnCopy.innerHTML="<i data-lucide='check'></i> Copié!";
-    setTimeout(function(){btnCopy.innerHTML="<i data-lucide='copy'></i> Copier";},2000);
+    if(isExpired){
+      txt+="DÉLAI DÉPASSÉ depuis "+Math.abs(daysLeft)+" jour"+(Math.abs(daysLeft)>1?"s":"")+"\n";
+      txt+="Remboursement: Sous réserve — éligible uniquement si la demande a été effectuée avant le "+deadlineStr;
+    }else{
+      txt+="Jours restants: "+daysLeft+"\n";
+      txt+="Remboursement: Intégral (droit légal consommateur)";
+    }
+    copyToClipboard(txt,btnCopy);
   };
   acts.appendChild(btnCopy);
   var btnNouv=document.createElement("button");
@@ -5329,7 +5486,7 @@ function sBareme(){
 
   // Header
   var hdr=div("");
-  hdr.innerHTML="<div style='font-size:14px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;'><i data-lucide='book-open' style='width:20px;height:20px;color:var(--prune);'></i>Barèmes & Règles: Référentiel des Normes AV MAJ 27/04/2026. À titre informatif.</div>";
+  hdr.innerHTML="<div style='font-size:14px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;'><i data-lucide='book-open' style='width:20px;height:20px;color:var(--prune);'></i>Barèmes & Règles — Référentiel PRR 2021 en vigueur au 02/03/2026. À titre informatif.</div>";
   c.appendChild(hdr);
 
   // Accordéons
@@ -5352,7 +5509,7 @@ function sBareme(){
     {
       title:"Plafonds Frais Annexes",
       color:"#006666",
-      content:"<table style='width:100%;border-collapse:collapse;font-size:12px;'><tr style='background:var(--surface2);'><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>TYPE</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>PLAFOND</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>UNITÉ</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>CONDITION</th></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Restauration</td><td style='padding:8px;border-bottom:1px solid var(--border);'>15 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>voyageur</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Dès 60 min de retard: sur justificatif (boissons alcoolisées exclues)</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Acheminement (autocar / taxi hôtel)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>30 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>voyageur</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Autocar, autobus, taxi pour hôtel et retour ou rachat de billets: UNIQUEMENT si pas de solution dans les 100 min.</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Taxi nuit 23h–6h (≥ 60 min retard)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>50 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>course</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Toute arrivée entre 23h et 6h: dès 60 min de retard</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Taxi nuit Optimum+ (≥ 15 min retard)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>100 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>course</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Clients Optimum+: arrivée 23h–6h: dès 15 min de retard</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement: Province (Tous tarifs)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>110 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Si la poursuite du voyage n'est pas possible le jour même: Autres villes France/Europe: sur facture acquittée</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement: Grande ville (Tous tarifs)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>150 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Paris, Lyon, Marseille, Bordeaux, Lille, Nantes, Strasbourg…</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement: Province (Optimum+)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>300 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Autres villes: Optimum+</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement: Grande ville (Optimum+)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>300 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Paris, Lyon, Nantes, Marseille…: Optimum+</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Rachat billets / frais d'échange</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Sans plafond</td><td style='padding:8px;border-bottom:1px solid var(--border);'>dossier</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Remboursement du surcoût: sur justificatif: pas de plafond fixe (à valider selon dossier)</td></tr></table>"
+      content:"<table style='width:100%;border-collapse:collapse;font-size:12px;'><tr style='background:var(--surface2);'><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>TYPE</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>PLAFOND</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>UNITÉ</th><th style='padding:8px;text-align:left;border-bottom:1px solid var(--border);'>CONDITION</th></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Restauration</td><td style='padding:8px;border-bottom:1px solid var(--border);'>15 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>voyageur</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Dès 60 min de retard — sur justificatif (boissons alcoolisées exclues)</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Acheminement (autocar / taxi hôtel)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>30 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>voyageur</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Autocar, autobus, taxi pour hôtel et retour ou rachat de billets — UNIQUEMENT si pas de solution dans les 100 min.</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Taxi nuit 23h–6h (≥ 60 min retard)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>50 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>course</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Toute arrivée entre 23h et 6h — dès 60 min de retard</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Taxi nuit Optimum+ (≥ 15 min retard)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>100 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>course</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Clients Optimum+ — arrivée 23h–6h — dès 15 min de retard</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement — Province (Tous tarifs)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>110 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Si la poursuite du voyage n'est pas possible le jour même — Autres villes France/Europe — sur facture acquittée</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement — Grande ville (Tous tarifs)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>150 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Paris, Lyon, Marseille, Bordeaux, Lille, Nantes, Strasbourg…</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement — Province (Optimum+)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>300 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Autres villes — Optimum+</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Hébergement — Grande ville (Optimum+)</td><td style='padding:8px;border-bottom:1px solid var(--border);'>300 €</td><td style='padding:8px;border-bottom:1px solid var(--border);'>passager</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Paris, Lyon, Nantes, Marseille… — Optimum+</td></tr><tr><td style='padding:8px;border-bottom:1px solid var(--border);'>Rachat billets / frais d'échange</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Sans plafond</td><td style='padding:8px;border-bottom:1px solid var(--border);'>dossier</td><td style='padding:8px;border-bottom:1px solid var(--border);'>Remboursement du surcoût — sur justificatif — pas de plafond fixe (à valider selon dossier)</td></tr></table>"
     }
   ];
 
@@ -5482,78 +5639,67 @@ function sResiliation(){
   var wrap=card("Résiliation Abonnement","Saisissez les informations");
   var rd=S.resiliationData||{};
 
-  // Type d'abonnement avec renderOpts
-  wrap.appendChild(div("step-sub","Type d'abonnement:"));
+  // Type d'abonnement — état sélectionné explicite + tooltips d'aide métier
+  var typeLbl=div("form-label","Type d'abonnement :");
+  typeLbl.style.marginBottom="10px";
+  wrap.appendChild(typeLbl);
   var typeOpts=renderOpts([
-    {label:"Max Jeune (-26 ans)",cb:function(){S.resiliationData={...(S.resiliationData||{}),type:"max_jeune"};render();}},
-    {label:"Max Senior (+60 ans)",cb:function(){S.resiliationData={...(S.resiliationData||{}),type:"max_senior"};render();}},
-    {label:"Max Actif",cb:function(){S.resiliationData={...(S.resiliationData||{}),type:"max_actif"};render();}},
-    {label:"Max Actif+",cb:function(){S.resiliationData={...(S.resiliationData||{}),type:"max_actif_plus"};render();}},
+    {label:"Max Jeune (-26 ans) <span class='tip' data-tip='Réservé aux voyageurs de 16 à 27 ans inclus. Valable sur TGV INOUI et INTERCITÉS.'>i</span>",selected:rd.type==="max_jeune",cb:function(){S.resiliationData={...(S.resiliationData||{}),type:"max_jeune"};render();}},
+    {label:"Max Senior (+60 ans) <span class='tip' data-tip='Réservé aux voyageurs de 60 ans et plus.'>i</span>",selected:rd.type==="max_senior",cb:function(){S.resiliationData={...(S.resiliationData||{}),type:"max_senior"};render();}},
+    {label:"Max Actif <span class='tip' data-tip='Destiné aux voyageurs fréquents pour des trajets spécifiques du lundi au jeudi.'>i</span>",selected:rd.type==="max_actif",cb:function(){S.resiliationData={...(S.resiliationData||{}),type:"max_actif"};render();}},
+    {label:"Max Actif+ <span class='tip' data-tip='Formule étendue incluant des options de flexibilité maximale le week-end.'>i</span>",selected:rd.type==="max_actif_plus",cb:function(){S.resiliationData={...(S.resiliationData||{}),type:"max_actif_plus"};render();}},
   ]);
+  typeOpts.style.marginBottom="18px";
   wrap.appendChild(typeOpts);
 
-  // Montant mensuel (Max Actif seulement)
+  // Montant mensuel (Max Actif seulement) — form-group
   if(rd.type==="max_actif"||rd.type==="max_actif_plus"){
-    var montRow=div("input-row");
-    montRow.appendChild(div("step-sub","Montant mensuel (€):"));
-    var montInput=inp("number",String(rd.montantMensuel||150));
+    var montRow=div("form-group");
+    montRow.appendChild(div("form-label","Montant mensuel (€) :"));
+    var montInput=inp("number");
     montInput.min=0;
     montInput.step="0.01";
     montInput.id="resil-montant";
+    montInput.value=rd.montantMensuel!=null?rd.montantMensuel:150;
+    montInput.addEventListener("change",function(){
+      S.resiliationData={...(S.resiliationData||{}),montantMensuel:parseFloat(this.value)||0};
+    });
     montRow.appendChild(montInput);
     wrap.appendChild(montRow);
-    // Handler pour montant
-    setTimeout(function(){
-      var el=document.getElementById("resil-montant");
-      if(el){
-        el.addEventListener("change",function(){
-          S.resiliationData={...(S.resiliationData||{}),montantMensuel:parseFloat(this.value)||0};
-        });
-      }
-    },10);
   }
 
-  // Date d'activation
-  var dateRow1=div("input-row");
-  dateRow1.appendChild(div("step-sub","Date d'activation:"));
-  var dateInput1=inp("date",rd.dateActivation||"2024-01-01");
-  dateInput1.id="resil-date-act";
-  dateRow1.appendChild(dateInput1);
+  // Date d'activation — form-group + sélecteur Jour/Mois/Année + tooltip
+  var dateRow1=div("form-group");
+  dateRow1.appendChild(div("form-label","Date d'activation : <span class='tip' data-tip='Date de début de validité de l’abonnement mensuel ou annuel.'>i</span>"));
+  dateRow1.appendChild(makeDateSelect("resil-date-act",rd.dateActivation||"2024-01-01",function(iso){
+    S.resiliationData={...(S.resiliationData||{}),dateActivation:iso};
+  }));
   wrap.appendChild(dateRow1);
-  setTimeout(function(){
-    var el=document.getElementById("resil-date-act");
-    if(el){
-      el.addEventListener("change",function(){
-        S.resiliationData={...(S.resiliationData||{}),dateActivation:this.value};
-      });
-    }
-  },10);
 
-  // Date de demande
-  var dateRow2=div("input-row");
-  dateRow2.appendChild(div("step-sub","Date de demande:"));
+  // Date de demande — form-group + sélecteur Jour/Mois/Année + tooltip
   var today=new Date().toISOString().split("T")[0];
-  var dateInput2=inp("date",rd.dateResiliation||today);
-  dateInput2.id="resil-date-dem";
-  dateRow2.appendChild(dateInput2);
+  var dateRow2=div("form-group");
+  dateRow2.appendChild(div("form-label","Date de demande : <span class='tip' data-tip='Date à laquelle le voyageur a déposé sa demande de compensation G30.'>i</span>"));
+  dateRow2.appendChild(makeDateSelect("resil-date-dem",rd.dateResiliation||today,function(iso){
+    S.resiliationData={...(S.resiliationData||{}),dateResiliation:iso};
+  }));
   wrap.appendChild(dateRow2);
-  setTimeout(function(){
-    var el=document.getElementById("resil-date-dem");
-    if(el){
-      el.addEventListener("change",function(){
-        S.resiliationData={...(S.resiliationData||{}),dateResiliation:this.value};
-      });
-    }
-  },10);
 
-  // Bouton calculer
+  // Bouton calculer — lit les valeurs courantes des champs (couvre les valeurs par défaut)
   var btn=document.createElement("button");
   btn.className="btn-confirm";
   btn.textContent="Calculer →";
   btn.onclick=function(){
-    var currentData=S.resiliationData||{};
-    if(!currentData.type){alert("Sélectionnez un type d'abonnement");return;}
-    if(!currentData.dateActivation||!currentData.dateResiliation){alert("Remplissez les deux dates");return;}
+    var patch={...(S.resiliationData||{})};
+    var mEl=document.getElementById("resil-montant");
+    var aEl=document.getElementById("resil-date-act");
+    var dEl=document.getElementById("resil-date-dem");
+    if(mEl)patch.montantMensuel=parseFloat(mEl.value)||0;
+    if(aEl&&aEl.dataset&&aEl.dataset.value)patch.dateActivation=aEl.dataset.value;
+    if(dEl&&dEl.dataset&&dEl.dataset.value)patch.dateResiliation=dEl.dataset.value;
+    S.resiliationData=patch;
+    if(!patch.type){alert("Sélectionnez un type d'abonnement");return;}
+    if(!patch.dateActivation||!patch.dateResiliation){alert("Remplissez les deux dates");return;}
     set({step:"result_resiliation"});
   };
   wrap.appendChild(btn);
@@ -5630,9 +5776,7 @@ function sResultResiliation(){
     txt+="Ancienneté: "+calc.mois+" mois\n";
     txt+="Frais: "+(calc.gratuit?"Gratuit":calc.frais.toFixed(2)+"€")+"\n";
     txt+="Date d'effet: "+effectiveDate.toLocaleDateString("fr-FR")+"\n\n"+calc.message;
-    navigator.clipboard.writeText(txt);
-    btnCopy.innerHTML="<i data-lucide='check'></i> Copié!";
-    setTimeout(function(){btnCopy.innerHTML="<i data-lucide='copy'></i> Copier";},2000);
+    copyToClipboard(txt,btnCopy);
   };
   acts.appendChild(btnCopy);
   var btnNouv=document.createElement("button");
@@ -5653,7 +5797,7 @@ function render(){
   app.innerHTML="";
 
   document.documentElement.setAttribute("data-theme",S.dark?"dark":"light");
-  localStorage.setItem("bd30-theme",S.dark?"dark":"light");
+  try{localStorage.setItem("bd30-theme",S.dark?"dark":"light");}catch(e){}
 
   var hdr=div("hdr");
   var logo=div("hdr-logo");
@@ -5675,16 +5819,23 @@ function render(){
   if(S.step!=="menu"){
     // Bouton Retour (si historique)
     if(S.history.length>0){
-      var backBtn=document.createElement("button");backBtn.className="icon-btn";backBtn.title="Retour à l'étape précédente";backBtn.innerHTML="<i data-lucide='arrow-left'></i>";backBtn.onclick=goBack;
+      var backBtn=document.createElement("button");backBtn.className="icon-btn";backBtn.title="Retour à l'étape précédente";backBtn.setAttribute("aria-label","Retour à l'étape précédente");backBtn.innerHTML="<i data-lucide='arrow-left'></i>";backBtn.onclick=goBack;
       right.appendChild(backBtn);
     }
     // Bouton Accueil (Nouvelle demande)
-    var hb=document.createElement("button");hb.className="icon-btn";hb.title="Nouvelle demande";hb.innerHTML="<i data-lucide='home'></i>";hb.onclick=confirmReset;
+    var hb=document.createElement("button");hb.className="icon-btn";hb.title="Nouvelle demande";hb.setAttribute("aria-label","Nouvelle demande");hb.innerHTML="<i data-lucide='home'></i>";hb.onclick=confirmReset;
     right.appendChild(hb);
   }
-  var hisB=document.createElement("button");hisB.className="icon-btn";hisB.title="Historique des dossiers";hisB.innerHTML="<i data-lucide='clock'></i>";hisB.onclick=function(){set({step:"dossier_history"});};
+  var hisB=document.createElement("button");hisB.className="icon-btn";hisB.title="Historique des dossiers";hisB.setAttribute("aria-label","Historique des dossiers");hisB.innerHTML="<i data-lucide='clock'></i>";hisB.onclick=function(){set({step:"dossier_history"});};
   right.appendChild(hisB);
-  var db=document.createElement("button");db.className="icon-btn";db.innerHTML=S.dark?"<i data-lucide='sun'></i>":"<i data-lucide='moon'></i>";db.onclick=function(){set({dark:!S.dark});};
+  var db=document.createElement("button");db.className="icon-btn";db.title=S.dark?"Passer en mode clair":"Passer en mode sombre";db.setAttribute("aria-label",S.dark?"Passer en mode clair":"Passer en mode sombre");db.innerHTML=S.dark?"<i data-lucide='sun'></i>":"<i data-lucide='moon'></i>";
+  db.onclick=function(){
+    // 6.8 — Transition douce du thème pendant le toggle uniquement
+    var root=document.documentElement;
+    root.classList.add("theme-transitioning");
+    set({dark:!S.dark});
+    setTimeout(function(){root.classList.remove("theme-transitioning");},350);
+  };
   right.appendChild(db);
   hdr.appendChild(right);
   app.appendChild(hdr);
@@ -5730,8 +5881,10 @@ function render(){
       });
       var _summary=_ml+" "+_t.toFixed(2)+"€ | Retard "+formatMin(S.delay)+" | "+(_segParts.join(" | ")||"—");
       pushH("<i data-lucide='check-circle-2'></i>","Résultat",_summary);
-      var _dosId=saveRetardDossier({ml:_ml,delay:S.delay,retardTotal:_t,total:_t,segs:_segs,summary:_summary});
+      var _wasUpdate=!!S.retardDossierId;
+      var _dosId=saveRetardDossier({ml:_ml,delay:S.delay,retardTotal:_t,total:_t,segs:_segs,summary:_summary},S.retardDossierId||null);
       S.retardDossierId=_dosId;
+      if(_dosId)showToast(_wasUpdate?"Dossier mis à jour dans l'historique":"Dossier enregistré dans l'historique");
     }
   }
   if(S.step==="result_frais"){
@@ -5745,34 +5898,46 @@ function render(){
         return{label:_lbl,amt:_amt,montant:f.montant,maxPerPerson:f.maxPerPerson,nbPassUsed:f.nbPassUsed};
       });
       var _tf=_fraisArr.reduce(function(acc,f){return acc+f.amt;},0);
-      var _sfr=_tf.toFixed(2)+"€: frais annexes";
+      var _sfr=_tf.toFixed(2)+"€ — frais annexes";
       pushH("<i data-lucide='receipt'></i>","Résultat frais",_sfr);
       if(S.retardDossierId){
         updateDossierFrais(S.retardDossierId,_fraisArr,_tf);
       }else{
         saveRetardDossier({ml:null,delay:null,retardTotal:0,total:_tf,segs:[],summary:_sfr,frais:_fraisArr,fraisTotal:_tf});
       }
+      showToast("Dossier enregistré dans l'historique");
     }
   }
-  // Auto-save rétractation
-  if(S.step==="result_retraction"&&S.retractionData&&S.retractionData.dateSignature&&!S._retractionSaved){
-    S._retractionSaved=true;
-    var _rd=S.retractionData;
-    var _dl=calcRetractionDeadline(_rd.dateSignature);
-    var _dlStr=_dl.getDate().toString().padStart(2,"0")+"/"+((_dl.getMonth()+1)).toString().padStart(2,"0")+"/"+_dl.getFullYear();
-    var _dem=_rd.dateDemande?dateToFr(_rd.dateDemande):"—";
-    var _remb=S._retractionRemb||"—";
-    saveRetractionDossier({signatureDate:dateToFr(_rd.dateSignature),demandeDate:_dem,deadlineDate:_dlStr,remboursement:_remb,summary:"Rétractation · Signature: "+dateToFr(_rd.dateSignature)+" · "+_remb});
+  // Auto-enregistrement Rétractation dans l'historique des dossiers
+  if(S.step==="result_retraction"&&S.retractionData&&S.retractionData.dateSignature){
+    var _lhR=S.history.length?S.history[S.history.length-1]:null;
+    if(!_lhR||_lhR.q!=="Résultat rétractation"){
+      var _dlR=calcRetractionDeadline(S.retractionData.dateSignature);
+      var _dlStrR=_dlR.getDate().toString().padStart(2,"0")+"/"+(_dlR.getMonth()+1).toString().padStart(2,"0")+"/"+_dlR.getFullYear();
+      var _sigStrR=dateToFr(S.retractionData.dateSignature);
+      var _nR=new Date();
+      var _leftR=Math.round((new Date(_dlR.getFullYear(),_dlR.getMonth(),_dlR.getDate())-new Date(_nR.getFullYear(),_nR.getMonth(),_nR.getDate()))/(1000*60*60*24));
+      var _expR=_leftR<0;
+      var _sumR="Rétractation — signature "+_sigStrR+" · limite "+_dlStrR+(_expR?" · DÉLAI DÉPASSÉ ("+Math.abs(_leftR)+" j)":" · "+_leftR+" j restant"+(_leftR>1?"s":""));
+      pushH("<i data-lucide='calendar-days'></i>","Résultat rétractation",_sumR);
+      S.specialDossierId=saveSpecialDossier("retraction",_sumR,{signature:_sigStrR,deadline:_dlStrR,depasse:_expR},S.specialDossierId||null);
+      if(S.specialDossierId)showToast("Dossier enregistré dans l'historique");
+    }
   }
-  // Auto-save résiliation
-  if(S.step==="result_resiliation"&&S.resiliationData&&S.resiliationData.type&&!S._resiliationSaved){
-    S._resiliationSaved=true;
-    var _rsd=S.resiliationData;
-    var _calc=calcResiliationFees(_rsd.type,_rsd.dateActivation,_rsd.dateResiliation);
-    var _effDate=calcResiliationDate(_rsd.type,_rsd.dateActivation,_rsd.dateResiliation);
-    var _effStr=_effDate?(_effDate.getDate().toString().padStart(2,"0")+"/"+((_effDate.getMonth()+1)).toString().padStart(2,"0")+"/"+_effDate.getFullYear()):"—";
-    var _aboLabel={max_jeune:"Max Jeune",max_senior:"Max Senior",max_actif:"Max Actif",max_actif_plus:"Max Actif+"}[_rsd.type]||_rsd.type;
-    saveResiliationDossier({abonnement:_aboLabel,frais:_calc.frais||0,effectiveDate:_effStr,message:_calc.message,summary:"Résiliation "+_aboLabel+" · "+(_calc.gratuit?"Sans frais":_calc.impossible?"Impossible":_calc.frais+"€")+" · Effet: "+_effStr});
+  // Auto-enregistrement Résiliation dans l'historique des dossiers
+  if(S.step==="result_resiliation"&&S.resiliationData&&S.resiliationData.type&&S.resiliationData.dateActivation&&S.resiliationData.dateResiliation){
+    var _lhZ=S.history.length?S.history[S.history.length-1]:null;
+    if(!_lhZ||_lhZ.q!=="Résultat résiliation"){
+      var _calcZ=calcResiliationFees(S.resiliationData.type,S.resiliationData.dateActivation,S.resiliationData.dateResiliation);
+      var _effZ=calcResiliationDate(S.resiliationData.type,S.resiliationData.dateActivation,S.resiliationData.dateResiliation);
+      var _typeZ=(S.resiliationData.type||"").replace(/_/g," ").toUpperCase();
+      var _fraisZ=_calcZ.impossible?"Non résiliable":(_calcZ.gratuit?"Gratuit":_calcZ.frais.toFixed(2)+"€");
+      var _effStrZ=_effZ.getDate().toString().padStart(2,"0")+"/"+String(_effZ.getMonth()+1).padStart(2,"0")+"/"+_effZ.getFullYear();
+      var _sumZ="Résiliation "+_typeZ+" — "+_fraisZ+(_calcZ.impossible?"":" · effet "+_effStrZ)+" · ancienneté "+_calcZ.mois+" mois";
+      pushH("<i data-lucide='clipboard-list'></i>","Résultat résiliation",_sumZ);
+      S.specialDossierId=saveSpecialDossier("resiliation",_sumZ,{abo:_typeZ,frais:_fraisZ,effet:_calcZ.impossible?null:_effStrZ,impossible:!!_calcZ.impossible},S.specialDossierId||null);
+      if(S.specialDossierId)showToast("Dossier enregistré dans l'historique");
+    }
   }
 
   if(S.history.length){
@@ -5785,7 +5950,7 @@ function render(){
       cn.appendChild(div("hist-q",item.q));
       cn.appendChild(div("hist-a",item.a));
       var eb=document.createElement("button");
-      eb.className="hist-edit";eb.title="Modifier";eb.innerHTML="<i data-lucide='pencil'></i>";
+      eb.className="hist-edit";eb.title="Modifier";eb.setAttribute("aria-label","Modifier cette réponse");eb.innerHTML="<i data-lucide='pencil'></i>";
       (function(idx){eb.onclick=function(){editHistAt(idx);};})(histIdx);
       hi.appendChild(ic);hi.appendChild(cn);hi.appendChild(eb);
       hist.appendChild(hi);
@@ -5793,14 +5958,27 @@ function render(){
     app.appendChild(hist);
   }
 
-  // Barre de progression
+  // Barre de progression (6.6 — largeur animée depuis la valeur précédente + badge % flottant)
   if(S.step!=="menu"){
     var pct=STEP_PROGRESS[S.step]||0;
+    var prevPct=window._lastProgressPct||0;
     var pt=div("progress-track");
     var pf=div("progress-fill");
-    pf.style.width=(pct*100)+"%";
+    pf.style.width=(prevPct*100)+"%";
     pt.appendChild(pf);
+    var pb=div("progress-badge",Math.round(pct*100)+"%");
+    pb.style.left=Math.max(4,Math.min(96,prevPct*100))+"%";
+    pt.appendChild(pb);
     app.appendChild(pt);
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        pf.style.width=(pct*100)+"%";
+        pb.style.left=Math.max(4,Math.min(96,pct*100))+"%";
+      });
+    });
+    window._lastProgressPct=pct;
+  }else{
+    window._lastProgressPct=0;
   }
 
   var content;
@@ -5837,9 +6015,11 @@ function render(){
     case"dossier_history":content=sDossierHistory();break;
     default:content=sMenu();
   }
-  app.appendChild(content);
+  // Certaines fonctions d'étape redirigent via set() et retournent undefined :
+  // le render planifié peindra l'étape cible au frame suivant.
+  if(content)app.appendChild(content);
 
-  // Touche Entrée → clic sur le premier .btn-confirm visible (depuis un input)
+  // Touche Entrée → clic sur le premier .btn-confirm visible
   app.querySelectorAll("input[type='number'],input[type='text'],input[type='date'],input.time-input").forEach(function(inp){
     inp.addEventListener("keydown",function(e){
       if(e.key==="Enter"){
@@ -5850,51 +6030,25 @@ function render(){
     });
   });
 
-  // ── Navigation clavier dans les listes d'options ──────────────────────────
-  // Flèches ↑↓ : déplace le focus entre les boutons .opt visibles
-  // Entrée / Espace : déclenche le bouton focusé (natif sur <button>)
-  app.querySelectorAll(".opts").forEach(function(wrap){
-    wrap.addEventListener("keydown",function(e){
-      var opts=Array.prototype.slice.call(wrap.querySelectorAll("button.opt:not([disabled])"));
-      if(!opts.length)return;
-      var idx=opts.indexOf(document.activeElement);
-      if(e.key==="ArrowDown"||e.key==="ArrowRight"){
-        e.preventDefault();
-        opts[(idx+1)%opts.length].focus();
-      } else if(e.key==="ArrowUp"||e.key==="ArrowLeft"){
-        e.preventDefault();
-        opts[(idx-1+opts.length)%opts.length].focus();
-      } else if(e.key==="Home"){
-        e.preventDefault();
-        opts[0].focus();
-      } else if(e.key==="End"){
-        e.preventDefault();
-        opts[opts.length-1].focus();
-      }
-    });
-  });
-
-  app.appendChild(div("footer","TGVCare Assistant • BD30/G30 • Calcul de conformité SNCF • v2.0"));
+  app.appendChild(div("footer","TGVCare Assistant • BD30/G30 • Calcul de conformité SNCF • v1.9.1"));
 
   if(window.lucide&&typeof lucide.createIcons==="function"){
     try{lucide.createIcons();}catch(e){}
   }
 
-  // Auto-focus : premier input ou premier bouton .opt du dernier écran
-  setTimeout(function(){
+  requestAnimationFrame(function(){
     var cards=document.querySelectorAll(".step-card");
     var target=cards[cards.length-1];
     if(target){
-      var y=target.getBoundingClientRect().top+window.pageYOffset-24;
+      // Tenir compte du header sticky : sans cet offset, le titre et les premiers
+      // labels de la carte se retrouvent masqués sous la barre flottante
+      var hdrEl=document.querySelector(".hdr");
+      var topOffset=hdrEl?hdrEl.getBoundingClientRect().height+34:24;
+      var y=target.getBoundingClientRect().top+window.pageYOffset-topOffset;
       window.scrollTo({top:Math.max(0,y),behavior:"smooth"});
-      var firstInput=target.querySelector("input:not([type='hidden'])");
-      var firstOpt=target.querySelector("button.opt");
-      var firstConfirm=target.querySelector(".btn-confirm");
-      var toFocus=firstInput||firstOpt||firstConfirm;
-      if(toFocus){setTimeout(function(){toFocus.focus({preventScroll:true});},120);}
     }
     setupSpotlight();
-  },50);
+  });
 }
 
 function setupSpotlight(){
@@ -5922,7 +6076,7 @@ function setupSpotlight(){
   });
 }
 
-if(localStorage.getItem("bd30-theme")==="dark")S.dark=true;
+try{if(localStorage.getItem("bd30-theme")==="dark")S.dark=true;}catch(e){}
 render();
 </script>
 
@@ -5944,7 +6098,7 @@ render();
   var rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
   function noMotion() { return rmq.matches; }
 
-  /* Easing: mirrors CSS token */
+  /* Easing — mirrors CSS token */
   function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
 
   /* ── 1. Cursor glow ──────────────────────────────────────────────────── */
@@ -5971,7 +6125,7 @@ render();
     requestAnimationFrame(glowLoop);
   })();
 
-  /* ── 2. Card parallax (event delegation: per card) ─────────────────── */
+  /* ── 2. Card parallax (event delegation — per card) ─────────────────── */
   document.addEventListener('mouseover', function (e) {
     if (noMotion()) return;
     var card = e.target.closest && e.target.closest('.step-card, .result-card');
@@ -6003,10 +6157,12 @@ render();
 
     el.addEventListener('mousemove', function (e) {
       var r  = el.getBoundingClientRect();
-      var dx = (e.clientX - r.left - r.width  * 0.5) * 0.2;
-      var dy = (e.clientY - r.top  - r.height * 0.5) * 0.2;
-      el.style.transition = 'transform 0.1s ease';
-      el.style.transform  = 'translate3d(' + dx + 'px,' + dy + 'px,0) scale(1.02)';
+      /* Effet adouci : coefficient divisé par 2 (0.2 → 0.1), translation plafonnée
+         à ±4px et lissage allongé — micro-interaction subtile, plus de suivi marqué */
+      var dx = Math.max(-4, Math.min(4, (e.clientX - r.left - r.width  * 0.5) * 0.1));
+      var dy = Math.max(-4, Math.min(4, (e.clientY - r.top  - r.height * 0.5) * 0.1));
+      el.style.transition = 'transform 0.18s cubic-bezier(0.25, 1, 0.5, 1)';
+      el.style.transform  = 'translate3d(' + dx + 'px,' + dy + 'px,0) scale(1.01)';
     }, { passive: true });
 
     el.addEventListener('mouseleave', function () {
@@ -6024,22 +6180,10 @@ render();
     });
   }
 
-  /* ── 4. Number counter ───────────────────────────────────────────────── */
+  /* ── 4. Number counter — délègue à l'utilitaire global animateCountUp ── */
   function countUp(el, to, ms) {
     if (noMotion()) return;
-    var raw    = el.textContent.trim();
-    var m      = raw.match(/^([\d\s,.]+)/);
-    if (!m) return;
-    var suffix = raw.slice(m[0].length);
-    var dec    = raw.indexOf('.') >= 0 ? 2 : 0;
-    var t0     = null;
-    el.dataset.pmCount = '1';
-    (function frame(ts) {
-      if (!t0) t0 = ts;
-      var p = Math.min((ts - t0) / ms, 1);
-      el.textContent = (to * easeOutQuart(p)).toFixed(dec) + suffix;
-      if (p < 1) requestAnimationFrame(frame);
-    })(performance.now());
+    animateCountUp(el, to, ms);
   }
 
   /* ── 5. Stagger reveal ───────────────────────────────────────────────── */
@@ -6092,14 +6236,52 @@ render();
       pf.style.animationTimingFunction  = 'linear';
       pf.style.animationIterationCount  = 'infinite';
     }
-
-    setupCleanPasteHooks();
   }
 
-  /* ── 7. Patch render(): exit → original → afterRender ──────────────── */
+  /* ── 7. Patch render() — exit directionnel 200ms → skeleton (résultats) → original → afterRender ── */
   var _orig  = window.render;
   var _busy  = false;
   var _queue = null;
+  var _lastStep = null;
+
+  /* Skeleton shimmer affiché 220ms avant les écrans résultat (6.3) */
+  function buildSkeletonCard() {
+    var sk = document.createElement('div');
+    sk.className = 'result-card';
+    sk.setAttribute('aria-hidden', 'true');
+    sk.innerHTML =
+      '<div class="skeleton" style="height:150px;border-radius:22px;margin-bottom:18px;"></div>' +
+      '<div class="skeleton" style="height:16px;width:72%;margin-bottom:10px;"></div>' +
+      '<div class="skeleton" style="height:16px;width:58%;margin-bottom:10px;"></div>' +
+      '<div class="skeleton" style="height:16px;width:64%;"></div>';
+    return sk;
+  }
+
+  /* ── Scroll automatique vers la carte résultat ──
+     Déclenché juste après l'injection de l'écran final (fin du skeleton) :
+     amène la carte en haut de la zone de lecture (le scroll-margin-top CSS
+     gère l'espace sous le header sticky). Respecte prefers-reduced-motion. */
+  function scrollToResult() {
+    if (typeof S === 'undefined') return;
+    if (S.step !== 'result_retard' && S.step !== 'result_frais' &&
+        S.step !== 'result_retraction' && S.step !== 'result_resiliation') return;
+    var card = document.querySelector('.result-card');
+    if (!card) return;
+    card.scrollIntoView({ behavior: noMotion() ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function commitRender(args) {
+    /* Capturer le changement d'étape AVANT de mettre _lastStep à jour :
+       on ne scrolle qu'à l'ARRIVÉE sur le résultat, pas sur ses re-renders
+       (toggle dark mode, etc.) */
+    var stepChanged = (typeof S !== 'undefined') && _lastStep !== S.step;
+    _orig.apply(window, args);          /* renders new content with pm-enter CSS */
+    _lastStep = (typeof S !== 'undefined') ? S.step : null;
+    setTimeout(afterRender, 40);
+    if (stepChanged) setTimeout(scrollToResult, 90);
+    /* Flush any queued render */
+    if (_queue) { var q = _queue; _queue = null; window.render.apply(window, q); }
+  }
 
   window.render = function () {
     var _args = arguments;
@@ -6116,28 +6298,38 @@ render();
 
     /* First render or reduced-motion: skip exit animation */
     if (!app || kids.length === 0 || noMotion()) {
+      var stepChanged0 = (typeof S !== 'undefined') && _lastStep !== S.step;
       _orig.apply(window, _args);
+      _lastStep = (typeof S !== 'undefined') ? S.step : null;
       setTimeout(afterRender, 55);
+      if (stepChanged0) setTimeout(scrollToResult, 90);
       return;
     }
 
     _busy = true;
 
-    /* Exit: 95ms fade + upward nudge on content (not header) */
+    /* Exit directionnel — slide + fade 200ms via classe .step-exit (6.2) */
+    var goingBack = window._navDir === 'back';
     kids.forEach(function (el) {
-      el.style.transition = 'opacity 0.09s ease, transform 0.09s ease';
-      el.style.opacity    = '0';
-      el.style.transform  = 'translateY(-5px)';
+      el.classList.add('step-exit');
+      if (goingBack) el.classList.add('step-exit-back');
     });
 
-    setTimeout(function () {
-      _busy = false;
-      _orig.apply(window, _args);       /* renders new content with pm-enter CSS */
-      setTimeout(afterRender, 40);
+    /* Skeleton uniquement à l'arrivée sur un écran résultat (changement d'étape) */
+    var wantSkeleton = (typeof S !== 'undefined') &&
+      (S.step === 'result_retard' || S.step === 'result_frais') &&
+      _lastStep !== S.step;
 
-      /* Flush any queued render */
-      if (_queue) { var q = _queue; _queue = null; window.render.apply(window, q); }
-    }, 95);
+    setTimeout(function () {
+      if (wantSkeleton) {
+        kids.forEach(function (el) { if (el.parentNode) el.parentNode.removeChild(el); });
+        app.appendChild(buildSkeletonCard());
+        setTimeout(function () { _busy = false; commitRender(_args); }, 220);
+      } else {
+        _busy = false;
+        commitRender(_args);
+      }
+    }, 200);
   };
 
   /* ── Boot: run hooks on the already-rendered initial state ──────────── */
